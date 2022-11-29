@@ -1,0 +1,1001 @@
+{
+	"info": {
+		"_postman_id": "228aa39f-1dc7-4a89-972c-687c70c93113",
+		"name": "CSC309 Project Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24135877"
+	},
+	"item": [
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "/accounts/register/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "csc309_ta",
+									"description": "username",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1qazxsw23",
+									"description": "password",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "1qazxsw23",
+									"description": "repeated password for check purpose",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "hellouser@gmail.com",
+									"description": "email: optional",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "first_name",
+									"value": "rayyy",
+									"description": "first name: optional",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "last_name",
+									"value": "chann",
+									"description": "last name: optional",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/accounts/register/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accounts",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/login/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "csc309_ta",
+									"description": "login username",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1qazxsw23",
+									"description": "password of corresponding user",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/accounts/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accounts",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/logout/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "refresh_token",
+									"value": "",
+									"description": "the token to be blacklisted, need to be refresh token",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/accounts/logout/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accounts",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/change_password/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "old_password",
+									"value": "1qazxsw23",
+									"description": "the old password, should be the same as the original one",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "3edcvfr4",
+									"description": "the new password",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "3edcvfr4",
+									"description": "the repeated new password, should be the same as password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/accounts/change_password/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accounts",
+								"change_password",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/update_profile/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "iloveta",
+									"description": "the first name, include it if you want to change it",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "givememoremarks",
+									"description": "the last name, include it if you want to change it",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "ta309@gmail.com",
+									"description": "the email, include it if you want to change it",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "+14379866653",
+									"description": "the phone_number, include it if you want to change it, a sample will be +14379866653",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"value": "",
+									"description": "the avatar, but this actually is not implemented at backend",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/accounts/update_profile/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accounts",
+								"update_profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/accounts/view_profile/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/accounts/view_profile/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"accounts",
+								"view_profile",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subscriptions",
+			"item": [
+				{
+					"name": "/subscriptions/all_plans/",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions/subscribe/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "plan_code",
+									"value": "1",
+									"description": "the id of the plan, which should be created by superuser from admin panel",
+									"type": "text"
+								},
+								{
+									"key": "card_number",
+									"value": "30569309025904",
+									"description": "the card number",
+									"type": "text"
+								},
+								{
+									"key": "card_expiry",
+									"value": "2024-02-05",
+									"description": "the card expiry date",
+									"type": "text"
+								},
+								{
+									"key": "card_security_code",
+									"value": "792",
+									"description": "the card security number",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/subscriptions/subscribe/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"subscriptions",
+								"subscribe",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions/update_card_info/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "card_number",
+									"value": "4111111111111111",
+									"description": "updated credit card number",
+									"type": "text"
+								},
+								{
+									"key": "card_expiry",
+									"value": "2026-05-01",
+									"description": "updated card expiry date",
+									"type": "text"
+								},
+								{
+									"key": "card_security_code",
+									"value": "731",
+									"description": "updated security code",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/subscriptions/update_card_info/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"subscriptions",
+								"update_card_info",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions/update_plan/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "plan_code",
+									"value": "2",
+									"description": "the id of the plan, which should be created by superuser from admin panel",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/subscriptions/update_card_info/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"subscriptions",
+								"update_card_info",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions/cancel_plan/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cancelled",
+									"value": "True",
+									"description": "Note that if cancelled = False, nothing will be changed",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/subscriptions/cancel_plan/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"subscriptions",
+								"cancel_plan",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions/payment_history/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/subscriptions/payment_history/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"subscriptions",
+								"payment_history",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions/reactivate_plan/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cancelled",
+									"value": "False",
+									"type": "text"
+								},
+								{
+									"key": "plan_code",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "card_number",
+									"value": "30569309025904",
+									"type": "text"
+								},
+								{
+									"key": "card_expiry",
+									"value": "2025-02-08",
+									"type": "text"
+								},
+								{
+									"key": "card_security_code",
+									"value": "792",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/subscriptions/reactivate_plan/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"subscriptions",
+								"reactivate_plan",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions/view_subscription/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/subscriptions/view_subscription/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"subscriptions",
+								"view_subscription",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "studios_classes",
+			"item": [
+				{
+					"name": "/studios/create_location/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "location",
+									"value": "44.00, 45.00",
+									"description": "current user's longtitute and latitude ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/studios/create_location/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"create_location",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/update_location/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "location",
+									"value": "43.00, -79.00",
+									"description": "updated user location",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/studios/update_location/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"update_location",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/list_studios/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/list_studios/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"list_studios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/view_studio/{id}/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/view_studio/{id}/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"view_studio",
+								"{id}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/list_classes/studio/{id}/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/list_classes/studio/{id}/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"list_classes",
+								"studio",
+								"{id}",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "yoga",
+									"description": "the name of the studio that we want to filter",
+									"disabled": true
+								},
+								{
+									"key": "coach",
+									"value": "tathanku",
+									"description": "tha name of the coach that we want to filter",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "hi",
+									"description": "anything that we want to search",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/enroll_classdate/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "enrollDate",
+									"value": "1",
+									"description": "the id of enroll classdate (single class)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/studios/enroll_classdate/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"enroll_classdate",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/enroll_class/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "course_code",
+									"value": "3",
+									"description": "the id of course (class)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/studios/enroll_class/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"enroll_class",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/list_enrolled_classdate/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/list_enrolled_classdate/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"list_enrolled_classdate",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/drop_classdate/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "DropDate",
+									"value": "1",
+									"description": "enrolled classdate that user wants to drop",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/studios/drop_classdate/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"drop_classdate",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/drop_class/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "course_code",
+									"value": "1",
+									"description": "the course code of class",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/studios/drop_class/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"drop_class",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/history/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/history/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"history",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/list_studios_search/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/list_studios_search/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"list_studios_search",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "ta",
+									"description": "the name of studio that we want to filter",
+									"disabled": true
+								},
+								{
+									"key": "amentities",
+									"value": "1",
+									"description": "the id of amentities that we want to filter",
+									"disabled": true
+								},
+								{
+									"key": "classes",
+									"value": "1",
+									"description": "the id of class that we want to filter",
+									"disabled": true
+								},
+								{
+									"key": "coaches",
+									"value": "1",
+									"description": "the id of the coaches that we want to filter",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "hi",
+									"description": "anything that we want to search",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/list_classes/studio/{id}/search_date/{filterDate}/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/list_classes/studio/{id}/search_date/{filterDate}/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"list_classes",
+								"studio",
+								"{id}",
+								"search_date",
+								"{filterDate}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/studios/list_classes/studio/{id}/search_time/{filterstart}/{filterend}/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/studios/list_classes/studio/{id}/search_time/{filterstart}/{filterend}/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"studios",
+								"list_classes",
+								"studio",
+								"{id}",
+								"search_time",
+								"{filterstart}",
+								"{filterend}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
