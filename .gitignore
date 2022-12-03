@@ -11,3 +11,4 @@ backend/PB/Subscriptions/migrations/*.py
 backend/PB/PB/__pycache__/
 backend/PB/db.sqlite3
 backend/PB/venv
+frontend/pf/node_modules

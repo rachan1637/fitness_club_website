@@ -7,9 +7,22 @@ from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import gettext_lazy as _
 from .models import Profile
 from phonenumber_field.modelfields import PhoneNumberField
+from rest_framework.exceptions import PermissionDenied
+from rest_framework import status
+
 
 # Reference: https://medium.com/django-rest/django-rest-framework-login-and-register-user-fd91cf6029d5
 # Reference: https://medium.com/django-rest/django-rest-framework-change-password-and-update-profile-1db0c144c0a3
+
+class MyCustomExcpetion(PermissionDenied):
+    status_code = status.HTTP_400_BAD_REQUEST
+    default_detail = "Custom Exception Message"
+    default_code = 'invalid'
+
+    def __init__(self, detail, status_code=None):
+        self.detail = detail
+        if status_code is not None:
+            self.status_code = status_code
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -35,17 +48,20 @@ class UpdateUserProfileSerializer(serializers.ModelSerializer):
             instance.profile.email = validated_data["email"]
 
         if validated_data.get("avatar", "") != "":
+            print(validated_data["avatar"])
             instance.profile.avatar = validated_data["avatar"]
+            print(instance.profile.avatar)
         
         if validated_data.get("phone_number", "") != "":
             instance.profile.phone_number = validated_data["phone_number"]
 
         instance.profile.save()
+        print(instance.profile.avatar)
             
         return super().update(instance, validated_data)
 
-    def partial_update(self, instance, validated_data):
-        return super().update(instance, validated_data)
+    # def partial_update(self, instance, validated_data):
+    #     return super().update(instance, validated_data)
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
@@ -105,6 +121,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
+            # raise MyCustomExcpetion(detail={""})
 
         return attrs
 

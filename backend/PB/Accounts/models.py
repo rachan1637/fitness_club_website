@@ -13,7 +13,7 @@ class Profile(models.Model):
     email = models.EmailField(blank=True)
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
-    avatar = models.ImageField(default="default.jpg")
+    avatar = models.ImageField(upload_to="images/", blank=True)
     phone_number = PhoneNumberField(blank=True)
 
     @receiver(post_save, sender=User)
