@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Studio,ImageAttachment, Amenitie, Location, Course, Enroll, Drop, ClassDate
+from .models import Studio,ImageAttachment, Amenitie, Location, Course, Enroll, Drop, ClassDate, CourseKeyWord
 from math import sin, cos, sqrt, atan2, radians
 import datetime as dt
 import copy
@@ -140,15 +140,21 @@ class LocationSerializer(serializers.ModelSerializer):
         instance.location = validated_data["location"]
         instance.save()
         return instance
+
+class CourseKeywWordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseKeyWord
+        fields = ("name", )
         
 class CourseSerializer(serializers.ModelSerializer):
+    keyword_names = CourseKeywWordSerializer(read_only=True, many=True, source="keywords")
    
     # def get_name_url(self, obj):
     #     return obj
         
     class Meta:
         model = Course
-        fields = ('name', 'description','coach','start_time','end_time', 'keywords','capacity', 'times')
+        fields = ('name', 'description','coach','start_time','end_time', 'keyword_names','capacity', 'times')
         
 
 class ClassDateSerializer(serializers.ModelSerializer):
