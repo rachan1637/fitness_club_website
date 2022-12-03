@@ -63,7 +63,7 @@ function RegisterPage() {
             className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
           />
           {/* <p>{password2 !== password ? "Passwords do not match" : ""}</p> */}
-          <text class="notification" id="password2-notification"> </text>
+          {/* <p className="notification" id="password2-notification"> </p> */}
         </div>
         {/* <h1 className="text-indigo-500 text-l mb-2">Optional Field</h1> */}
         {/* <hr className="mb-6"/> */}
@@ -76,7 +76,7 @@ function RegisterPage() {
             placeholder="Email (optional)"
             className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
           />
-          <p class="notification" id="email-notification"> </p>
+          {/* <p class="notification" id="email-notification"> </p> */}
         </div>
         <div>
           <label htmlFor="first_name">First Name</label>

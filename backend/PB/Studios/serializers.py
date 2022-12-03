@@ -150,7 +150,15 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ('name', 'description','coach','start_time','end_time', 'keywords','capacity', 'times')
         
-    
+
+class ClassDateSerializer(serializers.ModelSerializer):
+   
+    # def get_name_url(self, obj):
+    #     return obj
+        
+    class Meta:
+        model = ClassDate
+        fields = ('studio_id', 'course_id','date_start','date_end','capacity', 'current_enrolment','name', 'coach')
 
 # class DropClassDateSerializer(serializers.ModelSerializer):
 #     drop = serializers.BooleanField(write_only=True, required=True)

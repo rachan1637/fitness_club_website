@@ -13,12 +13,12 @@ from .serializers import (
     ReactivateCancelledSubscriptionSerializer,
     UserSubscriptionSerializer,
 )
-
+from rest_framework.pagination import PageNumberPagination
 class PaymentHistoryView(generics.ListAPIView):
     model = Payment.objects.all()
     permission_classes = (IsAuthenticated, )
     serializer_class = PaymentSerializer
-
+    pagination_class = PageNumberPagination
     def get_queryset(self):
         return Payment.objects.filter(user=self.request.user)
 

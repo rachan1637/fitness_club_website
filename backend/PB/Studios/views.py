@@ -14,6 +14,7 @@ from .serializers import (
     DropSerializer, 
     AddCourseSerializer, 
     DropCourseSerializer, 
+    ClassDateSerializer,
     # DropClassDateSerializer
 )
 from rest_framework.parsers import FileUploadParser, MultiPartParser
@@ -22,13 +23,13 @@ from location_field.models.plain import PlainLocationField
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import GenericAPIView
 from rest_framework import filters
-
-from django.http import HttpResponse
+from rest_framework.pagination import PageNumberPagination
 import datetime as dt
 from datetime import timedelta
 import ast
 import copy
-# Create your views here.
+from django.conf import settings
+from collections import OrderedDict
 
 # class DropClassDateView(generics.UpdateAPIView):
 #     queryset = Enroll.objects.all()
@@ -38,16 +39,70 @@ import copy
     # def get_queryset(self):
     #     return Enroll.objects.filter(user=self.request.user)
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 1
+    # page_size_query_param = 'page_size'
+    # max_page_size = 2
+    
 class StudioListApiView(generics.ListAPIView):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializer
     permission_classes = (IsAuthenticated,)
-
-    def get(self, request, *args, **kwargs):
+    pagination_class = PageNumberPagination
+    # def get(self, request, *args, **kwargs):
+    #     studioList = Studio.objects
+    #     serializer = StudioSerializer(studioList, many = True, context={"request": request})
+    #     sortedData = sorted(serializer.data, key = lambda k:k['distance'])
+    #     # print(sortedData)
+    #     return Response(sortedData, status = status.HTTP_200_OK)
+    def get_queryset(self):
         studioList = Studio.objects
-        serializer = StudioSerializer(studioList, many = True, context={"request": request})
+        serializer = StudioSerializer(studioList, many = True, context={"request": self.request})
         sortedData = sorted(serializer.data, key = lambda k:k['distance'])
-        return Response(sortedData, status = status.HTTP_200_OK)
+        
+        print("sortedData", sortedData)
+        
+        
+        returnlist = []
+        for ele in sortedData:
+            print("\n")
+            dict_ele = dict(ele)
+            print("ele", dict_ele)
+            # print("id", ele[1])
+            returnlist.append(dict_ele["id"])
+            # pass
+            
+        # print("s", returnlist)
+        # print("ssss", list(map(lambda id: Studio.objects.get(pk=id), returnlist)))
+        return list(map(lambda id: Studio.objects.get(pk=id), returnlist))
+    
+# class StudioListApiView(generics.ListAPIView):
+#     queryset = Studio.objects.all()
+#     serializer_class = StudioSerializer
+#     permission_classes = (IsAuthenticated,)
+#     pagination_class = PageNumberPagination
+#     # pagination_class = settings.REST_FRAMEWORK['DEFAULT_PAGINATION_CLASS' ]
+#     # pagination_class = StandardResultsSetPagination
+#     # pagination.PageNumberPagination.page_size = 1
+
+#     def get(self, request, *args, **kwargs):
+#         paginator = StandardResultsSetPagination()
+#         studioList = Studio.objects.all()
+#         paginate_queryset = paginator.paginate_queryset(studioList, request)
+#         serializer = StudioSerializer(paginate_queryset, many = True, context={"request": request}).data
+
+#         # serializer = StudioSerializer(studioList, many = True, context={"request": request})
+        
+        
+#         data2 = paginator.get_paginated_response(serializer).data
+#         print(data2['results'])
+#         data2['results'] = sorted(data2['results'], key = lambda k:k['distance'])
+#         # print(settings.REST_FRAMEWORK)
+#         # sortedData = sorted(data2.items(), key  = lambda k:k['distance'])
+#         # print(settings.REST_FRAMEWORK['PAGE_SIZE'], "page size")
+#         # print(sortedData)
+#         return Response(data2, status = status.HTTP_200_OK)
+
 
 class StudioSearchListApiView(generics.ListAPIView):
     # parser_classes = (FileUploadParser, MultiPartParser)
@@ -119,6 +174,7 @@ class UpdateSpecificLocation(generics.UpdateAPIView):
 
 class ClassListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    
     # queryset = Course.objects.all()
     # for i in queryset:
     #     print(i.start_time)
@@ -128,7 +184,7 @@ class ClassListView(generics.ListAPIView):
     serializer_class = CourseSerializer
     filterset_fields = ['name','coach',]
     search_fields = ['name','coach',]
-
+    pagination_class = PageNumberPagination
     def get_queryset(self):
         return Course.objects.filter(studio=Studio.objects.get(id = self.kwargs["pk"])).order_by('start_time')
     
@@ -251,13 +307,22 @@ class DropDateListView(APIView):
 #     def perform_create(self, serializer):
 #         serializer.save(user=self.request.user)
 #     # print(list(queryset))
+
+     
+
+
+        data2['results'] = sorted(data2['results'], key = lambda k:k['distance'])
+        return Response(data2, status = status.HTTP_200_OK)
     
-class EnrollmentListView(APIView):
+class EnrollmentListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    def get(self, request, *args, **kwargs):
+    pagination_class = PageNumberPagination
+    serializer_class = ClassDateSerializer
+    pagination_class = PageNumberPagination
+    def get_queryset(self):
         # enrollmentList = Enroll.objects.filter(user = request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now()+timedelta(days=8))
-        enrollmentList = Enroll.objects.filter(user = request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now())
-        serializer = EnrollSerializer(enrollmentList, many = True)
+        enrollmentList = Enroll.objects.filter(user = self.request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now())
+        # serializer = EnrollSerializer(enrollmentList, many = True)
         
         results = []
         for obj1 in enrollmentList:
@@ -271,7 +336,46 @@ class EnrollmentListView(APIView):
             
         sortedResults = sorted(results, key = lambda k:k['date_start'])
         print(sortedResults)
-        return Response(sortedResults, status = status.HTTP_200_OK)
+        
+        returnlist = []
+        for ele in sortedResults:
+            returnlist.append(ele["classDate_id"])
+        # return Response(sortedResults, status = status.HTTP_200_OK)
+        
+        print("returnlist",returnlist)
+        print(ClassDate.objects.filter(id__in = returnlist ))
+        # return ClassDate.objects.filter(id__in = returnlist )
+        return list(map(lambda id: ClassDate.objects.get(pk=id), returnlist))
+    
+# class EnrollmentListView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     pagination_class = PageNumberPagination
+#     def get(self, request, *args, **kwargs):
+#         # enrollmentList = Enroll.objects.filter(user = request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now()+timedelta(days=8))
+#         paginator = StandardResultsSetPagination()
+#         enrollmentList = Enroll.objects.filter(user = request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now())
+#         paginate_queryset = paginator.paginate_queryset(enrollmentList, request)
+#         serializer = EnrollSerializer(paginate_queryset, many = True).data
+#         print('!!!!!!!!', serializer)
+#         data2 = paginator.get_paginated_response(serializer).data
+        
+#         results = []
+#         for obj1 in enrollmentList:
+#             data = OrderedDict()
+#             data["enroll_id"] = obj1.id
+#             data['classDate_id'] = obj1.enrollDate.id
+#             data["course_id"] = obj1.enrollDate.course_id
+#             data['date_start'] = obj1.enrollDate.date_start
+#             data['date_end'] = obj1.enrollDate.date_end
+#             results.append(data)
+         
+            
+#         # print('?????????',ord_dict)  
+#         data2['results'] = sorted(results, key = lambda k:k['date_start'])
+#         # data2['results'] = sorted(data2['results'], key = lambda k:k['date_start'])
+
+#         # print(data2)
+#         return Response(data2, status = status.HTTP_200_OK)
     
 class HistoryListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
