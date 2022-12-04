@@ -11,6 +11,9 @@ import RegisterPage from "./views/RegisterPage";
 import ProtectedPage from "./views/ProtectedPage";
 import CourseManagementPage from "./views/CourseManagementPage";
 import ListStudiosPage from "./views/ListStudiosPage";
+import StudioAndCoursePage from "./views/StudioAndCoursePage"
+import PaymentHistoryPage from "./views/PaymentHistoryPage";
+import ClassesPage from "./views/ClassesPage";
 
 function App() {
   return (
@@ -22,13 +25,16 @@ function App() {
 
           <Routes>
             <Route element={<HomePage/>} path="/" />
-            <Route element={<LoginPage/>} path="/login" />
-            <Route element={<RegisterPage/>} path="/register" />
+            <Route element={<LoginPage/>} path="/login/" />
+            <Route element={<RegisterPage/>} path="/register/" />
             <Route element={<AuthWrapper />}>
-              <Route element={<UserHomePage/>} path="/user-home"/>
-              <Route element={<ProtectedPage/>} path="/protected" exact />
-              <Route element={<CourseManagementPage/>} path="/course-management"/>
-              <Route element={<ListStudiosPage/>} path = "/studios-list"/>
+              <Route element={<UserHomePage/>} path="/user-home/"/>
+              {/* <Route element={<ProtectedPage/>} path="/protected/" exact /> */}
+              <Route element={<CourseManagementPage/>} path="/course-management/"/>
+              <Route element={<ListStudiosPage/>} path = "/studios-list/"/>
+              <Route element={<StudioAndCoursePage/>} path = "/studio-info/:studio_id/"/>
+              <Route element={<PaymentHistoryPage/>} path = "/payment-history/"/>
+              <Route element={<ClassesPage/>} path="/classes/:course_id/"/>
             </Route>
           </Routes>
           </div>

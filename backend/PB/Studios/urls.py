@@ -18,6 +18,7 @@ from .views import (
     filterDateView, 
     filterTimeRangeView,
     StudioSearchListApiView,
+    ClassDateListView
 )
 urlpatterns = [
     path('create_location/', CreateSpecificLocation.as_view()),
@@ -36,6 +37,7 @@ urlpatterns = [
     path('history/', HistoryListView.as_view()),
     path('list_studios_search/', StudioSearchListApiView.as_view()),
     path('list_classes/studio/<int:pk>/search_date/<str:filterDate>/', filterDateView.as_view()),
-    path('list_classes/studio/<int:pk>/search_time/<str:filterstart>/<str:filterend>/',filterTimeRangeView.as_view())
+    path('list_classes/studio/<int:pk>/search_time/<str:filterstart>/<str:filterend>/',filterTimeRangeView.as_view()),
+    path('view_classdate/<int:pk>/', ClassDateListView.as_view()),
     
 ]

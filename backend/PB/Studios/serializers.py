@@ -154,7 +154,7 @@ class CourseSerializer(serializers.ModelSerializer):
         
     class Meta:
         model = Course
-        fields = ('name', 'description','coach','start_time','end_time', 'keyword_names','capacity', 'times')
+        fields = ('id', 'name', 'description','coach','start_time','end_time', 'keyword_names','capacity', 'times')
         
 
 class ClassDateSerializer(serializers.ModelSerializer):

@@ -59,7 +59,7 @@ function CourseManagementPage() {
   }, []);
 
   if (user) {
-    console.log(subscription_status)
+    // console.log(subscription_status)
     return (
       <div>
         <p> Your enrolled Courses are listed below. </p>
@@ -67,13 +67,13 @@ function CourseManagementPage() {
         { !subscription_status &&
         <>
             <p className="mt-10 mb-5"> You still haven't subscribe a plan. </p> 
-            <Link to="subscribe"></Link>
+            <Link to="/subscribe/"></Link>
         </>
         }
         { subscription_status && 
         <>
             <p className="mt-10 mb-5"> Do you want to enroll in other courses? Take a look at the provided courses in each studio!</p>
-            <Link to="/studios-list" className="px-2 py-2 border-gray-800 border-2 rounded-md hover:shadow-lg hover:bg-gray-400">Studios Overview</Link>
+            <Link to="/studios-list/" className="px-2 py-2 border-gray-800 border-2 rounded-md hover:shadow-lg hover:bg-gray-400">Studios Overview</Link>
         </>
         }
         {/* <h1>Manage Your Course</h1> */}

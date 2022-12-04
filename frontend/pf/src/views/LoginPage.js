@@ -25,7 +25,7 @@ const LoginPage = () => {
         <button className="mt-10 border-2 border-gray-700 rounded-md px-2 py-1" type="submit">Login</button>
         <div className="mt-10">
           Still haven't registered? Do it now! 
-          <Link className="ml-5 border-2 border-gray-700 rounded-md hover:bg-gray-400 hover:underline px-2 py-2 " to="/register">Register</Link>
+          <Link className="ml-5 border-2 border-gray-700 rounded-md hover:bg-gray-400 hover:underline px-2 py-2 " to="/register/">Register</Link>
         </div>
       </form>
     </section>

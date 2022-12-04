@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import useAxios from "../utils/useAxios";
 
 
@@ -21,12 +21,13 @@ function StudioInfoBlock(props) {
 }
 
 function CourseInfo(props) {
+    const class_link = "/classes/" + props.course.id + "/";
     console.log(props.course.start_time)
     const start_time = props.course.start_time.split("T")[1].substring(0, props.course.start_time.split("T")[1].length-1);
     const end_time = props.course.end_time.split("T")[1].substring(0, props.course.end_time.split("T")[1].length-1)
     const schedule_type = props.course.times.match(/RRULE:FREQ=([^;]+)/)[1];
     let schedule_until = props.course.times.match(/UNTIL=([^T]+)/)[1];
-    schedule_until = schedule_until.substring(0, 4) + "." + schedule_until.substring(4, 6) + "." + schedule_until.substring(6,8)
+    schedule_until = schedule_until.substring(0, 4) + "-" + schedule_until.substring(4, 6) + "-" + schedule_until.substring(6,8)
     let schedule_weekday = props.course.times.match(/BYDAY=([^;]+)/)[1];
     if (schedule_weekday === "MO") {
         schedule_weekday = "Monday"
@@ -55,6 +56,8 @@ function CourseInfo(props) {
                     <p> Capacity:  {props.course.capacity} </p>
                     <p> From {start_time} to {end_time}, every {schedule_weekday} </p>
                     <p> The lecture is hold {schedule_type}, until {schedule_until} </p>
+                    <p> Enroll the entire course session </p>
+                    <Link className="block border-4" to={class_link}> Click to view and enroll a specific class </Link>
                     {/* <p> Keywords: {props.course.keyword_names.map( name => ({name}))} </p> */}
                     {/* <a href={props.studio.url} className="underline"> Click here to get the direction. </a> */}
                     {/* <p> Images: </p>
@@ -64,9 +67,9 @@ function CourseInfo(props) {
     )
 }
 
-function StudioAndClassPage() {
+function StudioAndCoursePage() {
     const api = useAxios();
-    const { pk } = useParams()
+    const { studio_id } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [studioInfo, setStudioInfo] = useState({})
     const [coursesInfo, setCoursesInfo] = useState([])
@@ -75,7 +78,7 @@ function StudioAndClassPage() {
     useEffect(() => {
         const fetchData = async () => {
             await api.get(
-                `http://localhost:8000/studios/view_studio/${pk}/`,
+                `http://localhost:8000/studios/view_studio/${studio_id}/`,
                 {headers: {"Content-Type": "application/json"}}
             ).then(
                 response => {
@@ -89,7 +92,7 @@ function StudioAndClassPage() {
             )
 
             await api.get(
-                `http://localhost:8000/studios/list_classes/studio/${pk}/`,
+                `http://localhost:8000/studios/list_classes/studio/${studio_id}/`,
                 {headers: {"Content-Type": "application/json"}}
             ).then(
                 response => {
@@ -123,4 +126,4 @@ function StudioAndClassPage() {
     )
 }
 
-export default StudioAndClassPage
+export default StudioAndCoursePage

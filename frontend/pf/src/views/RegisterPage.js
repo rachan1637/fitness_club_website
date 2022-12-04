@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
 
 function set_info(box, message) {
@@ -20,7 +20,6 @@ function RegisterPage() {
   const handleSubmit = async e => {
     e.preventDefault();
     registerUser(username, password, password2, email, first_name, last_name);
-    console.log(errors)
   };
 
   return (
@@ -38,7 +37,7 @@ function RegisterPage() {
             required
             className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
           />
-          { errors.username && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> </p> }
+          { errors.username && <p className="block text-red-500 rounded-md px-2 py-1 mb-5"> {errors.username[0]}</p> }
         </div>
         <div>
           <label htmlFor="password">Password</label>
@@ -50,7 +49,7 @@ function RegisterPage() {
             required
             className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
           />
-          { errors.password && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> </p> }
+          { errors.password && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> {errors.password[0]}</p> }
         </div>
         <div>
           <label htmlFor="confirm-password">Confirm Password</label>
@@ -62,8 +61,7 @@ function RegisterPage() {
             required
             className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
           />
-          {/* <p>{password2 !== password ? "Passwords do not match" : ""}</p> */}
-          {/* <p className="notification" id="password2-notification"> </p> */}
+          { errors.password2 && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> {errors.password2[0]}</p> }
         </div>
         {/* <h1 className="text-indigo-500 text-l mb-2">Optional Field</h1> */}
         {/* <hr className="mb-6"/> */}
@@ -76,7 +74,7 @@ function RegisterPage() {
             placeholder="Email (optional)"
             className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
           />
-          {/* <p class="notification" id="email-notification"> </p> */}
+          { errors.email && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> {errors.email[0]} </p> }
         </div>
         <div>
           <label htmlFor="first_name">First Name</label>

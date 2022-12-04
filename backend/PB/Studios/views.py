@@ -171,6 +171,15 @@ class UpdateSpecificLocation(generics.UpdateAPIView):
         return Location.objects.filter(user=self.request.user)[0]
     
 
+class ClassDateListView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ClassDateSerializer
+    pagination_class = PageNumberPagination
+
+    def get_queryset(self):
+        return ClassDate.objects.filter(
+            course_id=self.kwargs["pk"]).order_by('date_start')
+    
 
 class ClassListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]

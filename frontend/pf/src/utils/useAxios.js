@@ -17,8 +17,8 @@ const useAxios = () => {
     const user = jwt_decode(authTokens.access);
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
 
-    console.log(req.data)
-    console.log(req)
+    // console.log(req.data)
+    // console.log(req)
 
     if (!isExpired) return req;
     
@@ -33,7 +33,7 @@ const useAxios = () => {
       }
     );
     
-    console.log(response.data)
+    // console.log(response.data)
     localStorage.setItem("authTokens", JSON.stringify(response.data));
     setAuthTokens(response.data);
     setUser(jwt_decode(response.data.access));
