@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubscriptionPlan
-        fields = ('month_length', 'price')
+        fields = ("id", 'month_length', 'price')
 
 class UserSubscriptionSerializer(serializers.ModelSerializer):
     plan = SubscriptionPlanSerializer()

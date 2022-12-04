@@ -14,6 +14,8 @@ import ListStudiosPage from "./views/ListStudiosPage";
 import StudioAndCoursePage from "./views/StudioAndCoursePage"
 import PaymentHistoryPage from "./views/PaymentHistoryPage";
 import ClassesPage from "./views/ClassesPage";
+import PlansPage from "./views/PlansPage"
+import UpdateProfilePage from "./views/UpdateProfilePage";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
               <Route element={<StudioAndCoursePage/>} path = "/studio-info/:studio_id/"/>
               <Route element={<PaymentHistoryPage/>} path = "/payment-history/"/>
               <Route element={<ClassesPage/>} path="/classes/:course_id/"/>
+              <Route element={<PlansPage/>} path="/subscribe-plan"/>
+              <Route element={<UpdateProfilePage/>} path="/update-profile/"/>
             </Route>
           </Routes>
           </div>

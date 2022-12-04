@@ -52,9 +52,9 @@ export const AuthProvider = ({ children }) => {
         }
     ).catch(
         error => {
-            if (error.response.status == 401) {
-                console.log("The username doesn't exist or the password is incorrect")
-            }
+            // if (error.response.status == 401) {
+            //     console.log("The username doesn't exist or the password is incorrect")
+            // }
             console.log(error.response.data)
             setErrors(error.response.data)
         }

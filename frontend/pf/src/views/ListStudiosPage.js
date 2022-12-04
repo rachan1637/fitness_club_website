@@ -19,12 +19,11 @@ function StudioIntroBlock(props) {
         <p> Studio Address: {props.studio.address} </p>
         <p> Phone number: {props.studio.phone_number} </p>
         <p> Distance from you: {props.studio.distance} </p>
-        <p> Images: </p>
-        {props.studio.studio_images.map((image) => (
-          <img className="max-w-sm max-h-56 mx-auto" src={`${image?.images}`} />
-        ))}
-        <p > Specific Information: </p>
-        <Link to={`studio-info/${props.id}/`}>Studio {props.id}</Link>
+        <div className>
+            {props.studio.studio_images.map((image) => (
+            <img className="max-w-sm max-h-56 mx-auto" src={`${image?.images}`} />
+            ))}
+        </div>
         <p className="text-2xl absolute inset-0 items-center justify-center group-hover:opacity-100 opacity-0 flex backdrop-blur-sm transition-all"> 
             <span className="bg-gray-600 px-5 py-5 text-white rounded-full"> Go to Studio </span> 
         </p>
@@ -55,49 +54,6 @@ function StudioPageBlock(props) {
     </>
   );
 }
-
-// https://norbertbartos.tech/blog/use-geolocation-api-with-react-hooks/
-const useCurrentLocation = (
-  options = { maximumAge: 60000, timeout: 100000 }
-) => {
-  // store error message in state
-  const [error, setError] = useState();
-  const [location, setLocation] = useState();
-  const [isLoadingLocation, setIsLoadingLocation] = useState(true);
-
-  // Success handler for geolocation's `getCurrentPosition` method
-  const handleSuccess = (position) => {
-    const { latitude, longitude } = position.coords;
-
-    setLocation({
-      latitude,
-      longitude,
-    });
-
-    setIsLoadingLocation(false);
-  };
-
-  // Error handler for geolocation's `getCurrentPosition` method
-  const handleError = (error) => {
-    setError(error.message);
-  };
-
-  useEffect(() => {
-    // If the geolocation is not defined in the used browser you can handle it as an error
-    if (!navigator.geolocation) {
-      setError("Geolocation is not supported.");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      handleSuccess,
-      handleError,
-      options
-    );
-  }, []);
-
-  return { location, error, isLoadingLocation };
-};
 
 function ListStudiosPage() {
   const api = useAxios();
@@ -159,11 +115,11 @@ function ListStudiosPage() {
   };
 
   const getStudios = async (page) => {
-    setPage(page);
     await api
       .get(`http://localhost:8000/studios/list_studios/?page=${page}`)
       .then((response) => {
         setStudios(response.data.results);
+        setPage(page);
         // console.log(response.data.next)
         // console.log('studios', response.data)
       })
@@ -186,24 +142,25 @@ function ListStudiosPage() {
   // console.log(studios.results.length)
 
   if (isLoading) {
-    return <p> Wait for getting the location info </p>;
+    return <p> Wait for getting the location infmation... </p>;
   }
 
   console.log("studios", studios[0]);
 
   return (
     <>
-      <p> View more details by clicking each block! </p>
-      <div className="flex gap-10 text-center my-5 justify-center">
+      <p className="text-center"> View more details by clicking each block! </p>
+      <hr className="my-5"/>
+      <div className="flex gap-10 text-center justify-center">
         {studios.map((studio) => (
           <StudioIntroBlock studio={studio} />
         ))}
       </div>
-      <div className="flex gap-3">
-        <button className="border-2 border-black px-1 py-1 ml-auto" onClick={() => getStudios(page - 1)}>
+      <div className="flex gap-3 my-5">
+        <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg" onClick={() => getStudios(page - 1)}>
           Previous
         </button>
-        <button className="border-2 border-black px-1 py-1 mr-auto"  onClick={() => getStudios(page + 1)}> Next </button>
+        <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg"  onClick={() => getStudios(page + 1)}> Next </button>
       </div>
       {/* <StudioPageBlock count={studios.count} next={studios.next} previous={studios.previous} results={studios.results} /> */}
       {/* {

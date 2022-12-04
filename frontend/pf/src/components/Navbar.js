@@ -26,11 +26,11 @@ const Navbar = () => {
         <div className="flex items-center gap-2 bg-gray-300 px-3 py-2">
           {login ? (
             <>
-              <Link className="hover:bg-gray-400 hover:underline px-2 py-1" to="/protected/">Protected Page</Link>
-              <Link className="hover:bg-gray-400 hover:underline px-2 py-1" to="/course-management/">Course Management</Link>
-              <Link className="hover:bg-gray-400 hover:underline px-2 py-1" to="/studios-list/">Studios Overview</Link>
-              <Link className="ml-auto hover:bg-gray-400 hover:underline px-2 py-1" to="/user-home/">User Home</Link>
-              <button className="px-2 py-1 border-gray-800 border-2 rounded-md hover:shadow-lg hover:bg-gray-400" onClick={logoutUser}>Logout</button>
+              {/* <Link className="hover:bg-gray-400 hover:underline px-2 py-1" to="/protected/">Protected Page</Link> */}
+              {/* <Link className="hover:bg-gray-400 hover:underline px-2 py-1" to="/course-management/">Course Management</Link> */}
+              {/* <Link className="hover:bg-gray-400 hover:underline px-2 py-1" to="/studios-list/">Studios Overview</Link> */}
+              <Link className="hover:bg-gray-400 hover:underline px-2 py-1" to="/user-home/">User Home</Link>
+              <button className="ml-auto px-2 py-1 border-gray-800 border-2 rounded-md hover:shadow-lg hover:bg-gray-400" onClick={logoutUser}>Logout</button>
             </>
           ) : (
             <>

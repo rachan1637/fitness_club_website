@@ -158,13 +158,12 @@ class CourseSerializer(serializers.ModelSerializer):
         
 
 class ClassDateSerializer(serializers.ModelSerializer):
-   
     # def get_name_url(self, obj):
     #     return obj
         
     class Meta:
         model = ClassDate
-        fields = ('studio_id', 'course_id','date_start','date_end','capacity', 'current_enrolment','name', 'coach')
+        fields = ('id', 'studio_id', 'course_id','date_start','date_end','capacity', 'current_enrolment','name', 'coach')
 
 # class DropClassDateSerializer(serializers.ModelSerializer):
 #     drop = serializers.BooleanField(write_only=True, required=True)
@@ -324,11 +323,17 @@ class EnrollSerializer(serializers.ModelSerializer):
         # instance.save()
         # print("validated_dat",validated_data["enrollDate"])
         # return instance
-        
-        return Enroll.objects.create(
-                user = self.context['request'].user,
-                enrollDate = validated_data['enrollDate']
-            )
+
+        if len(Enroll.objects.filter(user = validated_data['user'], enrollDate_id = validated_data['enrollDate'].id, is_dropeed=True)) == 1:
+            enrolled_class = Enroll.objects.get(user=validated_data["user"], enrollDate_id = validated_data['enrollDate'].id)
+            enrolled_class.is_dropped = False
+            enrolled_class.save()
+            return enrolled_class
+        else:
+            return Enroll.objects.create(
+                    user = self.context['request'].user,
+                    enrollDate = validated_data['enrollDate']
+                )
 
     def validate_enrollDate(self, data):
         """

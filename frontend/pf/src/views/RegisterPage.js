@@ -6,8 +6,6 @@ function set_info(box, message) {
     box["className"] = "block text-red-400 rounded-md px-2 py-1 mb-5";
 };
 
-const all_errors = ["username", "password", "password2", "email"]
-
 function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

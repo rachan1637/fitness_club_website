@@ -5,8 +5,8 @@ import useAxios from "../utils/useAxios";
 function ClassBlock(props) {
     // console.log(props.class.date_start.split("T")[0].substring(0, 10))
     const date = props.class.date_start.split("T")[0].substring(0, 10);
-    const start_time = props.class.date_start.split("T")[1].substring(0, props.class.date_start.split("T")[1].length-1);
-    const end_time = props.class.date_end.split("T")[1].substring(0, props.class.date_end.split("T")[1].length-1)
+    const start_time = props.class.date_start.split("T")[1].substring(0, props.class.date_start.split("T")[1].length-4);
+    const end_time = props.class.date_end.split("T")[1].substring(0, props.class.date_end.split("T")[1].length-4)
 
     return (
         <>
