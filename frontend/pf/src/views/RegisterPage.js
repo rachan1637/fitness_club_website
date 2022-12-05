@@ -64,7 +64,7 @@ function RegisterPage() {
             type="email"
             id="email"
             onChange={e => setEmail(e.target.value)}
-            placeholder="Email (optional)"
+            placeholder="Email (required)"
             className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
           />
           { errors.email && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> {errors.email[0]} </p> }

@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 
 function EnrolledClassBlock(props) {
     const drop_id = props.class.id
-    const date = props.class.date_start.split("T")[0].substring(0, 10);
-    const start_time = props.class.date_start.split("T")[1].substring(0, props.class.date_start.split("T")[1].length-4);
-    const end_time = props.class.date_end.split("T")[1].substring(0, props.class.date_end.split("T")[1].length-4)
+    const date = props.class.classDate.date_start.split("T")[0].substring(0, 10);
+    const start_time = props.class.classDate.date_start.split("T")[1].substring(0, props.class.classDate.date_start.split("T")[1].length-4);
+    const end_time = props.class.classDate.date_end.split("T")[1].substring(0, props.class.classDate.date_end.split("T")[1].length-4)
 
     const dropLecture = async () => {
         await props.api.post(
@@ -15,12 +15,13 @@ function EnrolledClassBlock(props) {
             JSON.stringify({ "DropDate":  drop_id}),
             {headers: {"Content-Type": "application/json"}}
         ).then(
-            response => {
-                console.log(response.data)
+            () => {
+                window.location.reload()
             }
         ).catch(
             errors => {
                 console.log(errors)
+                props.setError(errors.response.data[0])
             }
         )
 
@@ -30,12 +31,12 @@ function EnrolledClassBlock(props) {
     return (
         <>
             <div className="text-center border-2 px-4 py-6 mb-3 rounded-xl">
-                <h1 className="text-2xl"> {props.class.name} </h1>
-                <p> Coach: {props.class.coach} </p>
+                <h1 className="text-2xl"> {props.class.classDate.name} </h1>
+                <p> Coach: {props.class.classDate.coach} </p>
                 <p> {date}, From {start_time} to {end_time} </p>
-                <p> Studio: {props.class.id} </p>
-                <div>
-                    <button onClick={dropLecture} className="mb-3 hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md"> Drop the lecture </button>
+                <p> Studio: {props.class.classDate.studio_id} </p>
+                <div className="mt-5">
+                    <button onClick={dropLecture} className="mb-3 hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md"> Drop the class </button>
                 </div>
             </div>
         </>
@@ -46,8 +47,9 @@ function CourseManagementPage() {
   const [subscription_status, setSubScriptionStatus] = useState(false)
   const [enrolled_classes, setEnrolledClasses] = useState([])
   const [ page, setPage ] = useState(1)
-  const [neverSubscribe, setNeverSubcribe] = useState(false)
   const [ isLoading, setIsLoading ] = useState(true)
+  const [ error, setError ] = useState("")
+  const [ neverSubscribe, setNeverSubscribe ] = useState(false)
   const api = useAxios();
 
   const getSubscriptionStatus = async () => {
@@ -60,13 +62,14 @@ function CourseManagementPage() {
             } else {
                 setSubScriptionStatus(true)
             }
+            setNeverSubscribe(false)
             // console.log(response)
             // console.log(response.data)
         }
     ).catch(
         error => {
-            setNeverSubcribe(true);
             console.log(error.response)
+            setNeverSubscribe(true)
         }
     )
   }
@@ -94,24 +97,27 @@ function CourseManagementPage() {
         getSubscriptionStatus()
         getEnrolledClasses(page)
 
-        setIsLoading(true)
+        setIsLoading(false)
     };
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-//   if (user) {
-    // console.log(subscription_status)
+    if (isLoading) {
+        return (<p> Wait for Loading...</p>)
+    }
+
     return (
         <div>
         <p> Enrolled Class List, </p>
         <hr className="mt-3 mb-10"/>
         <div className="flex gap-10">
             { enrolled_classes.map( (enrolled_class) => (
-                <EnrolledClassBlock class={enrolled_class} api={api} getEnrolledClasses={getEnrolledClasses} page={page}/>
+                <EnrolledClassBlock class={enrolled_class} api={api} getEnrolledClasses={getEnrolledClasses} page={page} setError={setError}/>
             ))}
         </div>
+        {error && <p className="text-red-500 rounded-md my-5"> Fail to drop: {error}</p> }
         {   enrolled_classes.length != 0 ?
             <div className="flex gap-3 my-5">
                 <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg " onClick={() => getEnrolledClasses(page - 1)}>
@@ -129,7 +135,7 @@ function CourseManagementPage() {
         <>
             <div className="mb-0">
                 <p className="mt-10 mb-5"> You still haven't subscribed a plan. </p> 
-                <Link to="/plan-selection/" className="underline hover:text-blue-500"> Go subscribe a plan! </Link>
+                <Link to="/plan-selection/" className="underline hover:text-blue-500" state={{neverSubscribe: neverSubscribe}}> Go subscribe a plan! </Link>
             </div>
         </>
         }

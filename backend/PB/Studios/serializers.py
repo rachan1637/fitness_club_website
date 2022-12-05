@@ -197,7 +197,7 @@ class DropSerializer(serializers.ModelSerializer):
         fields = ('id','DropDate')
     
     def create(self, validated_data):
-        print(self.context["request"].user)
+        # print(self.context["request"].user)
         # instance.enrollDate.current_enrolment = validated_data["enrollDate"].current_enrolment + 1
         # instance.save()
         # print("validated_dat",validated_data["enrollDate"])
@@ -205,12 +205,15 @@ class DropSerializer(serializers.ModelSerializer):
         # Enroll.objects.get(enrollDate = validated_data['DropDate'])
 
         # changed = Enroll.objects.filter(id = self.DropDate.id, enrollDate = self.DropDate.enrollDate, user = self.context["request"].user)
+        print("dropDate", validated_data['DropDate'])
+        print("user", self.context["request"].user)
+        print("data", validated_data['DropDate'].enrollDate,)
         changed = Enroll.objects.filter(
             id = validated_data['DropDate'].id, 
             enrollDate = validated_data['DropDate'].enrollDate, 
             user = self.context["request"].user
         )
-        print(changed)
+        # print(changed)
         if len(changed) == 0:
             raise serializers.ValidationError("The user is not enrolled in this course.")
 
@@ -304,11 +307,18 @@ class DropCourseSerializer(serializers.ModelSerializer):
         # if len(drop_list) == 0:
             # raise serializers.ValidationError("Already Dropped")
         # return drop_list
+    
+class EnrollmentSerializer(serializers.ModelSerializer):
+    classDate = ClassDateSerializer(read_only=True, source="enrollDate")
+    class Meta:
+        model = Enroll
+        fields = ("id", "classDate", "is_dropped")
 
 class EnrollSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enroll
         fields = ('id', 'enrollDate',)
+
     def create(self, validated_data):
         Enroll_num = Enroll.objects.filter(user = validated_data['user'], enrollDate_id = validated_data['enrollDate'].id, is_dropped=False)
         # print('Enroll_num',Enroll_num)
@@ -324,16 +334,16 @@ class EnrollSerializer(serializers.ModelSerializer):
         # print("validated_dat",validated_data["enrollDate"])
         # return instance
 
-        if len(Enroll.objects.filter(user = validated_data['user'], enrollDate_id = validated_data['enrollDate'].id, is_dropeed=True)) == 1:
-            enrolled_class = Enroll.objects.get(user=validated_data["user"], enrollDate_id = validated_data['enrollDate'].id)
-            enrolled_class.is_dropped = False
-            enrolled_class.save()
-            return enrolled_class
-        else:
-            return Enroll.objects.create(
-                    user = self.context['request'].user,
-                    enrollDate = validated_data['enrollDate']
-                )
+        # if len(Enroll.objects.filter(user = validated_data['user'], enrollDate_id = validated_data['enrollDate'].id, is_dropped=True)) == 1:
+        #     enrolled_class = Enroll.objects.get(user=validated_data["user"], enrollDate_id = validated_data['enrollDate'].id)
+        #     enrolled_class.is_dropped = False
+        #     enrolled_class.save()
+        #     return enrolled_class
+        # else:
+        return Enroll.objects.create(
+                user = self.context['request'].user,
+                enrollDate = validated_data['enrollDate']
+            )
 
     def validate_enrollDate(self, data):
         """
@@ -350,6 +360,7 @@ class EnrollSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Exceed Capacity")
         return data
     
+
 class AddCourseSerializer(serializers.ModelSerializer):
     course_code = serializers.IntegerField(required=True, write_only=True)
     class Meta:
@@ -383,6 +394,8 @@ class AddCourseSerializer(serializers.ModelSerializer):
             if len(list(Enroll_num)) > 0:
                 already_enrolled_count += 1
                 continue
+
+            print("myenrollment", object2.current_enrolment, object2.capacity)
 
             if object2.current_enrolment >= object2.capacity:
                 reach_capacity_count += 1

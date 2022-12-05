@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, Link, Navigate } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import useAxios from "../utils/useAxios";
 import CourseManagementPage from "./CourseManagementPage";
 
@@ -22,6 +22,8 @@ function StudioInfoBlock(props) {
 }
 
 function CourseInfoBlock(props) {
+    const navigate = useNavigate()
+
     const course_code = props.course.id
     const class_link = "/classes/" + props.course.id + "/";
     // console.log(props.course.start_time)
@@ -56,14 +58,15 @@ function CourseInfoBlock(props) {
         ).then(
             response => {
                 console.log(response.data)
+                navigate("/course-management/")
             }
         ).catch(
             errors => {
                 console.log(errors)
+                props.setError(errors.response.data[0])
+                
             }
         )
-
-        Navigate("course-management")
     }
 
     // console.log(start_time, end_time, schedule_type, schedule_until, schedule_weekday);
@@ -77,7 +80,7 @@ function CourseInfoBlock(props) {
                     <p> Capacity:  {props.course.capacity} </p>
                     <p> From {start_time} to {end_time}, every {schedule_weekday} </p>
                     <p> The lecture is hold {schedule_type}, until {schedule_until} </p>
-                    <div>
+                    <div className="mt-5">
                         <button onClick={enrollCourse} className="mb-3 hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md"> Enroll all lectures </button>
                         <br/>
                         <Link className="hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md" to={class_link}> View and enroll one lecture </Link>
@@ -94,6 +97,7 @@ function StudioAndCoursePage() {
     const [studioInfo, setStudioInfo] = useState({})
     const [page, setPage]  = useState(1)
     const [coursesInfo, setCoursesInfo] = useState([])
+    const [error, setError] = useState("")
 
     const getStudioInfo = async () => {
         await api.get(
@@ -161,14 +165,15 @@ function StudioAndCoursePage() {
             }
             <div className="flex gap-10 text-center my-5 justify-center">
                 {coursesInfo.map((course) => (
-                <CourseInfoBlock course={course} api={api}/>
+                <CourseInfoBlock course={course} api={api} setError={setError}/>
                 ))}
             </div>
+            {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
             <div className="flex gap-3 my-5">
-                <button className="border-2 border-black px-1 py-1 ml-auto" onClick={() => getCourseInfo(page - 1)}>
+                <button className="border-2 border-black px-2 py-1 ml-auto rounded-md" onClick={() => getCourseInfo(page - 1)}>
                 Previous
                 </button>
-                <button className="border-2 border-black px-1 py-1 mr-auto"  onClick={() => getCourseInfo(page + 1)}> Next </button>
+                <button className="border-2 border-black px-2 py-1 mr-auto rounded-md"  onClick={() => getCourseInfo(page + 1)}> Next </button>
             </div>
         </>
     )

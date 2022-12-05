@@ -15,6 +15,7 @@ from .serializers import (
     AddCourseSerializer, 
     DropCourseSerializer, 
     ClassDateSerializer,
+    EnrollmentSerializer,
     # DropClassDateSerializer
 )
 from rest_framework.parsers import FileUploadParser, MultiPartParser
@@ -326,12 +327,14 @@ class DropDateListView(APIView):
 class EnrollmentListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     pagination_class = PageNumberPagination
-    serializer_class = ClassDateSerializer
-    pagination_class = PageNumberPagination
+    # serializer_class = ClassDateSerializer
+    serializer_class = EnrollmentSerializer
+
     def get_queryset(self):
         # enrollmentList = Enroll.objects.filter(user = request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now()+timedelta(days=8))
         enrollmentList = Enroll.objects.filter(user = self.request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now())
         # serializer = EnrollSerializer(enrollmentList, many = True)
+        return enrollmentList
         
         results = []
         for obj1 in enrollmentList:

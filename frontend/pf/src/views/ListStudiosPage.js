@@ -32,29 +32,6 @@ function StudioIntroBlock(props) {
   );
 }
 
-function StudioPageBlock(props) {
-  console.log("count: " + props.count);
-  return (
-    <>
-      <div className="my-5 block hover:bg-grey-200">
-        <p> count: {props.count} </p>
-        {/* <Link to={`${props.next.substring(24,)}`}> Next Page </Link> */}
-        <p> previous: {props.previous} </p>
-        {props.results.map((studio) => (
-          <StudioIntroBlock
-            name={studio.name}
-            address={studio.address}
-            phone_number={studio.phone_number}
-            distance={studio.distance}
-            id={studio.id}
-            studio_images={studio.studio_images}
-          />
-        ))}
-      </div>
-    </>
-  );
-}
-
 function ListStudiosPage() {
   const api = useAxios();
   // result
@@ -142,10 +119,8 @@ function ListStudiosPage() {
   // console.log(studios.results.length)
 
   if (isLoading) {
-    return <p> Wait for getting the location infmation... </p>;
+    return <p> Wait for location information... </p>;
   }
-
-  console.log("studios", studios[0]);
 
   return (
     <>
@@ -160,7 +135,7 @@ function ListStudiosPage() {
         <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg" onClick={() => getStudios(page - 1)}>
           Previous
         </button>
-        <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg"  onClick={() => getStudios(page + 1)}> Next </button>
+        <button className="border-2 border-black px-2 py-1 mr-auto rounded-lg"  onClick={() => getStudios(page + 1)}> Next </button>
       </div>
       {/* <StudioPageBlock count={studios.count} next={studios.next} previous={studios.previous} results={studios.results} /> */}
       {/* {
