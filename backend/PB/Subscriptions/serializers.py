@@ -24,14 +24,14 @@ class CancelSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubscription
         fields = ("cancelled", )
-        extra_kwargs = {'cancelled': {'required': True}} 
+        # extra_kwargs = {'cancelled': {'required': True}} 
 
     def update(self, instance, validated_data):
         # Update 
-        if validated_data["cancelled"] == False:
-            return instance
+        # if validated_data["cancelled"] == False:
+        #     return instance
 
-        instance.cancelled = validated_data["cancelled"]
+        instance.cancelled = True
         instance.save()
 
         # Cancel future payment
@@ -111,13 +111,12 @@ class ReactivateCancelledSubscriptionSerializer(serializers.ModelSerializer):
     plan_code = serializers.IntegerField(required=True, write_only=True)
     class Meta:
         model = UserSubscription
-        fields = ("cancelled", "plan_code", "card_number", "card_expiry", "card_security_code")
-        extra_kwargs = {'cancelled': {'required': True}} 
+        fields = ("plan_code", "card_number", "card_expiry", "card_security_code")
 
     def update(self, instance, validated_data):
         # Update 
-        if validated_data["cancelled"] == True:
-            return instance
+        # if validated_data["cancelled"] == True:
+        #     return instance
 
         today = datetime.date.today()
         plan = SubscriptionPlan.objects.get(pk=validated_data["plan_code"])
@@ -145,7 +144,7 @@ class ReactivateCancelledSubscriptionSerializer(serializers.ModelSerializer):
         )
 
         instance.plan = plan
-        instance.cancelled = validated_data["cancelled"]
+        instance.cancelled = False
         instance.card_number = validated_data["card_number"]
         instance.card_expiry = validated_data["card_expiry"]
         instance.card_security_code = validated_data["card_security_code"]

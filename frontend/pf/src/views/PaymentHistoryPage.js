@@ -55,6 +55,7 @@ function PaymentHistoryPage(){
     return (
      <>
         <p className="text-2xl text-center"> Payment History </p>
+        { payments.map(payment => (<PaymentBlock payment={payment}/>)) }
         <PaymentBlock payment={payments[0]}/>
       {/* {
        <PaymentHisPageBlock amount={payment.amount} plan_month_length={payment.plan_month_length} paid_card_number={payment.paid_card_number} paid_at={payment.paid_at} paid = {payment.paid}/>

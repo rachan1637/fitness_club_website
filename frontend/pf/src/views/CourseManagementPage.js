@@ -46,6 +46,7 @@ function CourseManagementPage() {
   const [subscription_status, setSubScriptionStatus] = useState(false)
   const [enrolled_classes, setEnrolledClasses] = useState([])
   const [ page, setPage ] = useState(1)
+  const [neverSubscribe, setNeverSubcribe] = useState(false)
   const [ isLoading, setIsLoading ] = useState(true)
   const api = useAxios();
 
@@ -64,6 +65,7 @@ function CourseManagementPage() {
         }
     ).catch(
         error => {
+            setNeverSubcribe(true);
             console.log(error.response)
         }
     )
@@ -127,7 +129,7 @@ function CourseManagementPage() {
         <>
             <div className="mb-0">
                 <p className="mt-10 mb-5"> You still haven't subscribed a plan. </p> 
-                <Link to="/subscribe-plan/" className="underline hover:text-blue-500"> Go subscribe a plan! </Link>
+                <Link to="/plan-selection/" className="underline hover:text-blue-500"> Go subscribe a plan! </Link>
             </div>
         </>
         }

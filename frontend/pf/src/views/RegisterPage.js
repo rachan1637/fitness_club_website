@@ -1,11 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
 
-function set_info(box, message) {
-    box.innerHTML = message;
-    box["className"] = "block text-red-400 rounded-md px-2 py-1 mb-5";
-};
-
 function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

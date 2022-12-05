@@ -14,8 +14,10 @@ import ListStudiosPage from "./views/ListStudiosPage";
 import StudioAndCoursePage from "./views/StudioAndCoursePage"
 import PaymentHistoryPage from "./views/PaymentHistoryPage";
 import ClassesPage from "./views/ClassesPage";
-import PlansPage from "./views/PlansPage"
+import SubscriptionManagementPage from "./views/SubscriptionManagementPage"
 import UpdateProfilePage from "./views/UpdateProfilePage";
+import PlanSelectionPage from "./views/PlanSelectionPage";
+import FillCardInfoPage from "./views/FillCardInfoPage";
 
 function App() {
   return (
@@ -37,8 +39,11 @@ function App() {
               <Route element={<StudioAndCoursePage/>} path = "/studio-info/:studio_id/"/>
               <Route element={<PaymentHistoryPage/>} path = "/payment-history/"/>
               <Route element={<ClassesPage/>} path="/classes/:course_id/"/>
-              <Route element={<PlansPage/>} path="/subscribe-plan"/>
+              <Route element={<SubscriptionManagementPage/>} path="/subscription-management/"/>
               <Route element={<UpdateProfilePage/>} path="/update-profile/"/>
+              <Route element={<PlanSelectionPage/>} path="/plan-selection/"/>
+              <Route element={<FillCardInfoPage/>} path="/fill-card-info/"/>
+              <Route element={<PaymentHistoryPage/>} path="/payment-history/"/>
             </Route>
           </Routes>
           </div>
