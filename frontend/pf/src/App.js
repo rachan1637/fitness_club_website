@@ -18,12 +18,19 @@ import SubscriptionManagementPage from "./views/SubscriptionManagementPage"
 import UpdateProfilePage from "./views/UpdateProfilePage";
 import PlanSelectionPage from "./views/PlanSelectionPage";
 import FillCardInfoPage from "./views/FillCardInfoPage";
+import CourseHistoryPage from "./views/CourseHistoryPage";
+import Pricing from "./templates/PlanSelectionPageT";
+import StudioCard from "./templates/StudioCard";
 
 function App() {
   return (
     <Router>
       <div className="">
         <AuthProvider>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
           <Navbar />
           <div className="container mx-auto py-10 px-4">
 
@@ -31,6 +38,7 @@ function App() {
             <Route element={<HomePage/>} path="/" />
             <Route element={<LoginPage/>} path="/login/" />
             <Route element={<RegisterPage/>} path="/register/" />
+            <Route element={<Pricing />} path="/pricing/"/>
             <Route element={<AuthWrapper />}>
               <Route element={<UserHomePage/>} path="/user-home/"/>
               {/* <Route element={<ProtectedPage/>} path="/protected/" exact /> */}
@@ -44,6 +52,8 @@ function App() {
               <Route element={<PlanSelectionPage/>} path="/plan-selection/"/>
               <Route element={<FillCardInfoPage/>} path="/fill-card-info/"/>
               <Route element={<PaymentHistoryPage/>} path="/payment-history/"/>
+              <Route element={<CourseHistoryPage/>} path="/course-history/"/>
+              <Route element={<StudioCard/>} path="/studio-card/" />
             </Route>
           </Routes>
           </div>

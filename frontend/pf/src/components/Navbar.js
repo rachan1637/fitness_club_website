@@ -1,8 +1,13 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import AppBar from '@mui/material/AppBar';
 
 const Navbar = () => {
   const { authTokens, logoutUser } = useContext(AuthContext);
@@ -17,6 +22,98 @@ const Navbar = () => {
     }
   } catch {
     login = false;
+  }
+  
+  if (!login) {
+    return (
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
+      >
+        <Toolbar sx={{ flexWrap: 'wrap' }}>
+          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+            T-Fitness
+          </Typography>
+          <nav>
+            <Link
+              // to="/"
+              variant="button"
+              color="text.primary"
+              href="/"
+              sx={{ my: 1, mx: 1.5 }}
+            >
+              Home
+            </Link>
+            {/* <Link
+              variant="button"
+              color="text.primary"
+              href="#"
+              sx={{ my: 1, mx: 1.5 }}
+            >
+              Enterprise
+            </Link>
+            <Link
+              variant="button"
+              color="text.primary"
+              href="#"
+              sx={{ my: 1, mx: 1.5 }}
+            >
+              Support
+            </Link> */}
+          </nav>
+          <Button href="/login/" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+            Login
+          </Button>
+        </Toolbar>
+      </AppBar>
+    )
+  } else {
+    return (
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
+      >
+        <Toolbar sx={{ flexWrap: 'wrap' }}>
+          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+            T-Fitness
+          </Typography>
+          <nav>
+            <Link
+              // to="/"
+              variant="button"
+              color="text.primary"
+              href="/user-home/"
+              sx={{ my: 1, mx: 1.5 }}
+            >
+              User Home
+            </Link>
+            {/* <Link
+              variant="button"
+              color="text.primary"
+              href="#"
+              sx={{ my: 1, mx: 1.5 }}
+            >
+              Enterprise
+            </Link>
+            <Link
+              variant="button"
+              color="text.primary"
+              href="#"
+              sx={{ my: 1, mx: 1.5 }}
+            >
+              Support
+            </Link> */}
+          </nav>
+          <Button href="/login/" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+            Login
+          </Button>
+        </Toolbar>
+      </AppBar>
+    )
   }
   
   return (

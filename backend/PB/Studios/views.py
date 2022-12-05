@@ -388,7 +388,17 @@ class EnrollmentListView(generics.ListAPIView):
 
 #         # print(data2)
 #         return Response(data2, status = status.HTTP_200_OK)
-    
+
+class HistoryListView2(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = PageNumberPagination
+    serializer_class = EnrollmentSerializer
+
+    def get_queryset(self):
+        enrollmentList = Enroll.objects.filter(user = self.request.user.id, enrollDate__date_end__lt = dt.datetime.now())
+        return enrollmentList
+
+
 class HistoryListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):

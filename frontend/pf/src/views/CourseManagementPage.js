@@ -12,7 +12,7 @@ function EnrolledClassBlock(props) {
     const dropLecture = async () => {
         await props.api.post(
             `http://localhost:8000/studios/drop_classdate/`,
-            JSON.stringify({ "DropDate":  drop_id}),
+            JSON.stringify({ DropDate:  drop_id}),
             {headers: {"Content-Type": "application/json"}}
         ).then(
             () => {
@@ -28,6 +28,25 @@ function EnrolledClassBlock(props) {
         props.getEnrolledClasses(props.page);
     }
 
+    const dropCourse = async () => {
+        await props.api.post(
+            `http://localhost:8000/studios/drop_class/`,
+            JSON.stringify({ course_code:  props.class.classDate.course_id}),
+            {headers: {"Content-Type": "application/json"}}
+        ).then(
+            () => {
+                window.location.reload()
+            }
+        ).catch(
+            errors => {
+                console.log(errors)
+                props.setError(errors.response.data[0])
+            }
+        )
+
+        // props.getEnrolledClasses(props.page);
+    }
+
     return (
         <>
             <div className="text-center border-2 px-4 py-6 mb-3 rounded-xl">
@@ -35,8 +54,9 @@ function EnrolledClassBlock(props) {
                 <p> Coach: {props.class.classDate.coach} </p>
                 <p> {date}, From {start_time} to {end_time} </p>
                 <p> Studio: {props.class.classDate.studio_id} </p>
-                <div className="mt-5">
+                <div className="mt-5 flex flex-col px-16">
                     <button onClick={dropLecture} className="mb-3 hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md"> Drop the class </button>
+                    <button onClick={dropCourse} className="mb-3 hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md"> Drop the course </button>
                 </div>
             </div>
         </>

@@ -2,18 +2,24 @@ import { useEffect, useState } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import useAxios from "../utils/useAxios";
 import CourseManagementPage from "./CourseManagementPage";
+import MyGooleMap from "../components/MyGoogleMap"
 
 
 function StudioInfoBlock(props) {
+    // console.log(props.studio.geographical_location.split(",")[1])
+    const lat = Number(props.studio.geographical_location.split(",")[0])
+    const lng = Number(props.studio.geographical_location.split(",")[1])
     return (
         <>
-            <div className="text-center my-5">
+            <div className="my-5">
                 <h1 className="text-2xl"> {props.studio.name} Studio </h1>
                 <p> Studio Address: {props.studio.address} </p>
                 <p> Phone number: {props.studio.phone_number} </p>
-                <p> Loaction:  {props.studio.geographical_location} </p>
+                {/* <p> Loaction:  {props.studio.geographical_location} </p> */}
                 <p> Postal Code: {props.studio.postal_code} </p>
                 <a href={props.studio.url} className="underline"> Click here to get the direction. </a>
+
+                <MyGooleMap state={{lat: lat, lng: lng}}/>
                 {/* <p> Images: </p>
                 {props.studio_images.map((image,index) => <a href={`${image.images}`}> Attachment{index} </a>)} */}
             </div>
@@ -136,8 +142,8 @@ function StudioAndCoursePage() {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
-            getStudioInfo()
-            getCourseInfo(page)
+            await getStudioInfo()
+            await getCourseInfo(page)
             setIsLoading(false);
         }
 
@@ -145,7 +151,7 @@ function StudioAndCoursePage() {
     }, [])
 
     if (isLoading) {
-        return (<> <p> Still loading </p> </>)
+        return (<> <p className="text-center"> Still loading... </p> </>)
     }
     // console.log(coursesInfo[0])
 

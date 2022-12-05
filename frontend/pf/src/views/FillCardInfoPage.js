@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import useAxios from "../utils/useAxios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function FillCardInfoPage(props) {
+function FillCardInfoPage() {
     const api = useAxios();
     // const [isLoading, setIsLoading] = useState(true)
     const [card_number, setCardNumber] = useState("")

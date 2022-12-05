@@ -18,7 +18,8 @@ from .views import (
     filterDateView, 
     filterTimeRangeView,
     StudioSearchListApiView,
-    ClassDateListView
+    ClassDateListView,
+    HistoryListView2
 )
 urlpatterns = [
     path('create_location/', CreateSpecificLocation.as_view()),
@@ -34,7 +35,8 @@ urlpatterns = [
     path('drop_classdate/', DropView.as_view()),
     path('drop_class/', DropCourseView.as_view()),
     # path('list_dropped_classdate/', DropDateListView.as_view()),
-    path('history/', HistoryListView.as_view()),
+    # path('history/', HistoryListView.as_view()),
+    path('history/', HistoryListView2.as_view()),
     path('list_studios_search/', StudioSearchListApiView.as_view()),
     path('list_classes/studio/<int:pk>/search_date/<str:filterDate>/', filterDateView.as_view()),
     path('list_classes/studio/<int:pk>/search_time/<str:filterstart>/<str:filterend>/',filterTimeRangeView.as_view()),
