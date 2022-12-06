@@ -15,13 +15,18 @@ import StudioAndCoursePage from "./views/StudioAndCoursePage"
 import PaymentHistoryPage from "./views/PaymentHistoryPage";
 import ClassesPage from "./views/ClassesPage";
 import SubscriptionManagementPage from "./views/SubscriptionManagementPage"
-import UpdateProfilePage from "./views/UpdateProfilePage";
+// import UpdateProfilePage from "./views/UpdateProfilePage";
 import PlanSelectionPage from "./views/PlanSelectionPage";
 import FillCardInfoPage from "./views/FillCardInfoPage";
 import CourseHistoryPage from "./views/CourseHistoryPage";
 import Pricing from "./templates/PlanSelectionPageT";
 // import StudioCardT from "./templates/StudioCardT";
 import Home from "./home_template/Home"
+import UpdateProfilePage from "./views/UpdateProfilePage";
+import ViewProfilePage from "./views/ViewProfilePage";
+import UpdatePasswordPage from "./views/UpdatePasswordPage"
+import UserProfileCard from "./templates/UserProfileCard";
+// import UpdateProfilePage from "./views/UpdateProfilePage copy"
 
 function App() {
   return (
@@ -55,7 +60,13 @@ function App() {
               <Route element={<FillCardInfoPage/>} path="/fill-card-info/"/>
               <Route element={<PaymentHistoryPage/>} path="/payment-history/"/>
               <Route element={<CourseHistoryPage/>} path="/course-history/"/>
+
+              <Route element={<ViewProfilePage/>} path="/user-profile/" />
+              <Route element={<UpdateProfilePage/>} path="/update-profile/" />
+              <Route element={<UpdatePasswordPage/>} path="/change-password/" />
               {/* <Route element={<StudioCard/>} path="/studio-card/" /> */}
+
+              {/* <Route element={<UserProfileCard/>} path="/card-test/"/> */}
             </Route>
           </Routes>
           </div>

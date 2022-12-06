@@ -32,6 +32,8 @@ const Navbar = () => {
   } catch {
     login = false;
   }
+
+  console.log(login)
   
   if (!login) {
     return (
@@ -120,8 +122,8 @@ const Navbar = () => {
               Support
             </Link> */}
           </nav>
-          <Button href="/login/" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
-            Login
+          <Button onClick={logoutUser} variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+            Logout
           </Button>
         </Toolbar>
       </AppBar>

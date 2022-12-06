@@ -52,7 +52,8 @@ function EnrolledClassBlock(props) {
             <div className="text-center border-2 px-4 py-6 mb-3 rounded-xl">
                 <h1 className="text-2xl"> {props.class.classDate.name} </h1>
                 <p> Coach: {props.class.classDate.coach} </p>
-                <p> {date}, From {start_time} to {end_time} </p>
+                <p> Data: {date} </p>
+                <p> Time: {start_time}-{end_time} </p>
                 <p> Studio: {props.class.classDate.studio_id} </p>
                 <div className="mt-5 flex flex-col px-16">
                     <button onClick={dropLecture} className="mb-3 hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md"> Drop the class </button>

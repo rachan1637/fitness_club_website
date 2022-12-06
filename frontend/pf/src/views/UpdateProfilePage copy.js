@@ -7,12 +7,12 @@ const UpdateProfilePage = ({match}) => {
     // let noteId = match.params.id
     const navigate = useNavigate()
     const api = useAxios();
-    const [post, setPost] = useState({})
-    const firstname = useRef("");
-    const lastname = useRef("");
-    const emailv = useRef("");
-    const avatarv = useRef("");
-    const phonenumber = useRef("");
+    const [post, setPost] = useState(null)
+    const firstname = useRef(null);
+    const lastname = useRef(null);
+    const emailv = useRef(null);
+    const avatarv = useRef(null);
+    const phonenumber = useRef(null);
     
     useEffect(() => {
         api.get("http://127.0.0.1:8000/accounts/view_profile/"
@@ -32,14 +32,11 @@ const UpdateProfilePage = ({match}) => {
         })
         .then((response) => {
           setPost(response.data);
-          // navigate("/user-profile/")      
-          console.log(response)   
+          navigate("/user-profile/")
         });
-        navigate("/user-profile/")   
     }
-    // console.log("postpost",post)
-    // if (!post) return "No post!"
-
+    console.log("postpost",post)
+    if (!post) return "No post!"
 
     // handleChange = event => {
     //   this.setPost({ first_name:e.target.value});
@@ -67,7 +64,7 @@ const UpdateProfilePage = ({match}) => {
            <form onSubmit={handleSubmit} className="flex flex-col items-center">
            {/* <form> */}
               <h1 className="text-4xl mb-2">Update Profile</h1>
-              <hr className="mb-6 w-96 mt-3"/>
+              <hr className="mb-6"/>
               <div>
                 <label htmlFor="first_name">First Name</label>
                 <input
@@ -119,7 +116,7 @@ const UpdateProfilePage = ({match}) => {
                 placeholder="Select your avatar(optional)"
                 className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
               />
-              {avatarv !== "null" }
+              {/* {avatarv !== "null" } */}
             </div>
             <div>
                 <label htmlFor="phone_number">Phone Number</label>
@@ -136,7 +133,7 @@ const UpdateProfilePage = ({match}) => {
             {/* <button onSubmit={updatePost}>Update Post</button> */}
             
             {/* <button className="mt-5 border-2 px-2 py-1 rounded-md border-gray-700 hover:bg-gray-400" type="submit" id="update" onClick={updatePost}>Update</button> */}
-            <button onClick={updatePost} className="border-2 px-2 py-1 hover:bg-gray-100 border-black rounded-md mt-2">Update Profile</button>
+            <button onClick={updatePost} className="border-2 px-2 py-1 hover:bg-gray-100 border-black rounded-md mt-2">Update Post</button>
           </form>
         </section>
     );

@@ -79,6 +79,12 @@ function CourseHistoryPage () {
                         <PastClassBlock class={c}/>
                     ))}
             </div>
+            <div className="flex gap-3 my-5">
+                    <button className="border-2 border-black px-2 py-1 ml-auto rounded-md" onClick={() => getClassHistory(page - 1)}>
+                    Previous
+                    </button>
+                <button className="border-2 border-black px-2 py-1 mr-auto rounded-md"  onClick={() => getClassHistory(page + 1)}> Next </button>
+            </div>
         </>
     )
 }

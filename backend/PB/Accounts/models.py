@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
+# from ..PB.settings import MEDIA_URL
 
 # Create your models here.
 # Reference: https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#onetoone
@@ -13,7 +14,7 @@ class Profile(models.Model):
     email = models.EmailField(blank=True)
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
-    avatar = models.ImageField(upload_to="avatar/", blank=True)
+    avatar = models.ImageField(upload_to="avatar/", default="avatar/default.png")
     phone_number = PhoneNumberField(blank=True)
 
     @receiver(post_save, sender=User)

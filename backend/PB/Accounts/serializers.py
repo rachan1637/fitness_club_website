@@ -24,11 +24,16 @@ class MyCustomExcpetion(PermissionDenied):
         if status_code is not None:
             self.status_code = status_code
 
+class UserSearializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
 
 class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSearializer(read_only=True)
     class Meta:
         model = Profile
-        fields = ('first_name', 'last_name', 'email', "avatar", "phone_number")
+        fields = ("user", 'first_name', 'last_name', 'email', "avatar", "phone_number")
 
 class UpdateUserProfileSerializer(serializers.ModelSerializer):
     # phone_number = PhoneNumberField(blank=True)

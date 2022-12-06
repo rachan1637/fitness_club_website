@@ -68,15 +68,16 @@ const Footer = () => {
       <Container
         maxWidth="md"
         component="footer"
+        position="fixed"
         sx={{
           // borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          mt: 3,
+          // mt: 3,
           py: [1, 3],
           // bottom: 0,
           // position: "fixed",
         }}
       >
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright />
       </Container>
       // </div>
     )

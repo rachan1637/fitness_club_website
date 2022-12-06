@@ -74,9 +74,11 @@ function CourseCard(props) {
             >
             <CardContent sx={{ flexGrow: 1, }}>
                 <Typography gutterBottom variant="h5" component="h2">
-                {props.course.name}
+                    {props.course.name}
                 </Typography>
+                <Typography>
                     Coach: {props.course.coach}
+                </Typography>
                 <Typography>
                     Description: {props.course.description}
                 </Typography>
@@ -106,7 +108,7 @@ function StudioCard(props) {
     return (
         <>
             <Card
-            sx={{ height: '75%', width: "80%"}}
+            sx={{ height: '100%', width: "80%"}}
             >
             <CardMedia
                 component="img"
