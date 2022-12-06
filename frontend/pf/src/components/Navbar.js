@@ -8,6 +8,15 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
+import AppAppBar from "../home_template/modules/views/AppAppBar";
+import Box from '@mui/material/Box';
+
+const rightLink = {
+  fontSize: 16,
+  color: 'common.white',
+  ml: 3,
+};
+
 
 const Navbar = () => {
   const { authTokens, logoutUser } = useContext(AuthContext);
@@ -65,6 +74,9 @@ const Navbar = () => {
           </nav>
           <Button href="/login/" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
             Login
+          </Button>
+          <Button href="/register/" variant="outlined">
+            Register
           </Button>
         </Toolbar>
       </AppBar>

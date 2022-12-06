@@ -20,7 +20,8 @@ import PlanSelectionPage from "./views/PlanSelectionPage";
 import FillCardInfoPage from "./views/FillCardInfoPage";
 import CourseHistoryPage from "./views/CourseHistoryPage";
 import Pricing from "./templates/PlanSelectionPageT";
-import StudioCard from "./templates/StudioCard";
+// import StudioCardT from "./templates/StudioCardT";
+import Home from "./home_template/Home"
 
 function App() {
   return (
@@ -35,7 +36,8 @@ function App() {
           <div className="container mx-auto py-10 px-4">
 
           <Routes>
-            <Route element={<HomePage/>} path="/" />
+            <Route element={<Home/>} path="/" />
+            {/* <Route element={<HomePage/>} path="/" /> */}
             <Route element={<LoginPage/>} path="/login/" />
             <Route element={<RegisterPage/>} path="/register/" />
             <Route element={<Pricing />} path="/pricing/"/>
@@ -53,7 +55,7 @@ function App() {
               <Route element={<FillCardInfoPage/>} path="/fill-card-info/"/>
               <Route element={<PaymentHistoryPage/>} path="/payment-history/"/>
               <Route element={<CourseHistoryPage/>} path="/course-history/"/>
-              <Route element={<StudioCard/>} path="/studio-card/" />
+              {/* <Route element={<StudioCard/>} path="/studio-card/" /> */}
             </Route>
           </Routes>
           </div>

@@ -34,11 +34,11 @@ const tiers = [
     price: '14.99',
     description: [
       'Accessible to 2 studios',
-      '1 class per day',
+      'Maximum 1 class per day',
       '10 classes per month',
       // 'Email support',
     ],
-    buttonText: 'Sign up for free',
+    buttonText: 'Click to Subscribe',
     buttonVariant: 'outlined',
   },
   {
@@ -47,22 +47,21 @@ const tiers = [
     price: '144.99',
     description: [
       'Accessible to all studios',
-      '3 class per day',
+      'Maximum 3 classes per day',
       '30 classes per month',
     ],
-    buttonText: 'Get started',
+    buttonText: 'Click to Subscribe',
     buttonVariant: 'contained',
   },
   {
-    title: 'Group',
+    title: '6 Months Plan',
     price: '30',
     description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
+      'Accessible to all Studios',
+      '2 classes per day',
+      '20 classes per month',
     ],
-    buttonText: 'Contact us',
+    buttonText: 'Click to Subscribe',
     buttonVariant: 'outlined',
   },
 ];
@@ -106,12 +105,10 @@ function PricingContent() {
           color="text.primary"
           gutterBottom
         >
-          Pricing
+          Membership Pricing
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          Quickly build an effective pricing table for your potential customers with
-          this layout. It&apos;s built with default MUI components with little
-          customization.
+          Choose the plan, start your membership now!
         </Typography>
       </Container>
       {/* End hero unit */}
@@ -131,7 +128,7 @@ function PricingContent() {
                   title={tier.title}
                   subheader={tier.subheader}
                   titleTypographyProps={{ align: 'center' }}
-                  // action={tier.title === 'Pro' ? <StarIcon /> : null}
+                  action={tier.subheader === 'Most popular' ? <StarIcon /> : null}
                   subheaderTypographyProps={{
                     align: 'center',
                   }}
@@ -171,18 +168,18 @@ function PricingContent() {
                     ))}
                   </ul>
                 </CardContent>
-                <CardActions>
+                {/* <CardActions>
                   <Button fullWidth variant={tier.buttonVariant}>
                     {tier.buttonText}
                   </Button>
-                </CardActions>
+                </CardActions> */}
               </Card>
             </Grid>
           ))}
         </Grid>
       </Container>
       {/* Footer */}
-      <Container
+      {/* <Container
         maxWidth="md"
         component="footer"
         sx={{
@@ -209,7 +206,7 @@ function PricingContent() {
             </Grid>
           ))}
         </Grid>
-      </Container>
+      </Container> */}
       {/* End footer */}
     </React.Fragment>
   );

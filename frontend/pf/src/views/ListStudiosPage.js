@@ -29,7 +29,7 @@ const STUDIO_BASE_URL = ".../backend/PB/media/studios/"
 
 function StudioCards(props) {
   const studios = props.studios
-  // console.log(studios[2].studio_images)
+  console.log(studios[2].studio_images)
 return (
   <ThemeProvider theme={theme}>
     <CssBaseline />

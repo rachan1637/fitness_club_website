@@ -32,13 +32,13 @@ function ClassBlock(props) {
 
     return (
         <>
-            <div className="border-2 border-black px-5 py-3 hover:bg-gray-100 text-center">
+            <div className="border-2 border-black px-5 py-3 hover:bg-gray-100 text-center rounded-2xl">
                 {/* <p className="text-2xl"> {props.class.name} </p> */}
                 <p> Coach: {props.class.coach} </p>
                 <p> Date: {date} </p>
                 <p> From {start_time} to {end_time} </p>
                 <p> Current Enrollment {props.class.current_enrolment}/{props.class.capacity} </p>
-                <button onClick={enrollClass} className="mt-4 border-2 border-blue-400 px-2 py-1 rounded-lg"> Click to enroll </button>
+                <button onClick={enrollClass} className="mt-5 border-2 border-blue-400 px-2 py-1 rounded-lg"> Enroll </button>
             </div>
         </>
     )
@@ -93,7 +93,7 @@ function ClassesPage() {
                 { classes.map(c => (<ClassBlock class={c} api={api} setError={setError}/>)) }
             </div>
             {error && <p className="text-red-500 rounded-md my-5"> Fail to enroll: {error}</p> }
-            <div className="flex gap-3 my-5">
+            <div className="flex gap-3 mt-10">
                 <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg" onClick={() => getClasses(page - 1)}>
             Previous
                 </button>

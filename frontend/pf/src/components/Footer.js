@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
+import { autocompleteClasses } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -63,6 +64,7 @@ const Footer = () => {
 
   if (!login) {
     return (
+      // <div className="bottom-0 fixed">
       <Container
         maxWidth="md"
         component="footer"
@@ -70,10 +72,13 @@ const Footer = () => {
           // borderTop: (theme) => `1px solid ${theme.palette.divider}`,
           mt: 3,
           py: [1, 3],
+          // bottom: 0,
+          // position: "fixed",
         }}
       >
         <Copyright sx={{ mt: 5 }} />
       </Container>
+      // </div>
     )
   }
 };
