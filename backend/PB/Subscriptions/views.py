@@ -14,11 +14,15 @@ from .serializers import (
     UserSubscriptionSerializer,
 )
 from rest_framework.pagination import PageNumberPagination
+
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size_query_param = 'size'  # items per page
+
 class PaymentHistoryView(generics.ListAPIView):
     model = Payment.objects.all()
     permission_classes = (IsAuthenticated, )
     serializer_class = PaymentSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPageNumberPagination
     def get_queryset(self):
         return Payment.objects.filter(user=self.request.user)
 

@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
                 //   console.log(jwt_decode(data.access))
                 setUser(jwt_decode(response.data.access));
                 localStorage.setItem("authTokens", JSON.stringify(response.data));
-                navigate("/user-home");
+                navigate("/user-home/");
             }
             // else if (response.status == 401) {
             //     console.log("The username doesn't exist or the password is incorrect")

@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect,useContext, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
 // import { ReactComponent as ArrowLeft } from '../assets/arrow-left.svg'
 const UpdateProfilePage = ({match}) => {
     // let noteId = match.params.id
-    const navigate = useNavigate()
+    let { user } = useContext(AuthContext);
     const api = useAxios();
     const [post, setPost] = useState(null)
     const firstname = useRef(null);
@@ -32,7 +32,6 @@ const UpdateProfilePage = ({match}) => {
         })
         .then((response) => {
           setPost(response.data);
-          navigate("/user-profile/")
         });
     }
     console.log("postpost",post)
@@ -61,7 +60,7 @@ const UpdateProfilePage = ({match}) => {
       //   <button onClick={updatePost}>Update Post</button>
       // </div>
         <section>
-           <form onSubmit={handleSubmit} className="flex flex-col items-center">
+           <form onSubmit={handleSubmit}>
            {/* <form> */}
               <h1 className="text-4xl mb-2">Update Profile</h1>
               <hr className="mb-6"/>
@@ -77,7 +76,7 @@ const UpdateProfilePage = ({match}) => {
                 // onChange={(e) => {setNote({...note, body:e.target.value})}} value={note?.body}
                 // onChange={e => setNote('b')}
                 placeholder="Fill in your first name (optional)"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
             </div>
             <div>
@@ -92,7 +91,7 @@ const UpdateProfilePage = ({match}) => {
                 // onChange={(e) => {setNote({...note, body:e.target.value})}} value={note?.body}
                 // onChange={e => setNote('b')}
                 placeholder="Fill in your last name (optional)"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
             </div>
             <div>
@@ -103,7 +102,7 @@ const UpdateProfilePage = ({match}) => {
                 ref = {emailv}
                 defaultValue = {post.email}
                 placeholder="Fill in your email(optional)"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
             </div>
             <div>
@@ -114,9 +113,8 @@ const UpdateProfilePage = ({match}) => {
                 ref = {avatarv}
                 // defaultValue = {post.avatar}
                 placeholder="Select your avatar(optional)"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
-              {/* {avatarv !== "null" } */}
             </div>
             <div>
                 <label htmlFor="phone_number">Phone Number</label>
@@ -126,15 +124,15 @@ const UpdateProfilePage = ({match}) => {
                 ref = {phonenumber}
                 defaultValue = {post.phone_number}
                 placeholder="Fill in your phone number(optional)"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
             </div>
             {/* <input type="submit" /> */}
             {/* <button onSubmit={updatePost}>Update Post</button> */}
             
             {/* <button className="mt-5 border-2 px-2 py-1 rounded-md border-gray-700 hover:bg-gray-400" type="submit" id="update" onClick={updatePost}>Update</button> */}
-            <button onClick={updatePost} className="border-2 px-2 py-1 hover:bg-gray-100 border-black rounded-md mt-2">Update Post</button>
           </form>
+          <button onClick={updatePost}>Update Post</button>
         </section>
     );
   }

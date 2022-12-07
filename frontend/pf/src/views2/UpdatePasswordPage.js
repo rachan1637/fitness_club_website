@@ -1,19 +1,17 @@
 import { useState, useEffect,useContext, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
 // import { ReactComponent as ArrowLeft } from '../assets/arrow-left.svg'
-
 const UpdatePasswordPage = ({match}) => {
     // let noteId = match.params.id
+    let { user } = useContext(AuthContext);
     const api = useAxios();
-    // const [post, setPost] = useState(null)
-    const navigate = useNavigate()
-    const [errors, setErrors] = useState({})
+    const [post, setPost] = useState(null)
 
-    // const oldpassword = useRef(null);
-    // const passwordv = useRef(null);
-    // const password2v = useRef(null);
+    const oldpassword = useRef(null);
+    const passwordv = useRef(null);
+    const password2v = useRef(null);
     // const avatarv = useRef(null);
     // const phonenumber = useRef(null);
     
@@ -24,45 +22,32 @@ const UpdatePasswordPage = ({match}) => {
     //     });
     // }, []);
 
-    const updatePost = async (old_password, password, password2) => {
-      // console.log(old_password)
-       await api.put( "http://127.0.0.1:8000/accounts/change_password/", 
-       JSON.stringify({
-          "old_password": old_password,
-          "password": password,
-          "password2": password2,
-        }), 
-        {headers: {"Content-Type": "application/json"}}
-        )
-        .then((response) => {
-          // setPost(response.data);
-          navigate("/user-home/")
-        }).catch(error => {
-          console.log(error.response)
-          console.log(error.response.data.password)
-          setErrors(error.response.data)
+    function updatePost() {
+      api.put( "http://127.0.0.1:8000/accounts/change_password/", {
+        old_password: oldpassword.current.value,
+        password: passwordv.current.value,
+        password2: password2v.current.value,
+      
+        
         })
-    };
-
+        .then((response) => {
+          setPost(response.data);
+        });
+    }
     //123456aAs!
     //123456!aA
-    // console.log("postpost",post)
+    console.log("postpost",post)
     // if (!post) return "No post!"
 
     // handleChange = event => {
     //   this.setPost({ first_name:e.target.value});
     // }
     
-    const handleSubmit = async e => {
+    const handleSubmit = async event => {
         // event.preventDefault();
         // updatePost();
         // const first_name = e.target.value;
         console.log("click")
-        e.preventDefault();
-        const old_password = e.target.old_password.value;
-        const password = e.target.password.value;
-        const password2 = e.target.password2.value;
-        await updatePost(old_password, password, password2)
       };
 
     // const handleSubmit = (event) => {
@@ -77,49 +62,44 @@ const UpdatePasswordPage = ({match}) => {
       //   <button onClick={updatePost}>Update Post</button>
       // </div>
         <section>
-           <form onSubmit={handleSubmit} className="flex flex-col items-center">
+           <form onSubmit={handleSubmit}>
            {/* <form> */}
               <h1 className="text-4xl mb-2">Update Password</h1>
-              <hr className="mb-6 w-96 mt-3"/>
+              <hr className="mb-6"/>
               <div>
                 <label htmlFor="old_password">Old Password</label>
                 <input
-                type="password"
+                type="text"
                 id="old_password"
-                // ref = {oldpassword}
+                ref = {oldpassword}
                 // onChange={(e) => {setPost({...post, first_name:e.target.value})}}
                 // onChange={(e) => {setNote({...note, body:e.target.value})}} value={note?.body}
                 // onChange={e => setNote('b')}
                 placeholder="Fill in your old password"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
-                required
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
-              {errors.old_password && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> {errors.old_password.old_password} </p>}
             </div>
             <div>
                 <label htmlFor="password">Password</label>
                 <input
-                type="password"
+                type="text"
                 id="password"
-                // ref = {passwordv}
+                ref = {passwordv}
                 // onChange={(e) => {setPost({...post, first_name:e.target.value})}}
                 // onChange={(e) => {setNote({...note, body:e.target.value})}} value={note?.body}
                 // onChange={e => setNote('b')}
                 placeholder="Fill in your new password"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
-                required
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
-              {errors.password && <p className="block text-red-400 rounded-md px-2 py-1 mb-5"> {errors.password[0]} </p>}
             </div>
             <div>
                 <label htmlFor="password2">Password Check</label>
                 <input
-                type="password"
+                type="text"
                 id="password2"
-                // ref = {password2v}
+                ref = {password2v}
                 placeholder="Fill in your password again"
-                className="block mb-5 w-80 border-b-2 border-gray-800 outline-none p-2"
-                required
+                className="block mb-5 w-full border-b-2 border-gray-800 outline-none p-2"
               />
             </div>
             {/* <div>
@@ -146,8 +126,8 @@ const UpdatePasswordPage = ({match}) => {
             {/* <button onSubmit={updatePost}>Update Post</button> */}
             
             {/* <button className="mt-5 border-2 px-2 py-1 rounded-md border-gray-700 hover:bg-gray-400" type="submit" id="update" onClick={updatePost}>Update</button> */}
-            <button className="border-2 px-2 py-1 hover:bg-gray-100 border-black rounded-md mt-2">Submit</button>
           </form>
+          <button onClick={updatePost}>Update Password</button>
         </section>
     );
   }

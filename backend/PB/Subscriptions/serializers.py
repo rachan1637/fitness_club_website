@@ -31,6 +31,9 @@ class CancelSubscriptionSerializer(serializers.ModelSerializer):
         # if validated_data["cancelled"] == False:
         #     return instance
 
+        #TODO:
+        # Add a logic of deleting/dropping all courses after the valid date whenver the plan is cancelled
+
         instance.cancelled = True
         instance.save()
 

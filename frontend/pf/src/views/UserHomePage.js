@@ -48,11 +48,11 @@ function UserHomePage () {
           </a> */}
           <a href="/course-management/" className="border-gray-400 border-2 px-5 py-5 hover:bg-gray-100"> 
             <p className="text-xl"> Course Management </p>
-            <p className="text-sm mt-2"> View enrolled courses </p>
+            <p className="text-sm mt-2"> View, drop enrolled classes </p>
           </a>
           <a href="/studios-list/" className="border-gray-400 border-2 px-5 py-5 hover:bg-gray-100"> 
             <p className="text-xl"> Course Enrolment </p>
-            <p className="text-sm mt-2"> Select studios, enroll lectures </p>
+            <p className="text-sm mt-2"> Select studios, enroll classes </p>
           </a>
           <a href="/subscription-management/" className="border-gray-400 border-2 px-5 py-5 hover:bg-gray-100"> 
             <p className="text-xl"> Subscription Management </p>

@@ -272,7 +272,9 @@ class Course(models.Model):
                 date_end = dt.datetime.combine(occ.date(), self.end_time.time() ),
                 capacity = self.capacity,
                 name = self.name,
-                coach = self.coach)
+                coach = self.coach,
+                studio_name = self.studio.name
+                )
             cd.save()
             
             # temp9 = calendarDate(cDate = cd.date_start.date())
@@ -310,6 +312,7 @@ class ClassDate(models.Model):
     current_enrolment = models.PositiveIntegerField(default=0)
     name = models.CharField(max_length=200, null = False)
     coach = models.CharField(max_length=200, null = False)
+    studio_name = models.CharField(max_length=200, null = False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

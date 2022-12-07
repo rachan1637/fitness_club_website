@@ -158,12 +158,13 @@ class CourseSerializer(serializers.ModelSerializer):
         
 
 class ClassDateSerializer(serializers.ModelSerializer):
+    # studio_id = StudioSerializer(read_only=True, mapping_fields = (('studio_id', "id")))
     # def get_name_url(self, obj):
     #     return obj
         
     class Meta:
         model = ClassDate
-        fields = ('id', 'studio_id', 'course_id','date_start','date_end','capacity', 'current_enrolment','name', 'coach')
+        fields = ('id', 'studio_id', 'course_id','date_start','date_end','capacity', 'current_enrolment','name', 'coach', "studio_name")
 
 # class DropClassDateSerializer(serializers.ModelSerializer):
 #     drop = serializers.BooleanField(write_only=True, required=True)
@@ -353,7 +354,7 @@ class EnrollSerializer(serializers.ModelSerializer):
         if len(UserSubscription.objects.filter(user=self.context["request"].user)) == 0:
             raise serializers.ValidationError("User hasn't subscribed a plan yet.")
 
-        if dt.datetime.today() > dt.datetime.combine(self.context["request"].user.sub_plan.valid_date, dt.datetime.min.time()):
+        if self.context["request"].user.sub_plan.cancelled and dt.datetime.today() > dt.datetime.combine(self.context["request"].user.sub_plan.valid_date, dt.datetime.min.time()):
             raise serializers.ValidationError("Enrollment unallowed. Subscription plan is cancelled and the valid date has passed.")
 
         if data.current_enrolment >= data.capacity:
@@ -375,7 +376,7 @@ class AddCourseSerializer(serializers.ModelSerializer):
         if len(UserSubscription.objects.filter(user=self.context["request"].user)) == 0:
             raise serializers.ValidationError("User hasn't subscribed a plan yet.")
 
-        if dt.datetime.today() > dt.datetime.combine(self.context["request"].user.sub_plan.valid_date, dt.datetime.min.time()):
+        if self.context["request"].user.sub_plan.cancelled and dt.datetime.today() > dt.datetime.combine(self.context["request"].user.sub_plan.valid_date, dt.datetime.min.time()):
             raise serializers.ValidationError("Enrollment unallowed. Subscription plan is cancelled and the valid date has passed.")
         
         # Get all class based on course code

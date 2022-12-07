@@ -86,7 +86,7 @@ function MyGoolgeMap (props) {
           // onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
         >
           { /* Child components, such as markers, info windows, etc. */ }
-          <Marker position={center} />
+          <Marker animation="DROP" position={center}/>
         </GoogleMap>
       </LoadScript>
     )

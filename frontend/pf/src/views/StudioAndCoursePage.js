@@ -292,14 +292,18 @@ function StudioAndCoursePage() {
     }
     // console.log(coursesInfo[0])
 
-    console.log(coursesInfo)
+    const lat = Number(studioInfo.geographical_location.split(",")[0])
+    const lng = Number(studioInfo.geographical_location.split(",")[1])
 
     return (
         <>
             {/* <StudioInfoBlock studio={studioInfo}/> */}
             <div className="grid grid-cols-2 gap-x-8 divide-x divide-gray-200">
-                <StudioCard studio={studioInfo}/>
-
+                <div>
+                    <StudioCard studio={studioInfo}/>
+                    <br className="my-5"/>
+                    <MyGooleMap state={{lat: lat, lng: lng}}/>
+                </div>
                 {coursesInfo.length === 0 && 
                     <>
                         <div className="text-center">

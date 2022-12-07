@@ -26,7 +26,8 @@ import UpdateProfilePage from "./views/UpdateProfilePage";
 import ViewProfilePage from "./views/ViewProfilePage";
 import UpdatePasswordPage from "./views/UpdatePasswordPage"
 import UserProfileCard from "./templates/UserProfileCard";
-// import UpdateProfilePage from "./views/UpdateProfilePage copy"
+import PaymentHistory from "./templates/PaymentHistoryT";
+import EnrolledClasses from "./templates/EnrollClasses";
 
 function App() {
   return (
@@ -65,6 +66,8 @@ function App() {
               <Route element={<UpdateProfilePage/>} path="/update-profile/" />
               <Route element={<UpdatePasswordPage/>} path="/change-password/" />
               {/* <Route element={<StudioCard/>} path="/studio-card/" /> */}
+
+              <Route element={<EnrolledClasses/>} path="/test/" />
 
               {/* <Route element={<UserProfileCard/>} path="/card-test/"/> */}
             </Route>

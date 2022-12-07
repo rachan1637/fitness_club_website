@@ -32,6 +32,9 @@ import copy
 from django.conf import settings
 from collections import OrderedDict
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size_query_param = 'size'  # items per page
+
 # class DropClassDateView(generics.UpdateAPIView):
 #     queryset = Enroll.objects.all()
 #     permission_classes = (IsAuthenticated, )
@@ -194,7 +197,7 @@ class ClassListView(generics.ListAPIView):
     serializer_class = CourseSerializer
     filterset_fields = ['name','coach',]
     search_fields = ['name','coach',]
-    pagination_class = PageNumberPagination
+    # pagination_class = PageNumberPagination
     def get_queryset(self):
         return Course.objects.filter(studio=Studio.objects.get(id = self.kwargs["pk"])).order_by('start_time')
     
@@ -326,7 +329,7 @@ class DropDateListView(APIView):
     
 class EnrollmentListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPageNumberPagination
     # serializer_class = ClassDateSerializer
     serializer_class = EnrollmentSerializer
 
