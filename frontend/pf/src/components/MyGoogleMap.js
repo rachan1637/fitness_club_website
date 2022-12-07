@@ -4,7 +4,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 
 const containerStyle = {
   width: '500px',
-  height: '500px'
+  height: '600px'
 };
 
 // https://stackoverflow.com/questions/41405343/adding-marker-to-google-maps-in-google-map-react

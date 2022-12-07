@@ -139,7 +139,7 @@ export default function SubscriptionProfileCard(props) {
                     Card Number: {subscriptionProfile.card_number}
                 </Typography>
                 <br/>
-                <Card sx={{mb: 2, mt: 2, ml:3, mr:20, py:1, border:1, borderRadius:"10px", borderColor:"gray"}}>
+                <Card sx={{mb: 2, mt: 2, ml:3, mr:20, pr:3, py:1, border:1, borderRadius:"10px", borderColor:"gray"}}>
                     <Typography variant="body2" sx={{ml: 3}}>
                         No susbcription now. <br/>Do you want to reactive a subscription? 
                     </Typography>

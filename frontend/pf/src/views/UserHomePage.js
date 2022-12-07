@@ -60,13 +60,13 @@ function UserHomePage () {
 
     return (
       <>
-        <p className="mb-5"> Hello User, </p>
-        <div>
+        <p className="mb-5 text-xl"> Hello User, </p>
+        <div className="flex flex-wrap gap-20 justify-center">
           <UserProfileCard userProfile={userProfile}/>
           <SubscriptionProfileCard subscriptionProfile={subscriptionProfile} neverSubscribe={neverSubscribe}/>
         </div>
         <hr className="mt-10 mb-8"/>
-        <div className="flex gap-10 mt-5 flex-wrap">
+        <div className="flex gap-10 mt-5 flex-wrap justify-center">
           {/* <a href="/user-profile/" className="border-gray-400 border-2 px-5 py-5 hover:bg-gray-100"> 
             <p className="text-xl"> Profile </p>
             <p className="text-sm mt-2"> View personal Profile </p>

@@ -153,94 +153,94 @@ function StudioCourses(props) {
   }
 
 
-function CourseCard(props) {
-    const navigate = useNavigate()
+// function CourseCard(props) {
+//     const navigate = useNavigate()
 
-    const course_code = props.course.id
-    const class_link = "/classes/" + props.course.id + "/";
-    // console.log(props.course.start_time)
-    const start_time = props.course.start_time.split("T")[1].substring(0, props.course.start_time.split("T")[1].length-4);
-    const end_time = props.course.end_time.split("T")[1].substring(0, props.course.end_time.split("T")[1].length-4)
-    const schedule_type = props.course.times.match(/RRULE:FREQ=([^;]+)/)[1];
-    let schedule_until = props.course.times.match(/UNTIL=([^T]+)/)[1];
-    schedule_until = schedule_until.substring(0, 4) + "-" + schedule_until.substring(4, 6) + "-" + schedule_until.substring(6,8)
-    let schedule_weekday = props.course.times.match(/BYDAY=([^;]+)/)[1];
-    if (schedule_weekday === "MO") {
-        schedule_weekday = "Monday"
-    } else if (schedule_weekday == "TU") {
-        schedule_weekday = "Tuesday"
-    } else if (schedule_weekday === "WE") {
-        schedule_weekday = "Wednesday" 
-    } else if (schedule_weekday === "TH") {
-        schedule_weekday = "Thursday" 
-    } else if (schedule_weekday === "FR") {
-        schedule_weekday = "Friday" 
-    } else if (schedule_weekday === "SA") {
-        schedule_weekday = "Saturday" 
-    } else if (schedule_weekday === "SU") {
-        schedule_weekday = "Sunday" 
-    } 
+//     const course_code = props.course.id
+//     const class_link = "/classes/" + props.course.id + "/";
+//     // console.log(props.course.start_time)
+//     const start_time = props.course.start_time.split("T")[1].substring(0, props.course.start_time.split("T")[1].length-4);
+//     const end_time = props.course.end_time.split("T")[1].substring(0, props.course.end_time.split("T")[1].length-4)
+//     const schedule_type = props.course.times.match(/RRULE:FREQ=([^;]+)/)[1];
+//     let schedule_until = props.course.times.match(/UNTIL=([^T]+)/)[1];
+//     schedule_until = schedule_until.substring(0, 4) + "-" + schedule_until.substring(4, 6) + "-" + schedule_until.substring(6,8)
+//     let schedule_weekday = props.course.times.match(/BYDAY=([^;]+)/)[1];
+//     if (schedule_weekday === "MO") {
+//         schedule_weekday = "Monday"
+//     } else if (schedule_weekday == "TU") {
+//         schedule_weekday = "Tuesday"
+//     } else if (schedule_weekday === "WE") {
+//         schedule_weekday = "Wednesday" 
+//     } else if (schedule_weekday === "TH") {
+//         schedule_weekday = "Thursday" 
+//     } else if (schedule_weekday === "FR") {
+//         schedule_weekday = "Friday" 
+//     } else if (schedule_weekday === "SA") {
+//         schedule_weekday = "Saturday" 
+//     } else if (schedule_weekday === "SU") {
+//         schedule_weekday = "Sunday" 
+//     } 
 
-    const enrollCourse = async () => {
-        await props.api.post(
-            `http://localhost:8000/studios/enroll_class/`,
-            JSON.stringify({ "course_code":  course_code}),
-            {headers: {"Content-Type": "application/json"}}
-        ).then(
-            response => {
-                console.log(response.data)
-                navigate("/course-management/")
-            }
-        ).catch(
-            errors => {
-                console.log(errors)
-                props.setError(errors.response.data[0])
+//     const enrollCourse = async () => {
+//         await props.api.post(
+//             `http://localhost:8000/studios/enroll_class/`,
+//             JSON.stringify({ "course_code":  course_code}),
+//             {headers: {"Content-Type": "application/json"}}
+//         ).then(
+//             response => {
+//                 console.log(response.data)
+//                 navigate("/course-management/")
+//             }
+//         ).catch(
+//             errors => {
+//                 console.log(errors)
+//                 props.setError(errors.response.data[0])
                 
-            }
-        )
-    }
+//             }
+//         )
+//     }
 
-    return (
-            <Card
-            sx={{ height: '100%', width: "80%"}}
-            >
-            <CardContent sx={{ flexGrow: 1, }}>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {props.course.name}
-                </Typography>
-                <Typography>
-                    Coach: {props.course.coach}
-                </Typography>
-                <Typography>
-                    Description: {props.course.description}
-                </Typography>
-                <Typography>
-                    Course Size: {props.course.capacity} 
-                </Typography>
-                <Typography>
-                    Time: {start_time + "-" + end_time + ", every " + schedule_weekday}
-                </Typography>
-                <Typography>
-                    Schedule: {"Hold " + schedule_type + ", until " + schedule_until}
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="large" onClick={enrollCourse}>Enroll all classes</Button>
-            </CardActions>
-            <CardActions>
-                <Button size="large" href={class_link}>View and enroll one of the classes</Button>
-            </CardActions>
-            </Card>
-    )
-}
+//     return (
+//             <Card
+//             sx={{ height: '100%', width: "80%"}}
+//             >
+//             <CardContent sx={{ flexGrow: 1, }}>
+//                 <Typography gutterBottom variant="h5" component="h2">
+//                     {props.course.name}
+//                 </Typography>
+//                 <Typography>
+//                     Coach: {props.course.coach}
+//                 </Typography>
+//                 <Typography>
+//                     Description: {props.course.description}
+//                 </Typography>
+//                 <Typography>
+//                     Course Size: {props.course.capacity} 
+//                 </Typography>
+//                 <Typography>
+//                     Time: {start_time + "-" + end_time + ", every " + schedule_weekday}
+//                 </Typography>
+//                 <Typography>
+//                     Schedule: {"Hold " + schedule_type + ", until " + schedule_until}
+//                 </Typography>
+//             </CardContent>
+//             <CardActions>
+//                 <Button size="large" onClick={enrollCourse}>Enroll all classes</Button>
+//             </CardActions>
+//             <CardActions>
+//                 <Button size="large" href={class_link}>View and enroll one of the classes</Button>
+//             </CardActions>
+//             </Card>
+//     )
+// }
 
 function StudioCard(props) {
     const studio = props.studio
-    console.log(studio.studio_images[0].images)
+    // console.log(studio.studio_images[0].images)
     return (
         <>
             <Card
-            sx={{ height: '100%', width: "80%"}}
+            sx={{ height: '100%', width: "50%"}}
             >
             <CardMedia
                 component="img"
@@ -340,7 +340,7 @@ function StudioAndCoursePage() {
 
     return (
         <>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap gap-10">
             <StudioCard studio={studioInfo}/>
             <MyGooleMap state={{lat: lat, lng:lng}}/>
         </div>
