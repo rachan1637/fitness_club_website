@@ -5,15 +5,9 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
 import {useNavigate} from "react-router-dom"
@@ -43,10 +37,10 @@ export default function UserProfileCard(props) {
     }
 
   return (
-    <Card sx={{ maxWidth: 500, border:1, borderRadius:"10px" }}>
+    <Card sx={{ maxWidth: 400, border:1, borderRadius:"10px" }}>
       <CardHeader
         avatar={
-          <Avatar src={userProfile.avatar} sx={{width: 50, height:50}}/>
+          <Avatar src={userProfile.avatar} sx={{width: 60, height:60}}/>
         }
         titleTypographyProps={{variant:'h5'}}
         title={userProfile.user.username}
@@ -75,13 +69,13 @@ export default function UserProfileCard(props) {
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={navigateUpdateProfile}>
           <AccountCircleIcon />
-          <Typography variant="body1" color="text.secondary" sx={{ml: 1}}>
+          <Typography variant="body2" color="text.secondary" sx={{ml: 1}}>
             Update Profile
           </Typography>
         </IconButton>
         <IconButton aria-label="share" onClick={navigateChangePassword}>
           <PasswordIcon />
-          <Typography variant="body1" color="text.secondary" sx={{ml: 1}}>
+          <Typography variant="body2" color="text.secondary" sx={{ml: 1}}>
             Update Password
           </Typography>
         </IconButton>

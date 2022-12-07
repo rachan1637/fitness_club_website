@@ -214,7 +214,7 @@ function ListStudiosPage() {
 
   const getStudios = async (page) => {
     await api
-      .get(`http://localhost:8000/studios/list_studios/?page=${page}`)
+      .get(`http://localhost:8000/studios/list_studios/?page=${page}&size=3`)
       .then((response) => {
         setStudios(response.data.results);
         setPage(page);

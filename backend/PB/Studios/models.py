@@ -259,6 +259,15 @@ class Course(models.Model):
         if len(ClassDate.objects.filter(course_id=self.id)) != 0:
             for c in ClassDate.objects.filter(course_id=self.id):
                 c.delete()
+                # c.studio_id = self.studio.id,
+                # c.course_id = self.id,
+                # c.date_start = dt.datetime.combine(occ.date(), self.start_time.time()),
+                # c.date_end = dt.datetime.combine(occ.date(), self.end_time.time() ),
+                # c.capacity = self.capacity,
+                # c.name = self.name,
+                # c.coach = self.coach,
+                # c.studio_name = self.studio.name
+                # c.save()
     
         for idx, occ in enumerate(occ_list):
             # Enrollment.objects.create(**validated_data)
@@ -277,19 +286,6 @@ class Course(models.Model):
                 )
             cd.save()
             
-            # temp9 = calendarDate(cDate = cd.date_start.date())
-            # temp9.save()
-            # # temp29 = Course.objects.filter(pk = self.course_id, studio_id = self.studio_id)
-        
-            # aspecial = calendarDate.objects.get(cDate = cd.date_start.date())
-            # # print('in ClassDate: self.date_start.date()',self.date_start.date())
-            # # print('temp29', temp29)
-            # # print('aspecial',aspecial)
-            # # print('temp29[0].clendarDates', temp29[0].calendarDate2.all())
-            # self.calendarDate2.add(aspecial)
-            # if aspecial not in self.calendarDate2.all():
-            #     print('idkkkkkkkkkkkk')
-            # print('!!!!', temp29[0].calendarDate2.all()) 
             
             
         temp = className(classNames = self.name)

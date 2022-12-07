@@ -52,7 +52,7 @@ class StudioListApiView(generics.ListAPIView):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializer
     permission_classes = (IsAuthenticated,)
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPageNumberPagination
     # def get(self, request, *args, **kwargs):
     #     studioList = Studio.objects
     #     serializer = StudioSerializer(studioList, many = True, context={"request": request})
@@ -178,7 +178,7 @@ class UpdateSpecificLocation(generics.UpdateAPIView):
 class ClassDateListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ClassDateSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):
         return ClassDate.objects.filter(
@@ -187,6 +187,7 @@ class ClassDateListView(generics.ListAPIView):
 
 class ClassListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = CustomPageNumberPagination
     
     # queryset = Course.objects.all()
     # for i in queryset:
@@ -394,7 +395,7 @@ class EnrollmentListView(generics.ListAPIView):
 
 class HistoryListView2(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPageNumberPagination
     serializer_class = EnrollmentSerializer
 
     def get_queryset(self):

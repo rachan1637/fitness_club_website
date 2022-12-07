@@ -14,6 +14,8 @@ from .serializers import (
     UserSubscriptionSerializer,
 )
 from rest_framework.pagination import PageNumberPagination
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size_query_param = 'size'  # items per page
 
 class CustomPageNumberPagination(PageNumberPagination):
     page_size_query_param = 'size'  # items per page
@@ -76,3 +78,4 @@ class UserSubscribeView(generics.CreateAPIView):
 class AllSubscriptionview(generics.ListAPIView):
     queryset = SubscriptionPlan.objects.all()
     serializer_class = SubscriptionPlanSerializer
+    pagination_class = CustomPageNumberPagination

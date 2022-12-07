@@ -27,7 +27,7 @@ function FillCardInfoPage() {
                 ),
                 {headers: {"Content-Type": "application/json"}}
             ).then(() => {
-                navigate("/subscription-management/");
+                navigate("/user-home/");
             }).catch( errors => {
                 setErrors(errors.response.data);
             })
@@ -45,7 +45,7 @@ function FillCardInfoPage() {
                     ),
                     {headers: {"Content-Type": "application/json"}}
                 ).then( () => {
-                    navigate("/subscription-management/");
+                    navigate("/user-home/");
                 }).catch( errors => {
                     setErrors(errors.response.data);
                 })
@@ -62,7 +62,7 @@ function FillCardInfoPage() {
                     ),
                     {headers: {"Content-Type": "application/json"}}
                 ).then( () => {
-                    navigate("/subscription-management/");
+                    navigate("/user-home/");
                 }).catch( errors => {
                     setErrors(errors.response.data);
                 })

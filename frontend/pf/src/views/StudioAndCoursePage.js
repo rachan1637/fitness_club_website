@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import useAxios from "../utils/useAxios";
 import CourseManagementPage from "./CourseManagementPage";
@@ -15,11 +15,143 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import PropTypes from 'prop-types';
+import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 // import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { requirePropFactory } from "@mui/material";
+
+
+function Title(props) {
+    return (
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>
+        {props.children}
+      </Typography>
+    );
+  }
+
+
+function StudioCourses(props) {
+    const api = useAxios();
+    // const drop_id = props.class.id
+    // const date = props.class.classDate.date_start.split("T")[0].substring(0, 10);
+    // const start_time = props.class.classDate.date_start.split("T")[1].substring(0, props.class.classDate.date_start.split("T")[1].length-4);
+    // const end_time = props.class.classDate.date_end.split("T")[1].substring(0, props.class.classDate.date_end.split("T")[1].length-4)
+  
+    // const name = props.class.classdate.name
+    // const coach = props.class.classDate.coach
+    const navigate = useNavigate()
+    const rows = props.coursesInfo
+    // console.log(rows)
+  
+    // const rows = props.payments
+    // const goNext = props.goNext
+    // const goPrev = props.goPrev
+    const getScheduleWeekday = (schedule_weekday) => {
+        if (schedule_weekday === "MO") {
+            schedule_weekday = "Monday"
+        } else if (schedule_weekday == "TU") {
+            schedule_weekday = "Tuesday"
+        } else if (schedule_weekday === "WE") {
+            schedule_weekday = "Wednesday" 
+        } else if (schedule_weekday === "TH") {
+            schedule_weekday = "Thursday" 
+        } else if (schedule_weekday === "FR") {
+            schedule_weekday = "Friday" 
+        } else if (schedule_weekday === "SA") {
+            schedule_weekday = "Saturday" 
+        } else if (schedule_weekday === "SU") {
+            schedule_weekday = "Sunday" 
+        }
+        return schedule_weekday
+    }
+
+    const getScheduleUntil = (schedule_until) => {
+        schedule_until = schedule_until.substring(0, 4) + "-" + schedule_until.substring(4, 6) + "-" + schedule_until.substring(6,8)
+        return schedule_until
+    }
+
+    return (
+      <React.Fragment>
+        <Card sx={{px: 5, py: 5}}>
+        <Title>Provided Courses</Title>
+        <Typography>Total Number of courses: {props.count}</Typography>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Coach</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Course Size</TableCell>
+              <TableCell>Time</TableCell>
+              <TableCell>Schedule at</TableCell>
+              <TableCell>Frequency</TableCell>
+              <TableCell>Scehdule Until</TableCell>
+              <TableCell>Enroll all classes?</TableCell>
+              <TableCell>View and Enroll one class?</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow>
+                <TableCell>
+                    {row.name}
+                </TableCell>
+                <TableCell>
+                  {row.coach}
+                </TableCell>
+                <TableCell>{row.description}</TableCell>
+                <TableCell>{row.capacity}</TableCell>
+                {/* <TableCell>{row.capacity}</TableCell>
+                <TableCell>{}</TableCell> */}
+                <TableCell>{
+                    row.start_time.split("T")[1].substring(0, row.start_time.split("T")[1].length-4) + 
+                    "-" + 
+                    row.end_time.split("T")[1].substring(0, row.end_time.split("T")[1].length-4)
+                }</TableCell>
+                <TableCell>{getScheduleWeekday(row.times.match(/BYDAY=([^;]+)/)[1])}</TableCell>
+                <TableCell>{row.times.match(/RRULE:FREQ=([^;]+)/)[1]}</TableCell>
+                <TableCell>{getScheduleUntil(row.times.match(/UNTIL=([^T]+)/)[1])}</TableCell>
+                <TableCell><Button size="small" variant="outlined" onClick={ async () => {
+                    await api.post(
+                        `http://localhost:8000/studios/enroll_class/`,
+                        JSON.stringify({ "course_code":  row.id}),
+                        {headers: {"Content-Type": "application/json"}}
+                    ).then(
+                        response => {
+                            console.log(response.data)
+                            navigate("/course-management/")
+                        }
+                    ).catch(
+                        errors => {
+                            console.log(errors)
+                            props.setError(errors.response.data[0])
+                            
+                        }
+                    )
+                }
+                }>Enroll</Button></TableCell>
+                <TableCell><Button  size="small" variant="outlined" onClick={()=>{navigate(`/classes/${row.id}/`)}}>View</Button></TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div className='mt-3'></div>
+        <Button onClick={props.goPrev} sx={{ mt: 3, border:1, mr: 2}} size="small">
+          Prev
+        </Button>
+        <Button onClick={props.goNext} sx={{ mt: 3, border:1}} size="small">
+          Next
+        </Button>
+        </Card>
+      </React.Fragment>
+    );
+  }
+
 
 function CourseCard(props) {
     const navigate = useNavigate()
@@ -142,97 +274,6 @@ function StudioCard(props) {
 }
 
 
-// function StudioInfoBlock(props) {
-//     // console.log(props.studio.geographical_location.split(",")[1])
-//     const lat = Number(props.studio.geographical_location.split(",")[0])
-//     const lng = Number(props.studio.geographical_location.split(",")[1])
-//     return (
-//         <>
-//             <div className="my-5">
-//                 <h1 className="text-2xl"> {props.studio.name} Studio </h1>
-//                 <p> Studio Address: {props.studio.address} </p>
-//                 <p> Phone number: {props.studio.phone_number} </p>
-//                 {/* <p> Loaction:  {props.studio.geographical_location} </p> */}
-//                 <p> Postal Code: {props.studio.postal_code} </p>
-//                 <a href={props.studio.url} className="underline"> Click here to get the direction. </a>
-
-//                 <MyGooleMap state={{lat: lat, lng: lng}}/>
-//                 {/* <p> Images: </p>
-//                 {props.studio_images.map((image,index) => <a href={`${image.images}`}> Attachment{index} </a>)} */}
-//             </div>
-//         </>
-//     )
-// }
-
-function CourseInfoBlock(props) {
-    const navigate = useNavigate()
-
-    const course_code = props.course.id
-    const class_link = "/classes/" + props.course.id + "/";
-    // console.log(props.course.start_time)
-    const start_time = props.course.start_time.split("T")[1].substring(0, props.course.start_time.split("T")[1].length-4);
-    const end_time = props.course.end_time.split("T")[1].substring(0, props.course.end_time.split("T")[1].length-4)
-    const schedule_type = props.course.times.match(/RRULE:FREQ=([^;]+)/)[1];
-    let schedule_until = props.course.times.match(/UNTIL=([^T]+)/)[1];
-    schedule_until = schedule_until.substring(0, 4) + "-" + schedule_until.substring(4, 6) + "-" + schedule_until.substring(6,8)
-    let schedule_weekday = props.course.times.match(/BYDAY=([^;]+)/)[1];
-    if (schedule_weekday === "MO") {
-        schedule_weekday = "Monday"
-    } else if (schedule_weekday == "TU") {
-        schedule_weekday = "Tuesday"
-    } else if (schedule_weekday === "WE") {
-        schedule_weekday = "Wednesday" 
-    } else if (schedule_weekday === "TH") {
-        schedule_weekday = "Thursday" 
-    } else if (schedule_weekday === "FR") {
-        schedule_weekday = "Friday" 
-    } else if (schedule_weekday === "SA") {
-        schedule_weekday = "Saturday" 
-    } else if (schedule_weekday === "SU") {
-        schedule_weekday = "Sunday" 
-    } 
-
-    const enrollCourse = async () => {
-
-        await props.api.post(
-            `http://localhost:8000/studios/enroll_class/`,
-            JSON.stringify({ "course_code":  course_code}),
-            {headers: {"Content-Type": "application/json"}}
-        ).then(
-            response => {
-                console.log(response.data)
-                navigate("/course-management/")
-            }
-        ).catch(
-            errors => {
-                console.log(errors)
-                props.setError(errors.response.data[0])
-                
-            }
-        )
-    }
-
-    // console.log(start_time, end_time, schedule_type, schedule_until, schedule_weekday);
-
-    return (
-        <>
-                <div className="text-center border-2 px-4 py-6 mb-3 rounded-xl">
-                    <h1 className="text-2xl"> {props.course.name} </h1>
-                    <p> Coach: {props.course.coach} </p>
-                    <p> Description: {props.course.description} </p>
-                    <p> Capacity:  {props.course.capacity} </p>
-                    <p> From {start_time} to {end_time}, every {schedule_weekday} </p>
-                    <p> The lecture is hold {schedule_type}, until {schedule_until} </p>
-                    <div className="mt-5">
-                        <button onClick={enrollCourse} className="mb-3 hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md"> Enroll all lectures </button>
-                        <br/>
-                        <Link className="hover:bg-gray-100 border-blue-400 border-2 px-2 py-1 rounded-md" to={class_link}> View and enroll one lecture </Link>
-                    </div>
-                </div>
-        </>
-    )
-}
-
 function StudioAndCoursePage() {
     const api = useAxios();
     const { studio_id } = useParams()
@@ -241,6 +282,7 @@ function StudioAndCoursePage() {
     const [page, setPage]  = useState(1)
     const [coursesInfo, setCoursesInfo] = useState([])
     const [error, setError] = useState("")
+    const [count, setCount] = useState(0)
 
     const getStudioInfo = async () => {
         await api.get(
@@ -260,7 +302,7 @@ function StudioAndCoursePage() {
 
     const getCourseInfo = async (page) => {
         await api.get(
-            `http://localhost:8000/studios/list_classes/studio/${studio_id}/?page=${page}`,
+            `http://localhost:8000/studios/list_classes/studio/${studio_id}/?page=${page}&size=5`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {
@@ -268,6 +310,7 @@ function StudioAndCoursePage() {
                 // console.log(response.data)
                 setPage(page);
                 setCoursesInfo(response.data.results)
+                setCount(response.data.count)
             }
         ).catch(
             error => {
@@ -297,65 +340,71 @@ function StudioAndCoursePage() {
 
     return (
         <>
-            {/* <StudioInfoBlock studio={studioInfo}/> */}
-            <div className="grid grid-cols-2 gap-x-8 divide-x divide-gray-200">
-                <div>
-                    <StudioCard studio={studioInfo}/>
-                    <br className="my-5"/>
-                    <MyGooleMap state={{lat: lat, lng: lng}}/>
-                </div>
-                {coursesInfo.length === 0 && 
-                    <>
-                        <div className="text-center">
-                            <p> There are currently no courses provided at this studio.</p>
-                            <div className="">
-                                <p className="mt-10 mb-3">  Do you want to see other Studios? </p>
-                                <Link to="/studios-list/" className="border-2 border-blue-500 px-2 py-1 hover:bg-gray-100 rounded-md"> Back to Studios Overview</Link>
-                            </div>
-                        </div>
-                    </>
-                }
-
-                <div className="flex flex-col">
-                    {coursesInfo.map((course) => (
-                    <CourseCard course={course} api={api} setError={setError}/>
-                    ))}
-                    {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
-                    <div className="flex gap-3 my-5">
-                        <button className="border-2 border-black px-2 py-1 ml-auto rounded-md" onClick={() => getCourseInfo(page - 1)}>
-                        Previous
-                        </button>
-                    <button className="border-2 border-black px-2 py-1 mr-auto rounded-md"  onClick={() => getCourseInfo(page + 1)}> Next </button>
-                    </div>
-                </div>
-            </div>
-            {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
-
-
-            
-            {/* <hr className="my-10"/>
-            {coursesInfo.length === 0 && 
+        <div className="flex flex-wrap">
+            <StudioCard studio={studioInfo}/>
+            <MyGooleMap state={{lat: lat, lng:lng}}/>
+        </div>
+        <hr className="my-5"/>
+        {coursesInfo.length === 0 && 
             <>
                 <div className="text-center">
-                    <p className="mb-5"> There are currently no courses provided at this studio. Do you want to see other Studios?</p>
-                    <Link to="/studios-list/" className="border-2 border-blue-500 px-2 py-1 hover:bg-gray-100 rounded-md"> Back to Studios Overview</Link>
+                    <p> There are currently no courses provided at this studio.</p>
+                    <div className="">
+                        <p className="mt-10 mb-3">  Do you want to see other Studios? </p>
+                        <Link to="/studios-list/" className="border-2 border-blue-500 px-2 py-1 hover:bg-gray-100 rounded-md"> Back to Studios Overview</Link>
+                    </div>
                 </div>
             </>
-            }
-            <div className="flex gap-10 text-center my-5 justify-center">
-                {coursesInfo.map((course) => (
-                <CourseInfoBlock course={course} api={api} setError={setError}/>
-                ))}
-            </div>
-            {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
-            <div className="flex gap-3 my-5">
-                <button className="border-2 border-black px-2 py-1 ml-auto rounded-md" onClick={() => getCourseInfo(page - 1)}>
-                Previous
-                </button>
-                <button className="border-2 border-black px-2 py-1 mr-auto rounded-md"  onClick={() => getCourseInfo(page + 1)}> Next </button>
-            </div> */}
+        }
+        <StudioCourses 
+        coursesInfo={coursesInfo} 
+        count={count} 
+        goNext={() => getCourseInfo(page + 1)} 
+        goPrev={() => getCourseInfo(page - 1)}
+        setError={setError}
+        />
+        {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
         </>
     )
+
+
+
+    // return (
+    //     <>
+    //         <div className="grid grid-cols-2 gap-x-8 divide-x divide-gray-200">
+    //             <div>
+    //                 <StudioCard studio={studioInfo}/>
+    //                 <br className="my-5"/>
+    //                 <MyGooleMap state={{lat: lat, lng: lng}}/>
+    //             </div>
+    //             {coursesInfo.length === 0 && 
+    //                 <>
+    //                     <div className="text-center">
+    //                         <p> There are currently no courses provided at this studio.</p>
+    //                         <div className="">
+    //                             <p className="mt-10 mb-3">  Do you want to see other Studios? </p>
+    //                             <Link to="/studios-list/" className="border-2 border-blue-500 px-2 py-1 hover:bg-gray-100 rounded-md"> Back to Studios Overview</Link>
+    //                         </div>
+    //                     </div>
+    //                 </>
+    //             }
+
+    //             <div className="flex flex-col">
+    //                 {coursesInfo.map((course) => (
+    //                 <CourseCard course={course} api={api} setError={setError}/>
+    //                 ))}
+    //                 {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
+    //                 <div className="flex gap-3 my-5">
+    //                     <button className="border-2 border-black px-2 py-1 ml-auto rounded-md" onClick={() => getCourseInfo(page - 1)}>
+    //                     Previous
+    //                     </button>
+    //                 <button className="border-2 border-black px-2 py-1 mr-auto rounded-md"  onClick={() => getCourseInfo(page + 1)}> Next </button>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //         {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
+    // </>
+    // )
 }
 
 export default StudioAndCoursePage

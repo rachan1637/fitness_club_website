@@ -32,7 +32,11 @@ function SubscriptionProfileBlock(props) {
                 { props.subscriptionProfile.cancelled && 
                     <>
                         <p className="mb-5"> No susbcription now. Do you want to reactive a subscription? </p>
-                        <Link to="/plan-selection/" className="border-2 px-2 py-2 border-black rounded-lg" state={{ neverSubscribe: false, reactivate: true }}>Reactivate</Link>
+                        <Link 
+                        to="/plan-selection/" 
+                        className="border-2 px-2 py-2 border-black rounded-lg" 
+                        state={{ neverSubscribe: false, reactivate: true }}>
+                        Reactivate</Link>
                     </>
                 }
                 <div>
@@ -42,8 +46,15 @@ function SubscriptionProfileBlock(props) {
                 { !props.subscriptionProfile.cancelled &&
                     <>
                         <div className="flex gap-10 justify-center">
-                            <Link to="/fill-card-info/" className="underline hover:text-blue-500" state={{ neverSubscribe: false, reactivate: false }}>Update Credit Card Information</Link>
-                            <Link to="/plan-selection/" className="underline hover:text-blue-500" state={{ neverSubscribe: false, reactivate: false }}>Update Subscription Plan</Link>
+                            <Link 
+                            to="/fill-card-info/" 
+                            className="underline 
+                            hover:text-blue-500" 
+                            state={{ neverSubscribe: false, reactivate: false }}>Update Credit Card Information</Link>
+                            <Link 
+                            to="/plan-selection/" 
+                            className="underline hover:text-blue-500" 
+                            state={{ neverSubscribe: false, reactivate: false }}>Update Subscription Plan</Link>
                             <button onClick={cancel_subscription} className="underline hover:text-blue-500">Cancel Subscription</button>
                         </div>
                     </>

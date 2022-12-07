@@ -19,15 +19,16 @@ import SubscriptionManagementPage from "./views/SubscriptionManagementPage"
 import PlanSelectionPage from "./views/PlanSelectionPage";
 import FillCardInfoPage from "./views/FillCardInfoPage";
 import CourseHistoryPage from "./views/CourseHistoryPage";
-import Pricing from "./templates/PlanSelectionPageT";
+import Pricing from "./templates/PlanPricingHome";
 // import StudioCardT from "./templates/StudioCardT";
 import Home from "./home_template/Home"
 import UpdateProfilePage from "./views/UpdateProfilePage";
 import ViewProfilePage from "./views/ViewProfilePage";
 import UpdatePasswordPage from "./views/UpdatePasswordPage"
-import UserProfileCard from "./templates/UserProfileCard";
-import PaymentHistory from "./templates/PaymentHistoryT";
+// import UserProfileCard from "./templates/UserProfileCard";
+// import PaymentHistory from "./templates/PaymentHistoryT";
 import EnrolledClasses from "./templates/EnrollClasses";
+import SubscriptionProfileCard from "./templates/SubscriptionProfileCard";
 
 function App() {
   return (
@@ -67,7 +68,7 @@ function App() {
               <Route element={<UpdatePasswordPage/>} path="/change-password/" />
               {/* <Route element={<StudioCard/>} path="/studio-card/" /> */}
 
-              <Route element={<EnrolledClasses/>} path="/test/" />
+              <Route element={<SubscriptionProfileCard/>} path="/test/" />
 
               {/* <Route element={<UserProfileCard/>} path="/card-test/"/> */}
             </Route>

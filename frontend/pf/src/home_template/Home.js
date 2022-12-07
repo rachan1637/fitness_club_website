@@ -8,7 +8,7 @@ import ProductHowItWorks from './modules/views/ProductHowItWorks';
 import ProductCTA from './modules/views/ProductCTA';
 import AppAppBar from './modules/views/AppAppBar';
 import withRoot from './modules/withRoot';
-import Pricing from "../templates/PlanSelectionPageT";
+import Pricing from "../templates/PlanPricingHome";
 import Box from "@mui/material/Box"
 
 function Index() {

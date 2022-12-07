@@ -57,7 +57,7 @@ const tiers = [
     title: '6 Months Plan',
     price: '30',
     description: [
-      'Accessible to all Studios',
+      'Accessible to all studios',
       '2 classes per day',
       '20 classes per month',
     ],

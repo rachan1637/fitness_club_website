@@ -31,6 +31,7 @@ function EnrolledClasses(props) {
     // const name = props.class.classdate.name
     // const coach = props.class.classDate.coach
     const rows = props.enrolled_classes
+    const [error, setError] = useState("")
     // console.log(rows)
   
     // const rows = props.payments
@@ -40,6 +41,7 @@ function EnrolledClasses(props) {
       <React.Fragment>
         <Card sx={{px: 5, py: 5}}>
         <Title>Enrolled Classes</Title>
+        <Typography>Total Number of enrolled classes: {props.count}</Typography>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -48,7 +50,7 @@ function EnrolledClasses(props) {
               <TableCell>Name</TableCell>
               <TableCell>Coach</TableCell>
               <TableCell>Studio</TableCell>
-              <TableCell align="right">Drop</TableCell>
+              <TableCell align="right">Drop this class</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -77,7 +79,7 @@ function EnrolledClasses(props) {
                     ).catch(
                         errors => {
                             console.log(errors)
-                            props.setError(errors.response.data[0])
+                            setError(errors.response.data[0])
                         }
                     )
                 
@@ -96,6 +98,7 @@ function EnrolledClasses(props) {
         <Button onClick={props.goNext} sx={{ mt: 3, border:1}} size="small">
           Next
         </Button>
+        {error && <p className="text-red-500 rounded-md my-5"> Fail to drop: {error}</p> }
         </Card>
       </React.Fragment>
     );
@@ -167,8 +170,9 @@ function CourseManagementPage() {
   const [enrolled_classes, setEnrolledClasses] = useState([])
   const [ page, setPage ] = useState(1)
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ error, setError ] = useState("")
+//   const [ error, setError ] = useState("")
   const [ neverSubscribe, setNeverSubscribe ] = useState(false)
+  const [ count, setCount ] = useState(0)
   const api = useAxios();
 
   const getSubscriptionStatus = async () => {
@@ -201,6 +205,7 @@ function CourseManagementPage() {
             // console.log(response.data)
             setPage(page)
             setEnrolledClasses(response.data.results)
+            setCount(response.data.count)
         }
     ).catch(
         error => {
@@ -229,28 +234,17 @@ function CourseManagementPage() {
 
     return (
         <div>
-        <p> Enrolled Class List, </p>
-        <hr className="mt-3 mb-10"/>
         {/* <div className="flex gap-10">
             { enrolled_classes.map( (enrolled_class) => (
                 <EnrolledClassBlock class={enrolled_class} api={api} getEnrolledClasses={getEnrolledClasses} page={page} setError={setError}/>
             ))}
         </div> */}
-        {   enrolled_classes.length === 0 ?
-            // <div className="flex gap-3 my-5">
-            //     <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg " onClick={() => getEnrolledClasses(page - 1)}>
-            //     Previous
-            //     </button>
-            //     <button className="border-2 border-black px-2 py-1 mr-auto rounded-lg"  onClick={() => getEnrolledClasses(page + 1)}> Next </button>
-            // </div>:
-            <div>
-                <p> You are not enrolled in any class</p>
-            </div>:
-            <>
-                <EnrolledClasses enrolled_classes={enrolled_classes} setError={setError} goNext={() => getEnrolledClasses(page + 1)} goPrev={() => getEnrolledClasses(page - 1)}/>
-                {error && <p className="text-red-500 rounded-md my-5"> Fail to drop: {error}</p> }
-            </>
-        }
+        <EnrolledClasses 
+        enrolled_classes={enrolled_classes} 
+        goNext={() => getEnrolledClasses(page + 1)} 
+        goPrev={() => getEnrolledClasses(page - 1)}
+        count={count}
+        />
     
         <hr className="my-10"/>
         { !subscription_status &&
