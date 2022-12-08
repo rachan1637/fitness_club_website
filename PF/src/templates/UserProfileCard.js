@@ -82,16 +82,16 @@ export default function UserProfileCard(props) {
       /> */}
       <CardContent>
         <Typography variant="body2" sx={{ml: 1, mb:1}}>
-            Email: {userProfile.email !== "" ? userProfile.email : "(You don't have a first name, why not add it?)"}
+            Email: {userProfile.email !== "" ? userProfile.email : "(empty)"}
           </Typography>
           <Typography variant="body2" sx={{ml: 1, mb:1}}>
-            First Name: {userProfile.first_name !== "" ? userProfile.first_name : "(You don't have a first name, why not add it?)"}
+            First Name: {userProfile.first_name !== "" ? userProfile.first_name : "(empty)"}
           </Typography>
           <Typography variant="body2" sx={{ml: 1, mb:1}}>
-            Last Name: {userProfile.last_name !== "" ? userProfile.last_name : "(Add your name!!!)"}
+            Last Name: {userProfile.last_name !== "" ? userProfile.last_name : "(empty)"}
           </Typography>
           <Typography variant="body2" sx={{ml: 1, mb:1}}>
-            Phone Number: {userProfile.phone_number !== "" ? userProfile.phone_number : "(No phone number...)"}
+            Phone Number: {userProfile.phone_number !== "" ? userProfile.phone_number : "(empty)"}
           </Typography>
       </CardContent>
       <CardActions disableSpacing>

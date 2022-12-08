@@ -466,7 +466,9 @@ class HistoryListView2(generics.ListAPIView):
     serializer_class = EnrollmentSerializer
 
     def get_queryset(self):
-        enrollmentList = Enroll.objects.filter(user = self.request.user.id, enrollDate__date_end__lt = dt.datetime.now())
+        enrollmentList = Enroll.objects.filter(user = self.request.user, enrollDate__date_end__lt = dt.datetime.now())
+
+        print(Enroll.objects.filter(user=self.request.user))
 
         start_time_dict = {}
         for enroll in enrollmentList:
@@ -576,7 +578,8 @@ class HistoryListView(APIView):
 #         return Response(status = status.HTTP_200_OK)
 
 class filterDateView(generics.ListAPIView):
-    serializer_class = CourseSerializer
+    # serializer_class = CourseSerializer
+    serializer_class = ClassDateSerializer
     pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):

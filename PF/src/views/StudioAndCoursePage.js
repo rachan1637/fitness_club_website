@@ -149,6 +149,7 @@ export function StudioCourses(props) {
             <Button onClick={goNext} sx={{ mt: 3, border:1}} size="small">
             Next
             </Button>
+            {/* <p>{props.page}</p> */}
         </Card>
       </React.Fragment>
     );
@@ -357,22 +358,27 @@ function StudioAndCoursePage() {
                 <div className="text-center">
                     <p> There are currently no courses provided at this studio.</p>
                     <div className="">
-                        <p className="mt-10 mb-3">  Do you want to see other Studios? </p>
+                        <p className="mt-3 mb-3">  Do you want to see other Studios? </p>
                         <Link to="/studios-list/" className="border-2 border-blue-500 px-2 py-1 hover:bg-gray-100 rounded-md"> Back to Studios Overview</Link>
                     </div>
                 </div>
             </>
         }
-        <StudioCourses 
-        coursesInfo={coursesInfo} 
-        count={count} 
-        goNext={() => getCourseInfo(page + 1)} 
-        goPrev={() => getCourseInfo(page - 1)}
-        setError={setError}
-        />
-        {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
-        <br className="mt-5"/>
-        <Link className="ml-3 underline hover:text-blue-500" to={`/studio-class-info/${studio_id}/search/`}> Do you want to enroll class by search and filter?</Link>
+        {coursesInfo.length !== 0 &&
+            <>
+            <StudioCourses 
+            coursesInfo={coursesInfo} 
+            count={count} 
+            goNext={() => getCourseInfo(page + 1)} 
+            goPrev={() => getCourseInfo(page - 1)}
+            setError={setError}
+            page={page}
+            />
+            {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
+            <br className="mt-5"/>
+            <Link className="ml-3 underline hover:text-blue-500" to={`/studio-class-info/${studio_id}/search/`}> Do you want to enroll class by search and filter?</Link>
+            </>
+        }
         </>
     )
 

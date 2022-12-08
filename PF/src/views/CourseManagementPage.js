@@ -70,7 +70,7 @@ function EnrolledCourses(props) {
   return (
     <React.Fragment>
       <Card sx={{px: 5, py: 5}}>
-      <Title>Provided Courses</Title>
+      <Title>Enrolled Courses</Title>
       <Typography>Total Number of Enrolled Courses: {count}</Typography>
       <Table size="small">
         <TableHead>
@@ -172,6 +172,7 @@ function EnrolledClasses(props) {
               <TableCell>Name</TableCell>
               <TableCell>Coach</TableCell>
               <TableCell>Studio</TableCell>
+              <TableCell>Size</TableCell>
               <TableCell>Drop?</TableCell>
             </TableRow>
           </TableHead>
@@ -188,6 +189,7 @@ function EnrolledClasses(props) {
                 <TableCell>{row.classDate.name}</TableCell>
                 <TableCell>{row.classDate.coach}</TableCell>
                 <TableCell>{row.classDate.studio_name}</TableCell>
+                <TableCell>{row.classDate.current_enrolment + "/" + row.classDate.capacity}</TableCell>
                 <TableCell><Button size="small" variant="outlined" onClick={ async () => {
                   const drop_id = row.id
                   await api.post(

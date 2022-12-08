@@ -138,6 +138,19 @@ class ReactivateCancelledSubscriptionSerializer(serializers.ModelSerializer):
         # if validated_data["cancelled"] == True:
         #     return instance
 
+        # Add all dropped courses after valid date back
+        dropped_enroll = Enroll.objects.filter(user=instance.user, is_dropped=True)
+        for drop in dropped_enroll:
+            if drop.enrollDate.date_start.replace(tzinfo=None) > datetime.datetime.combine(instance.user.sub_plan.valid_date, datetime.datetime.min.time()):
+                drop.enrollDate.current_enrolment += 1
+                drop.enrollDate.save()
+
+                Enroll.objects.create(
+                    user = self.context['request'].user,
+                    enrollDate = drop.enrollDate,
+                )
+
+
         today = datetime.date.today()
         plan = SubscriptionPlan.objects.get(pk=validated_data["plan_code"])
 

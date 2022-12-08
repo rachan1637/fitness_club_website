@@ -58,21 +58,23 @@ function StudioClasses(props) {
     return (
       <React.Fragment>
         <Card sx={{px: 5, py: 5}}>
-        <Title>Provided Courses</Title>
+        <Title>Provided Classes</Title>
         <Typography>Total Number of classes: {props.count}</Typography>
         <Table size="small">
           <TableHead>
             <TableRow>
+              <TableCell>Name</TableCell>
               <TableCell>Coach</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Time</TableCell>
-              <TableCell>Enrollment Number</TableCell>
+              <TableCell>Enrollment Number</TableCell> 
               <TableCell>Enroll?</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
               <TableRow>
+                <TableCell>{row.name}</TableCell>
                 <TableCell>
                     {row.coach}
                 </TableCell>
