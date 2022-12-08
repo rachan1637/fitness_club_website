@@ -95,3 +95,5 @@ class ClassDateAdmin(admin.ModelAdmin):
 
 # admin.site.register(Drop)
 admin.site.register(CourseKeyWord)
+admin.site.register(Enroll)
+admin.site.register(Drop)

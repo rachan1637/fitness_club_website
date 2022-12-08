@@ -1,14 +1,14 @@
 venv/
-backend/PB/Accounts/__pycache__/
-backend/PB/Accounts/migrations/__pycache__/
+PB/PB/Accounts/__pycache__/
+PB/PB/Accounts/migrations/__pycache__/
 # backend/PB/Accounts/migrations/*.py
-backend/PB/Studios/__pycache__/
-backend/PB/Studios/migrations/__pycache__/
+PB/PB/Studios/__pycache__/
+PB/PB/Studios/migrations/__pycache__/
 # backend/PB/Studios/migrations/*.py
-backend/PB/Subscriptions/__pycache__/
-backend/PB/Subscriptions/migrations/__pycache__/
+PB/PB/Subscriptions/__pycache__/
+PB/PB/Subscriptions/migrations/__pycache__/
 # backend/PB/Subscriptions/migrations/*.py
-backend/PB/PB/__pycache__/
-backend/PB/db.sqlite3
-backend/PB/venv
-frontend/pf/node_modules
+PB/PB/PB/__pycache__/
+PB/PB/db.sqlite3
+PB/PB/venv
+PF/node_modules

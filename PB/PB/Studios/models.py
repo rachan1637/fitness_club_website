@@ -12,6 +12,8 @@ from math import sin, cos, sqrt, atan2, radians
 from recurrence.fields import RecurrenceField
 import datetime as dt
 from django.core.exceptions import ValidationError
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 # Create your models here.
 
 # def image_upload_location(instance,imagename):
@@ -225,6 +227,8 @@ class Course(models.Model):
         return self.name
 
     def delete(self, *args, **kwargs):
+        # print(ClassDate.objects.filter(course_id=self.id))
+        # print(self.id)
         for c in ClassDate.objects.filter(course_id=self.id):
             c.delete()
         
@@ -298,7 +302,13 @@ class Course(models.Model):
         temp2[0].classes.add(a[0].id)
         b = coachName.objects.filter(coachNames = self.coach)
         temp2[0].coaches.add(b[0].id)
-        
+
+
+@receiver(pre_delete, sender=Course)
+def signal_function_name(sender, instance, using, **kwargs):
+    for c in ClassDate.objects.filter(course_id=instance.id):
+        c.delete()
+
 class ClassDate(models.Model):
     studio_id = models.PositiveIntegerField()
     course_id = models.PositiveIntegerField()
