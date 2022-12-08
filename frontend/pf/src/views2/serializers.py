@@ -62,7 +62,7 @@ class StudioSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Studio
-        fields = ('id', 'name', 'address', 'geographical_location', 'postal_code', 'phone_number','studio_images','distance','amenities')
+        fields = ('id', 'name', 'address', 'geographical_location', 'postal_code', 'phone_number','studio_images','distance','amenities', 'classes','coaches')
         # ordering = ('distance',)
         # ordering = ['phone_number']
 

@@ -3,7 +3,7 @@ import { useGeolocated } from "react-geolocated";
 import AuthContext from "../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import useAxios from "../utils/useAxios";
-// import { useGeolocation } from "react-use";
+import { useGeolocation } from "react-use";
 // import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
@@ -161,9 +161,6 @@ function ListStudiosPage() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [inputVal, setVal] = useState('');
-  const [searchResult, setSearchResult] = useState()
-
   const getLocation = async () => {
     const location = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -215,14 +212,12 @@ function ListStudiosPage() {
     }
   };
 
-  const getStudios = async (page, inputVal) => {
+  const getStudios = async (page) => {
     await api
-      .get(`http://localhost:8000/studios/list_studios_search/?page=${page}&search=${inputVal}`)
+      .get(`http://localhost:8000/studios/list_studios/?page=${page}`)
       .then((response) => {
         setStudios(response.data.results);
         setPage(page);
-        setSearchResult(response.data.results);
-        // setVal(inputVal)
         // console.log(response.data.next)
         // console.log('studios', response.data)
       })
@@ -231,21 +226,16 @@ function ListStudiosPage() {
       });
   };
 
- 
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       await getLocation();
-      await getStudios(page,inputVal);
+      await getStudios(page);
 
       setIsLoading(false);
     };
     fetchData();
-  }, [inputVal]);
-
-  console.log('searchResult',searchResult)
-  console.log('inputVal',inputVal)
+  }, []);
 
   // console.log(studios.results.length)
 
@@ -255,16 +245,35 @@ function ListStudiosPage() {
 
   return (
     <>
+      {/* <p className="text-center"> View more details by clicking each block! </p>
+      <hr className="my-5"/>
+      <div className="flex gap-10 text-center justify-center">
+        {studios.map((studio) => (
+          <StudioIntroBlock studio={studio} />
+        ))}
+      </div> */}
       <StudioCards studios={studios}/>
 
 
       <div className="flex gap-3 my-5">
-      <input type="search" placeholder="Search..." value={inputVal} onChange={(e) => getStudios(page, setVal(e.target.value))} />
-        <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg" onClick={() => getStudios(page - 1,inputVal)}>
+        <button className="border-2 border-black px-2 py-1 ml-auto rounded-lg" onClick={() => getStudios(page - 1)}>
           Previous
         </button>
-        <button className="border-2 border-black px-2 py-1 mr-auto rounded-lg"  onClick={() => getStudios(page + 1, inputVal)}> Next </button>
+        <button className="border-2 border-black px-2 py-1 mr-auto rounded-lg"  onClick={() => getStudios(page + 1)}> Next </button>
+        {/* <button className="border-2 border-black px-2 py-1 mr-auto rounded-lg"  onClick={() => getStudios(page + 1)}> Next </button> */}
+        <a href="/studios-list/search/" className="border-2 border-black px-2 py-1 mr-auto rounded-lg"> 
+            
+            <p className="text-sm mt-2"> Search </p>
+          </a>
       </div>
+      {/* <StudioPageBlock count={studios.count} next={studios.next} previous={studios.previous} results={studios.results} /> */}
+      {/* {
+                studios.map((studio) => {
+                    return <StudioIntroBlock name={studio.name} address={studio.address} phone_number={studio.phone_number} distance={studio.distance} id={studio.id}/>
+                }
+                )
+            } */}
+      {/* {render_studios()} */}
     </>
   );
 }

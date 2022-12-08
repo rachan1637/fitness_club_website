@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import SubscriptionPlan, UserSubscription, Payment
 import datetime
 from dateutil.relativedelta import relativedelta
+from Studios.models import Enroll, Drop
 
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,6 +34,13 @@ class CancelSubscriptionSerializer(serializers.ModelSerializer):
 
         #TODO:
         # Add a logic of deleting/dropping all courses after the valid date whenver the plan is cancelled
+        unvalid_enrolled = Enroll.objects.filter(
+            user=self.context["request"].user,
+            enrollDate__date_start__gte = self.context["request"].user.sub_plan.valid_date,
+        )
+
+        for enrolled in unvalid_enrolled:
+            enrolled.delete()
 
         instance.cancelled = True
         instance.save()
@@ -165,6 +173,10 @@ class CreateUserSubscriptionSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if not SubscriptionPlan.objects.filter(pk=attrs["plan_code"]).exists():
             raise serializers.ValidationError({"plan": "This subscription plan doesn't exist."})
+        
+        # print(datetime.datetime.strptime("%Y-%m-%d", attrs["card_expiry"]).date())
+        if attrs["card_expiry"] < datetime.datetime.today().date():
+            raise serializers.ValidationError({"card_expiry": "Please pay with a credit card that is not expired."})
 
         return attrs
     

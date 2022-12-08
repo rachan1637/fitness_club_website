@@ -35,7 +35,7 @@ function Title(props) {
   }
 
 
-function StudioCourses(props) {
+export function StudioCourses(props) {
     const api = useAxios();
     // const drop_id = props.class.id
     // const date = props.class.classDate.date_start.split("T")[0].substring(0, 10);
@@ -141,12 +141,13 @@ function StudioCourses(props) {
           </TableBody>
         </Table>
         <div className='mt-3'></div>
-        <Button onClick={props.goPrev} sx={{ mt: 3, border:1, mr: 2}} size="small">
-          Prev
-        </Button>
-        <Button onClick={props.goNext} sx={{ mt: 3, border:1}} size="small">
-          Next
-        </Button>
+            <Button onClick={props.goPrev} sx={{ mt: 3, border:1, mr: 2}} style={{marginLeft: "auto"}}  size="small">
+            Prev
+            </Button>
+            <Button onClick={props.goNext} sx={{ mt: 3, border:1}} size="small">
+            Next
+            </Button>
+
         </Card>
       </React.Fragment>
     );

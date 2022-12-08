@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework import permissions
-from .models import Studio, ImageAttachment, Location,Course,Enroll,Drop, ClassDate, Amenitie
+from .models import Studio, ImageAttachment, Location,Course,Enroll,Drop, ClassDate,Amenitie
 from .serializers import (
     StudioSerializer, 
     ImageSerializer, 
@@ -15,8 +15,8 @@ from .serializers import (
     AddCourseSerializer, 
     DropCourseSerializer, 
     ClassDateSerializer,
-    EnrollmentSerializer,
     AmenetiesSerializer,
+    
     # DropClassDateSerializer
 )
 from rest_framework.parsers import FileUploadParser, MultiPartParser
@@ -25,17 +25,19 @@ from location_field.models.plain import PlainLocationField
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import GenericAPIView
 from rest_framework import filters
-from rest_framework.pagination import PageNumberPagination
+# from rest_framework.pagination import PageNumberPagination
+from PB.pagination import CustomPagination
+from django.core.paginator import Paginator
+from rest_framework import pagination
+from django.http import HttpResponse
 import datetime as dt
 from datetime import timedelta
 import ast
 import copy
 from django.conf import settings
 from collections import OrderedDict
-from django.db.models import Case, When
 
-class CustomPageNumberPagination(PageNumberPagination):
-    page_size_query_param = 'size'  # items per page
+# Create your views here.
 
 # class DropClassDateView(generics.UpdateAPIView):
 #     queryset = Enroll.objects.all()
@@ -44,12 +46,12 @@ class CustomPageNumberPagination(PageNumberPagination):
 
     # def get_queryset(self):
     #     return Enroll.objects.filter(user=self.request.user)
+# class LargeResultsSetPagination(PageNumberPagination):
+#     page_size = 1
+#     page_size_query_param = 'page_size'
+#     max_page_size = 2
 
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 1
-    # page_size_query_param = 'page_size'
-    # max_page_size = 2
-
+    
 class StudioListALLApiView(generics.ListAPIView):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializer
@@ -62,11 +64,13 @@ class StudioListALLApiView(generics.ListAPIView):
         # print(sortedData)
         return Response(sortedData, status = status.HTTP_200_OK)
     
+
+    
 class StudioListApiView(generics.ListAPIView):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializer
     permission_classes = (IsAuthenticated,)
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPagination
     # def get(self, request, *args, **kwargs):
     #     studioList = Studio.objects
     #     serializer = StudioSerializer(studioList, many = True, context={"request": request})
@@ -128,10 +132,11 @@ class StudioSearchListApiView(generics.ListAPIView):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = CustomPagination
     # filter_backends = [filters.OrderingFilter,DjangoFilterBackend,filters.SearchFilter]
     filter_backends = [DjangoFilterBackend,filters.SearchFilter]
-    pagination_class = CustomPageNumberPagination
 
+    # filterset_fields = ['name','amenities','classes', 'coaches']
     filterset_fields = ['name','amenities__Amname','classes__classNames', 'coaches__coachNames']
     search_fields = ['name','amenities__Amname','classes__classNames', 'coaches__coachNames']
     # ordering_fields = ['distance',]
@@ -190,21 +195,9 @@ class UpdateSpecificLocation(generics.UpdateAPIView):
         return Location.objects.filter(user=self.request.user)[0]
     
 
-class ClassDateListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = ClassDateSerializer
-    pagination_class = CustomPageNumberPagination
-
-    def get_queryset(self):
-        return ClassDate.objects.filter(
-            course_id=self.kwargs["pk"],
-            date_start__gte = dt.datetime.now()
-        ).order_by('date_start')
-    
 
 class ClassListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    pagination_class = CustomPageNumberPagination
     
     # queryset = Course.objects.all()
     # for i in queryset:
@@ -215,19 +208,9 @@ class ClassListView(generics.ListAPIView):
     serializer_class = CourseSerializer
     filterset_fields = ['name','coach',]
     search_fields = ['name','coach',]
-
+    pagination_class = CustomPagination
     def get_queryset(self):
-        courses = Course.objects.filter(
-            studio=Studio.objects.get(id = self.kwargs["pk"]),
-        ).order_by('start_time')
-
-        c_list = []
-        for course in courses:
-            if course.times.rrules[0].until.replace(tzinfo=None) > dt.datetime.today():
-                c_list.append(course.id)
-        
-        return Course.objects.filter(id__in=c_list)
-
+        return Course.objects.filter(studio=Studio.objects.get(id = self.kwargs["pk"])).order_by('start_time')
     
     
     # def get_queryset(self):
@@ -340,32 +323,14 @@ class DropDateListView(APIView):
         return Response(serializer.data, status = status.HTTP_200_OK)
     
 
-
-# class EnrollmentView(generics.CreateAPIView):
-#     permission_classes = [permissions.IsAuthenticated]
-#     serializer_class = EnrollmentSerializer
-#     queryset = Enrollment.objects.all()
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-#     # print(list(queryset))
-
-     
-
-
-        data2['results'] = sorted(data2['results'], key = lambda k:k['distance'])
-        return Response(data2, status = status.HTTP_200_OK)
-    
 class EnrollmentListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    pagination_class = CustomPageNumberPagination
-    # serializer_class = ClassDateSerializer
-    serializer_class = EnrollmentSerializer
-
+    pagination_class = CustomPagination
+    serializer_class = ClassDateSerializer
     def get_queryset(self):
         # enrollmentList = Enroll.objects.filter(user = request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now()+timedelta(days=8))
         enrollmentList = Enroll.objects.filter(user = self.request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now())
         # serializer = EnrollSerializer(enrollmentList, many = True)
-        return enrollmentList
         
         results = []
         for obj1 in enrollmentList:
@@ -419,27 +384,7 @@ class EnrollmentListView(generics.ListAPIView):
 
 #         # print(data2)
 #         return Response(data2, status = status.HTTP_200_OK)
-
-class HistoryListView2(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    pagination_class = CustomPageNumberPagination
-    serializer_class = EnrollmentSerializer
-
-    def get_queryset(self):
-        enrollmentList = Enroll.objects.filter(user = self.request.user.id, enrollDate__date_end__lt = dt.datetime.now())
-
-        start_time_dict = {}
-        for enroll in enrollmentList:
-            start_time_dict[enroll.id] = enroll.enrollDate.date_start
-
-        sorted_id = list(dict(sorted(start_time_dict.items(), key=lambda item : item[1], reverse=False)).keys())
-        
-        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_id)])
-        queryset = Enroll.objects.filter(pk__in=sorted_id).order_by(preserved)
-
-        return queryset
-
-
+    
 class HistoryListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
@@ -537,8 +482,6 @@ class HistoryListView(APIView):
 
 class filterDateView(generics.ListAPIView):
     serializer_class = CourseSerializer
-    pagination_class = CustomPageNumberPagination
-
     def get_queryset(self):
         filterDate = self.kwargs['filterDate']
         filterDate_startT_str = filterDate + " 00:00:00"
@@ -553,7 +496,6 @@ class filterDateView(generics.ListAPIView):
         
 class filterTimeRangeView(generics.ListAPIView):
     serializer_class = CourseSerializer
-    pagination_class = CustomPageNumberPagination
     def get_queryset(self):
         filterstartT_str = self.kwargs['filterstart']
         filterendT_str = self.kwargs['filterend']
@@ -574,38 +516,12 @@ class filterTimeRangeView(generics.ListAPIView):
                     
         
         return Course.objects.filter(id__in = course_id_li )
-
-
-class ClassListAllView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = CourseSerializer
-    pagination_class = None
-    def get_queryset(self):
-        courses =  Course.objects.filter(studio=Studio.objects.get(id = self.kwargs["pk"])).order_by('start_time')
-
-        c_list = []
-        for course in courses:
-            if course.times.rrules[0].until.replace(tzinfo=None) > dt.datetime.today():
-                c_list.append(course.id)
-        
-        return Course.objects.filter(id__in=c_list)
-
-
-
-class CourseListALLApiView(generics.ListAPIView):
+    
+class ClassListALLApiView(generics.ListAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = (IsAuthenticated,)
     pagination_class = None
-
-    def get_queryset(self):
-        c_list = []
-        for course in Course.objects.all():
-            if course.times.rrules[0].until.replace(tzinfo=None) > dt.datetime.today():
-                c_list.append(course.id)
-        
-        return Course.objects.filter(id__in=c_list)
-
 
 
 class AmenityListALLApiView(generics.ListAPIView):

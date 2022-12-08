@@ -52,6 +52,11 @@ function MyGoolgeMap (props) {
   // const { handleGoogleApiLoaded } = useMarker(center);
   const [isLoading, setIsLoading] = useState(true)
 
+  const options = useMemo(() => ({
+    disableDefaultUI: true,
+    clickableIcons: false
+  }), [])
+
   const renderMarkers = (map, maps) => {
       let marker = new maps.Marker({
       position: center,
@@ -81,12 +86,13 @@ function MyGoolgeMap (props) {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={16}
+          // options={options}
           // onLoad={onLoad}
           // yesIWantToUseGoogleMapApiInternals
           // onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
         >
           { /* Child components, such as markers, info windows, etc. */ }
-          <Marker animation="DROP" position={center}/>
+          <Marker position={center}/>
         </GoogleMap>
       </LoadScript>
     )

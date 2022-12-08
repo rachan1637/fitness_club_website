@@ -258,34 +258,34 @@ class Course(models.Model):
         # for each occ
         if len(ClassDate.objects.filter(course_id=self.id)) != 0:
             for c in ClassDate.objects.filter(course_id=self.id):
-                c.delete()
-                # c.studio_id = self.studio.id,
-                # c.course_id = self.id,
-                # c.date_start = dt.datetime.combine(occ.date(), self.start_time.time()),
-                # c.date_end = dt.datetime.combine(occ.date(), self.end_time.time() ),
-                # c.capacity = self.capacity,
-                # c.name = self.name,
-                # c.coach = self.coach,
-                # c.studio_name = self.studio.name
-                # c.save()
-    
-        for idx, occ in enumerate(occ_list):
-            # Enrollment.objects.create(**validated_data)
-            print('idx',idx, 'occ.date', occ.date())
-            print('idx',idx, 'self.start_time.time()', self.start_time.time())
-            print('idx',idx, 'dt.datetime.combine(occ.date(), self.start_time.time()', dt.datetime.combine(occ.date(), self.start_time.time()))
-            cd= ClassDate(
-                studio_id = self.studio.id, 
-                course_id = self.id, 
-                date_start = dt.datetime.combine(occ.date(), self.start_time.time()),
-                date_end = dt.datetime.combine(occ.date(), self.end_time.time() ),
-                capacity = self.capacity,
-                name = self.name,
-                coach = self.coach,
-                studio_name = self.studio.name
-                )
-            cd.save()
-            
+                # c.delete()
+                c.studio_id = self.studio.id
+                c.course_id = self.id
+                c.date_start = dt.datetime.combine(c.date_start.date(), self.start_time.time())
+                c.date_end = dt.datetime.combine(c.date_end.date(), self.end_time.time())
+                c.capacity = self.capacity
+                c.name = self.name
+                c.coach = self.coach
+                c.studio_name = self.studio.name
+                c.save()
+        else:
+            for idx, occ in enumerate(occ_list):
+                # Enrollment.objects.create(**validated_data)
+                print('idx',idx, 'occ.date', occ.date())
+                print('idx',idx, 'self.start_time.time()', self.start_time.time())
+                print('idx',idx, 'dt.datetime.combine(occ.date(), self.start_time.time()', dt.datetime.combine(occ.date(), self.start_time.time()))
+                cd= ClassDate(
+                    studio_id = self.studio.id, 
+                    course_id = self.id, 
+                    date_start = dt.datetime.combine(occ.date(), self.start_time.time()),
+                    date_end = dt.datetime.combine(occ.date(), self.end_time.time() ),
+                    capacity = self.capacity,
+                    name = self.name,
+                    coach = self.coach,
+                    studio_name = self.studio.name
+                    )
+                cd.save()
+                
             
             
         temp = className(classNames = self.name)

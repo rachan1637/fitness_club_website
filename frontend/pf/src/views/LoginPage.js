@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 const LoginPage = () => {
+  console.log(AuthContext)
   const { loginUser, errors } = useContext(AuthContext);
   const handleSubmit = e => {
     e.preventDefault();

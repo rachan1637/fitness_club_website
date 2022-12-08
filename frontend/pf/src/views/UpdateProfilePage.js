@@ -33,7 +33,7 @@ const UpdateProfilePage = ({match}) => {
     const updatePost = async (form_data) => {
       console.log(form_data);
 
-      await api.put( "http://127.0.0.1:8000/accounts/update_profile/", 
+      await api.put("http://127.0.0.1:8000/accounts/update_profile/", 
         form_data, 
         // {headers: {"Content-Type": "application/json"}}
         )

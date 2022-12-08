@@ -29,6 +29,8 @@ import UpdatePasswordPage from "./views/UpdatePasswordPage"
 // import PaymentHistory from "./templates/PaymentHistoryT";
 import EnrolledClasses from "./templates/EnrollClasses";
 import SubscriptionProfileCard from "./templates/SubscriptionProfileCard";
+import ListStudiosPageSearch from "./views/ListStudiosPageSearch";
+import ClassListSearchPage from "./views/ClassListSearchPage";
 
 function App() {
   return (
@@ -68,7 +70,8 @@ function App() {
               <Route element={<UpdatePasswordPage/>} path="/change-password/" />
               {/* <Route element={<StudioCard/>} path="/studio-card/" /> */}
 
-              <Route element={<SubscriptionProfileCard/>} path="/test/" />
+              <Route element={<ClassListSearchPage/>} path="/studio-class-info/:studio_id/search/" />
+              <Route element={<ListStudiosPageSearch/>} path="/studios-list/search/" />
 
               {/* <Route element={<UserProfileCard/>} path="/card-test/"/> */}
             </Route>
