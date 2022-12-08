@@ -31,7 +31,7 @@ function Title(props) {
   }
 
 
-function StudioClasses(props) {
+export function StudioClasses(props) {
     const api = useAxios();
     const navigate = useNavigate()
     const rows = props.classes
@@ -40,7 +40,7 @@ function StudioClasses(props) {
     return (
       <React.Fragment>
         <Card sx={{px: 5, py: 5}}>
-        <Title>Provided Courses</Title>
+        <Title>Provided Classes</Title>
         <Typography>Total Number of classes: {props.count}</Typography>
         <Table size="small">
           <TableHead>
@@ -157,7 +157,6 @@ function ClassesPage() {
     const [page, setPage] = useState(1)
     const [error, setError] = useState("")
     const [count, setCount] = useState(0)
-    // const [nextPage, set]
 
     const getClasses = async (page) => {
         await api.get(

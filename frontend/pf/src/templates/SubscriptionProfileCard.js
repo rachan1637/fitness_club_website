@@ -2,7 +2,7 @@ import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -35,9 +35,11 @@ import useAxios from '../utils/useAxios';
 export default function SubscriptionProfileCard(props) {
     const navigate = useNavigate()
     const api = useAxios();
-    
-    const subscriptionProfile = props.subscriptionProfile
-    const neverSubscribe = props.neverSubscribe
+
+    const [neverSubscribe, setNeverSubcribe] = useState(false);
+    const [subscriptionProfile, setSubscriptionProfile] = useState({})
+
+    const [isLoading, setIsLoading] = useState(true)
 
     const cancel_subscription = async () => {
         await api.put(
@@ -51,6 +53,36 @@ export default function SubscriptionProfileCard(props) {
         }).catch( errors => {
             console.log(errors.response)
         })
+    }
+
+    const getSubscriptionProfile = async () => {
+      await api.get(
+          `http://localhost:8000/subscriptions/view_subscription/`,
+          {headers: {"Content-Type": "application/json"}}
+      ).then(
+          response => {
+              // console.log(response.data)
+              setSubscriptionProfile(response.data)
+          }
+      ).catch(
+          error => {
+              setNeverSubcribe(true)
+              console.log(error.response)
+          }
+      )
+  }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        setIsLoading(true)
+        await getSubscriptionProfile();
+        setIsLoading(false)
+      }
+      fetchData()
+    }, [])
+
+    if (isLoading) {
+      return (<p> Still Loading... </p>)
     }
 
   return (

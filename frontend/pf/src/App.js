@@ -28,9 +28,12 @@ import UpdatePasswordPage from "./views/UpdatePasswordPage"
 // import UserProfileCard from "./templates/UserProfileCard";
 // import PaymentHistory from "./templates/PaymentHistoryT";
 import EnrolledClasses from "./templates/EnrollClasses";
-import SubscriptionProfileCard from "./templates/SubscriptionProfileCard";
 import ListStudiosPageSearch from "./views/ListStudiosPageSearch";
 import ClassListSearchPage from "./views/ClassListSearchPage";
+import UserProfileCard from "./templates/UserProfileCard";
+import SubscriptionProfileCard from "./templates/SubscriptionProfileCard";
+
+
 
 function App() {
   return (
@@ -54,7 +57,7 @@ function App() {
               <Route element={<UserHomePage/>} path="/user-home/"/>
               {/* <Route element={<ProtectedPage/>} path="/protected/" exact /> */}
               <Route element={<CourseManagementPage/>} path="/course-management/"/>
-              <Route element={<ListStudiosPage/>} path = "/studios-list/"/>
+              <Route element={<ListStudiosPageSearch/>} path = "/studios-list/"/>
               <Route element={<StudioAndCoursePage/>} path = "/studio-info/:studio_id/"/>
               <Route element={<PaymentHistoryPage/>} path = "/payment-history/"/>
               <Route element={<ClassesPage/>} path="/classes/:course_id/"/>
@@ -65,13 +68,15 @@ function App() {
               <Route element={<PaymentHistoryPage/>} path="/payment-history/"/>
               <Route element={<CourseHistoryPage/>} path="/course-history/"/>
 
-              <Route element={<ViewProfilePage/>} path="/user-profile/" />
+              {/* <Route element={<ViewProfilePage/>} path="/user-profile/" /> */}
               <Route element={<UpdateProfilePage/>} path="/update-profile/" />
               <Route element={<UpdatePasswordPage/>} path="/change-password/" />
               {/* <Route element={<StudioCard/>} path="/studio-card/" /> */}
 
               <Route element={<ClassListSearchPage/>} path="/studio-class-info/:studio_id/search/" />
-              <Route element={<ListStudiosPageSearch/>} path="/studios-list/search/" />
+              <Route element={<UserProfileCard/>} path="/user-profile/"/>
+              <Route element={<SubscriptionProfileCard/>} path="/subscription-profile/"/>
+              {/* <Route element={<ListStudiosPageSearch/>} path="/studios-list/search/" /> */}
 
               {/* <Route element={<UserProfileCard/>} path="/card-test/"/> */}
             </Route>

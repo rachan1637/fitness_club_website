@@ -9,45 +9,11 @@ import SubscriptionProfileCard from "../templates/SubscriptionProfileCard";
 function UserHomePage () {
     const api = useAxios();
     // result
-    const [userProfile, setUserProfile] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [neverSubscribe, setNeverSubcribe] = useState(false);
-    const [subscriptionProfile, setSubscriptionProfile] = useState({})
-
-    const getSubscriptionProfile = async () => {
-      await api.get(
-          `http://localhost:8000/subscriptions/view_subscription/`,
-          {headers: {"Content-Type": "application/json"}}
-      ).then(
-          response => {
-              // console.log(response.data)
-              setSubscriptionProfile(response.data)
-          }
-      ).catch(
-          error => {
-              setNeverSubcribe(true)
-              console.log(error.response)
-          }
-      )
-  }
-
-    const getUserProfile = async () => {
-      await api.get(
-        "http://localhost:8000/accounts/view_profile/", 
-        { headers: { "Content-Type": "application/json" } }
-      ).then((response) => {
-        console.log(response.data)
-        setUserProfile(response.data)
-      }).catch((error) => {
-        console.log(error.response)
-      })
-    }
 
     useEffect(() => {
       const fetchData = async () => {
         setIsLoading(true)
-        await getUserProfile();
-        await getSubscriptionProfile();
         setIsLoading(false)
       }
       fetchData()
@@ -62,8 +28,8 @@ function UserHomePage () {
       <>
         <p className="mb-5 text-xl"> Hello User, </p>
         <div className="flex flex-wrap gap-20 justify-center">
-          <UserProfileCard userProfile={userProfile}/>
-          <SubscriptionProfileCard subscriptionProfile={subscriptionProfile} neverSubscribe={neverSubscribe}/>
+          <UserProfileCard/>
+          <SubscriptionProfileCard/>
         </div>
         <hr className="mt-10 mb-8"/>
         <div className="flex gap-10 mt-5 flex-wrap justify-center">
@@ -76,7 +42,7 @@ function UserHomePage () {
             <p className="text-sm mt-2"> View, drop enrolled classes </p>
           </a>
           <a href="/studios-list/" className="border-gray-400 border-2 px-5 py-5 hover:bg-gray-100"> 
-            <p className="text-xl"> Course Enrolment </p>
+            <p className="text-xl"> Course Enrollment </p>
             <p className="text-sm mt-2"> Select studios, enroll classes </p>
           </a>
           {/* <a href="/subscription-management/" className="border-gray-400 border-2 px-5 py-5 hover:bg-gray-100"> 

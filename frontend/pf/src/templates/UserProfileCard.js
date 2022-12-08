@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
 import {useNavigate} from "react-router-dom"
+import useAxios from '../utils/useAxios';
 
 const userProfile = {
     user: {
@@ -25,8 +26,10 @@ const userProfile = {
 
 
 export default function UserProfileCard(props) {
+    const api = useAxios()
     const navigate = useNavigate()
-    const userProfile = props.userProfile
+    const [userProfile, setUserProfile] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigateUpdateProfile = () => {
         navigate("/update-profile/")
@@ -34,6 +37,31 @@ export default function UserProfileCard(props) {
 
     const navigateChangePassword = () => {
         navigate("/change-password/")
+    }
+    
+    const getUserProfile = async () => {
+      await api.get(
+        "http://localhost:8000/accounts/view_profile/", 
+        { headers: { "Content-Type": "application/json" } }
+      ).then((response) => {
+        console.log(response.data)
+        setUserProfile(response.data)
+      }).catch((error) => {
+        console.log(error.response)
+      })
+    }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        setIsLoading(true)
+        await getUserProfile();
+        setIsLoading(false)
+      }
+      fetchData()
+    }, [])
+
+    if (isLoading) {
+      return (<p> Still Loading... </p>)
     }
 
   return (

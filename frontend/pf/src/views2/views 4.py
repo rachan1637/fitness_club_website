@@ -228,7 +228,6 @@ class ClassListView(generics.ListAPIView):
         
         return Course.objects.filter(id__in=c_list)
 
-    
 class ClassListViewSchedule(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     pagination_class = CustomPageNumberPagination
@@ -251,6 +250,7 @@ class ClassListViewSchedule(generics.ListAPIView):
             if classi.date_end.replace(tzinfo=None) > dt.datetime.today():
                 c_list.append(classi.id)
         return ClassDate.objects.filter(id__in = c_list)
+
 
     
     
@@ -560,7 +560,8 @@ class HistoryListView(APIView):
 #         return Response(status = status.HTTP_200_OK)
 
 class filterDateView(generics.ListAPIView):
-    serializer_class = CourseSerializer
+    # serializer_class = CourseSerializer
+    serializer_class = ClassDateSerializer
     pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):
@@ -572,9 +573,9 @@ class filterDateView(generics.ListAPIView):
         returnlist=[]
         cdf = ClassDate.objects.filter(studio_id = self.kwargs['pk'], date_start__gte = filterDate_startT, date_start__lte = filterDate_endT )
         return cdf
-        # for cd in cdf:
-        #     returnlist.append(cd.course_id)
-        # return Course.objects.filter(id__in = returnlist )
+        for cd in cdf:
+            returnlist.append(cd.course_id)
+        return Course.objects.filter(id__in = returnlist )
         
 class filterTimeRangeView(generics.ListAPIView):
     # serializer_class = CourseSerializer

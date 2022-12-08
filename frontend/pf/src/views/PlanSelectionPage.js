@@ -226,7 +226,7 @@ function PlanSelectionPage() {
                     <PlanBlock plan={plan} neverSubscribe={neverSubscribe} reactivate={reactivate} api={api}/>
                 ))}
             </div> */}
-            {neverSubscribe &&
+            {/* {neverSubscribe &&
                 <>
                 <div className="text-center mt-10">
                     <p> Note: You never subscribe a plan or cancel it before. </p>
@@ -241,7 +241,7 @@ function PlanSelectionPage() {
                         <p> If you want to use another credit card, please update your credit card first. </p>
                     </div>
                     </>
-                }
+                } */}
         </>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, Link} from "react-router-dom"
 import useAxios from "../utils/useAxios";
 import CourseManagementPage from "./CourseManagementPage";
 import MyGooleMap from "../components/MyGoogleMap"
@@ -147,7 +147,6 @@ export function StudioCourses(props) {
             <Button onClick={props.goNext} sx={{ mt: 3, border:1}} size="small">
             Next
             </Button>
-
         </Card>
       </React.Fragment>
     );
@@ -237,6 +236,7 @@ export function StudioCourses(props) {
 
 function StudioCard(props) {
     const studio = props.studio
+    const [imageCount, setImageCount] = useState(0)
     // console.log(studio.studio_images[0].images)
     return (
         <>
@@ -249,8 +249,12 @@ function StudioCard(props) {
                 // 16:9
                 pt: '0%',
                 }}
-                image={"http://localhost:8000" + studio.studio_images[0].images}
+                image={"http://localhost:8000" + studio.studio_images[imageCount].images}
                 alt="random"
+                onClick={() => {
+                    // console.log("hi", studio.images[imageCount])
+                    setImageCount((imageCount+1) % studio.studio_images.length)
+                  }}
             />
             <CardContent sx={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -365,6 +369,8 @@ function StudioAndCoursePage() {
         setError={setError}
         />
         {error && <p className="text-red-500 rounded-md my-5 text-center"> Fail to enroll: {error}</p> }
+        <br className="mt-5"/>
+        <Link className="ml-3 hover:underline hover:text-blue-500" to={`/studio-class-info/${studio_id}/search/`}> Want to enroll class by search and filter?</Link>
         </>
     )
 

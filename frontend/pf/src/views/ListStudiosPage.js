@@ -27,8 +27,52 @@ const theme = createTheme();
 
 const STUDIO_BASE_URL = ".../backend/PB/media/studios/"
 
+function StudioCard(props) {
+  const [imageCount, setImageCount] = useState(0)
+  const studio = props.studio
+  // console.log(studio.studio_images.length)
+
+  return (
+      <Card
+      sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+    >
+      <CardMedia
+        component="img"
+        sx={{
+          // 16:9
+          pt: '0%',
+        }}
+        image={studio.studio_images[imageCount]?.images}
+        alt="random"
+        onClick={() => {
+          // console.log("hi", studio.images[imageCount])
+          setImageCount((imageCount+1) % studio.studio_images.length)
+        }}
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {studio.name}
+        </Typography>
+        <Typography>
+          Address: {studio.address}
+        </Typography>
+        <Typography>
+            Phone Number: {studio.phone_number}
+        </Typography>
+        <Typography sx={{pt: 3}}>
+            Distance from You: {studio.distance.toFixed(2)} km
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="large" href={`http://localhost:3000/studio-info/${studio.id}/`}>View</Button>
+      </CardActions>
+    </Card>
+  )
+}
+
 function StudioCards(props) {
   const studios = props.studios
+  // const [imageCount, setImageCount] = useState(0)
   // console.log(studios[2].studio_images)
 return (
   <ThemeProvider theme={theme}>
@@ -83,7 +127,8 @@ return (
             return (
             <>
             <Grid item key={studio.name} xs={12} sm={6} md={4} >
-              <Card
+              <StudioCard studio={studio}/>
+              {/* <Card
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >
                 <CardMedia
@@ -92,8 +137,12 @@ return (
                     // 16:9
                     pt: '0%',
                   }}
-                  image={studio.studio_images[0].images}
+                  image={studio.studio_images[imageCount]?.images}
                   alt="random"
+                  onClick={() => {
+                    console.log("hi", imageCount)
+                    setImageCount(imageCount+1)
+                  }}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -112,7 +161,7 @@ return (
                 <CardActions>
                   <Button size="large" href={`http://localhost:3000/studio-info/${studio.id}/`}>View</Button>
                 </CardActions>
-              </Card>
+              </Card> */}
             </Grid>
             </>
             )
@@ -261,6 +310,7 @@ function ListStudiosPage() {
         </button>
         <button className="border-2 border-black px-2 py-1 mr-auto rounded-lg"  onClick={() => getStudios(page + 1)}> Next </button>
       </div>
+      <Link to="/studios-list/search/"> Find by Search and Filter </Link>
       {/* <StudioPageBlock count={studios.count} next={studios.next} previous={studios.previous} results={studios.results} /> */}
       {/* {
                 studios.map((studio) => {

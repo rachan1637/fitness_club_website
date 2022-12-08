@@ -22,10 +22,55 @@ import Container from '@mui/material/Container';
 // import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { requirePropFactory } from "@mui/material";
+import { display } from "@mui/system";
+// import SimpleCollapsible from "../components/SimpleCollapsible"
 
 const theme = createTheme();
 
 const STUDIO_BASE_URL = ".../backend/PB/media/studios/"
+
+function StudioCard(props) {
+    const [imageCount, setImageCount] = useState(0)
+    const studio = props.studio
+    // console.log(studio.studio_images.length)
+  
+    return (
+        <Card
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
+        <CardMedia
+          component="img"
+          sx={{
+            // 16:9
+            pt: '0%',
+          }}
+          image={studio.studio_images[imageCount]?.images}
+          alt="random"
+          onClick={() => {
+            // console.log("hi", studio.images[imageCount])
+            setImageCount((imageCount+1) % studio.studio_images.length)
+          }}
+        />
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography gutterBottom variant="h5" component="h2">
+            {studio.name}
+          </Typography>
+          <Typography>
+            Address: {studio.address}
+          </Typography>
+          <Typography>
+              Phone Number: {studio.phone_number}
+          </Typography>
+          <Typography sx={{pt: 3}}>
+              Distance from You: {studio.distance.toFixed(2)} km
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="large" href={`http://localhost:3000/studio-info/${studio.id}/`}>View</Button>
+        </CardActions>
+      </Card>
+    )
+  }
 
 function StudioCards(props) {
   const studios = props.studios
@@ -84,36 +129,7 @@ return (
             return (
             <>
             <Grid item key={studio.name} xs={12} sm={6} md={4} >
-              <Card
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{
-                    // 16:9
-                    pt: '0%',
-                  }}
-                  image={studio.studio_images[0].images}
-                  alt="random"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {studio.name}
-                  </Typography>
-                  <Typography>
-                    Address: {studio.address}
-                  </Typography>
-                  <Typography>
-                      Phone Number: {studio.phone_number}
-                  </Typography>
-                  <Typography sx={{pt: 3}}>
-                      Distance from You: {studio.distance.toFixed(2)} km
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="large" href={`http://localhost:3000/studio-info/${studio.id}/`}>View</Button>
-                </CardActions>
-              </Card>
+              <StudioCard studio={studio}/>
             </Grid>
             </>
             )
@@ -180,6 +196,57 @@ function ListStudiosPageSearch() {
   const [filterPage, setFilterPage] = useState(1)
   const [searchContent, setSerachContent] = useState("")
   const [size, setSize] = useState(0)
+
+  const getLocation = async () => {
+    const location = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        maximumAge: 60000,
+        timeout: 100000,
+      });
+    });
+
+    const position =
+      location.coords.latitude + ", " + location.coords.longitude;
+    setPosition(position);
+
+    let hasLocation = false;
+
+    await api
+      .post(
+        "http://localhost:8000/studios/create_location/",
+        JSON.stringify({
+          location: position,
+        }),
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then((response) => {
+        console.log("Create location successfully");
+        // console.log(response)
+        // console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error.response);
+        hasLocation = true;
+      });
+
+    if (hasLocation) {
+      // Update location if the user already has one
+      await api
+        .put(
+          "http://localhost:8000/studios/update_location/",
+          JSON.stringify({
+            location: position,
+          }),
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          console.log("Update location successfully");
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    }
+  };
 
 
   const getStudios = async (page) => {
@@ -313,6 +380,7 @@ function ListStudiosPageSearch() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+      await getLocation();
       await getAllStudio();
       await getAllCourse();
       await getAllAmenity();
@@ -333,7 +401,7 @@ function ListStudiosPageSearch() {
 
   
   if (isLoading) {
-    return <p className="text-center"> Wait for information... </p >;
+    return <p className="text-center"> Wait for location information... </p >;
   }
 
 let name_list_uqi= [];
@@ -438,11 +506,12 @@ let name_list_uqi= [];
             color="text.primary"
             gutterBottom
           >
-            Search the Studio
+            Choose a Studio
           </Typography>
           <Typography variant="h5" align="center" color="text.secondary" paragraph sx={{mb:3}}>
-            Find a studio based on your requirements.
+          You can view all courses provided at the studio, and enroll either one class or all classes of that course.
           </Typography>
+        {/* <SimpleCollapsible> */}
         <div className="flex items-center justify-center mb-6">
             <form onSubmit={searchStudios}>
                 <label className="block" htmlFor="search_content"></label>
@@ -471,6 +540,7 @@ let name_list_uqi= [];
             <button className="border-2 border-black px-2 py-1 rounded-lg hover:bg-gray-200">Filter</button> 
             </div>
         </form>
+        {/* </SimpleCollapsible> */}
       <StudioCards studios={studios}/>
 
 
@@ -494,6 +564,7 @@ let name_list_uqi= [];
           Previous
         </button>
         <button className="border-2 border-black px-2 py-1 mr-auto rounded-lg"  onClick={goNext}> Next </button>
+        <p>{page}</p>
       </div>
     </>
   );

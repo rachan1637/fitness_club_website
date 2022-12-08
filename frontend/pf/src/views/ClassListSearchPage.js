@@ -53,6 +53,8 @@ function StudioClasses(props) {
     const rows = props.classes
     const [error, setError] = useState("")
 
+    // console.log(rows[0])
+
     return (
       <React.Fragment>
         <Card sx={{px: 5, py: 5}}>
@@ -167,9 +169,10 @@ function ClassListSearchPage() {
     
     const getAllCourses = async () => {
         await api
-          .get(`http://localhost:8000/studios/list_all_classes/studio/${studio_id}/`)
+          .get(`http://localhost:8000/studios/list_classes/studio/${studio_id}/search/`)
           .then((response) => {
             setAllCourses(response.data)
+            console.log(response.data)
           })
           .catch((error) => {
             console.log(error.responses);
@@ -179,7 +182,7 @@ function ClassListSearchPage() {
 
     const getCoursesInfo = async (page) => {
         await api
-          .get(`http://localhost:8000/studios/list_classes/studio/${studio_id}/?page=${page}&size=5`)
+          .get(`http://localhost:8000/studios/list_classes/studio/${studio_id}/search/?page=${page}&size=10`)
           .then((response) => {
             setPageAllCourses(page)
             setCoursesInfo(response.data.results);
@@ -198,7 +201,7 @@ function ClassListSearchPage() {
       const getCoursesInfoSearch = async (page, search_content) => {
         // console.log(search_content)
         await api.get(
-            `http://localhost:8000/studios/list_classes/studio/${studio_id}/?page=${page}&search=${search_content}&size=5`,
+            `http://localhost:8000/studios/list_classes/studio/${studio_id}/search/?page=${page}&search=${search_content}&size=10`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {
@@ -224,7 +227,7 @@ function ClassListSearchPage() {
 
       const getCoursesInfoFilter = async (page, filterName, filterCoach) => {
         await api.get(
-            `http://localhost:8000/studios/list_classes/studio/${studio_id}/?page=${page}&size=5&name=${filterName}&coach=${filterCoach}`,
+            `http://localhost:8000/studios/list_classes/studio/${studio_id}/search/?page=${page}&size=10&name=${filterName}&coach=${filterCoach}`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {
@@ -256,7 +259,7 @@ function ClassListSearchPage() {
 
         // console.log(date, date_format)
         await api.get(
-            `http://localhost:8000/studios/list_classes/studio/${studio_id}/search_date/${date_format}/?page=${page}&size=5`,
+            `http://localhost:8000/studios/list_classes/studio/${studio_id}/search_date/${date_format}/?page=${page}&size=10`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {
@@ -551,8 +554,8 @@ function ClassListSearchPage() {
                     
                     </div> 
 
-                <StudioCourses 
-                    coursesInfo={coursesInfo} 
+                <StudioClasses 
+                    classes={coursesInfo} 
                     count={count} 
                     goNext={goNext} 
                     goPrev={goPrev}

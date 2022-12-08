@@ -50,5 +50,6 @@ urlpatterns = [
     path('list_all_classes/studio/<int:pk>/', ClassListAllView.as_view()),
     path('list_all_course/', CourseListALLApiView.as_view()),
     path('list_all_amenity/', AmenityListALLApiView.as_view()),
+
     path('list_classes/studio/<int:pk>/search/', ClassListViewSchedule.as_view())
 ]
