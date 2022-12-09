@@ -244,13 +244,12 @@ class ClassListViewSchedule(generics.ListAPIView):
     search_fields = ['name','coach',]
 
     def get_queryset(self):
-
         classes = ClassDate.objects.filter(studio_id = Studio.objects.get(id=self.kwargs["pk"]).id,).order_by('date_start')
         c_list = []
         for classi in classes:
             if classi.date_end.replace(tzinfo=None) > dt.datetime.today():
                 c_list.append(classi.id)
-        return ClassDate.objects.filter(id__in = c_list)
+        return ClassDate.objects.filter(id__in = c_list).order_by("date_start")
 
     
     
@@ -405,7 +404,19 @@ class EnrollmentListView(generics.ListAPIView):
         # enrollmentList = Enroll.objects.filter(user = request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now()+timedelta(days=8))
         enrollmentList = Enroll.objects.filter(user = self.request.user.id, is_dropped = False, enrollDate__date_end__gte = dt.datetime.now())
         # serializer = EnrollSerializer(enrollmentList, many = True)
-        return enrollmentList
+        # return enrollmentList
+
+        start_time_dict = {}
+        for enroll in enrollmentList:
+            start_time_dict[enroll.id] = enroll.enrollDate.date_start
+
+        sorted_id = list(dict(sorted(start_time_dict.items(), key=lambda item : item[1], reverse=False)).keys())
+        
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_id)])
+        queryset = Enroll.objects.filter(pk__in=sorted_id).order_by(preserved)
+
+        return queryset
+
         
         results = []
         for obj1 in enrollmentList:
@@ -590,7 +601,7 @@ class filterDateView(generics.ListAPIView):
         filterDate_endT = dt.datetime.strptime(filterDate_endT_str, "%Y-%m-%d %H:%M:%S")
         returnlist=[]
         cdf = ClassDate.objects.filter(studio_id = self.kwargs['pk'], date_start__gte = filterDate_startT, date_start__lte = filterDate_endT )
-        return cdf
+        return cdf.order_by("date_start")
         # for cd in cdf:
         #     returnlist.append(cd.course_id)
         # return Course.objects.filter(id__in = returnlist )
@@ -622,7 +633,7 @@ class filterTimeRangeView(generics.ListAPIView):
         for classi in classes:
             if classi.date_end.replace(tzinfo=None) > dt.datetime.today():
                 c_list.append(classi.id)
-        return ClassDate.objects.filter(id__in = c_list)
+        return ClassDate.objects.filter(id__in = c_list).order_by("date_start")
 
 
 class ClassListAllView(generics.ListAPIView):
