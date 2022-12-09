@@ -9,6 +9,6 @@ PB/PB/Subscriptions/__pycache__/
 PB/PB/Subscriptions/migrations/__pycache__/
 # backend/PB/Subscriptions/migrations/*.py
 PB/PB/PB/__pycache__/
-PB/PB/db.sqlite3
+# PB/PB/db.sqlite3
 PB/PB/venv
 PF/node_modules
