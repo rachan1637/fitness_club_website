@@ -77,6 +77,8 @@ export function StudioCourses(props) {
         return schedule_until
     }
 
+    console.log(rows)
+
     return (
       <React.Fragment>
         <Card sx={{px: 5, py: 5}}>

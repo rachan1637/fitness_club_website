@@ -1,0 +1,1 @@
+python PB/PB/manage.py runserver & (cd PF && npm start)
