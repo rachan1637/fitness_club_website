@@ -75,7 +75,7 @@ function ProductCTA() {
           />
           <Box
             component="img"
-            src="http://localhost:8000/media/studio.jpeg?auto=format&fit=crop&w=750"
+            src="/studio.jpeg?auto=format&fit=crop&w=750"
             alt="call to action"
             sx={{
               position: 'absolute',

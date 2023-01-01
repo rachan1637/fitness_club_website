@@ -75,7 +75,7 @@ const images = [
     width: '40%',
   },
    {
-    url: 'http://localhost:8000/media/running.webp?auto=format&fit=crop&w=400',
+    url: '/running.webp?auto=format&fit=crop&w=400',
     title: 'Running',
     width: '38%',
   },
@@ -85,7 +85,7 @@ const images = [
   //   width: '38%',
   // },
   {
-    url: 'http://localhost:8000/media/boxing.jpeg?auto=format&fit=crop&w=400',
+    url: '/boxing.jpeg?auto=format&fit=crop&w=400',
     title: 'KickBoxing',
     width: '38%',
   },
@@ -95,7 +95,7 @@ const images = [
   //   width: '38%',
   // },
   {
-    url: 'http://localhost:8000/media/lower-body.jpeg?auto=format&fit=crop&w=400',
+    url: '/lower-body.jpeg?auto=format&fit=crop&w=400',
     title: 'Lower-Body',
     width: '24%',
   },

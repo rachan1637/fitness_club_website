@@ -6,7 +6,7 @@ import ProductHeroLayout from './ProductHeroLayout';
 const backgroundImage =
   'https://images.unsplash.com/photo-1534854638093-bada1813ca19?auto=format&fit=crop&w=1400';
 
-const newBackgroundImage = "http://localhost:8000/media/home_pic3.webp"
+const newBackgroundImage = "/home_pic3.webp"
 
 export default function ProductHero() {
   return (
