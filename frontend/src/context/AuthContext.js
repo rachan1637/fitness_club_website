@@ -27,10 +27,16 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const loginUser = async (username, password) => {
+  console.log(window.location.origin)
+    if (window.location.origin === "http://localhost:3000") {
+      axios.defaults.baseURL = "http://127.0.0.1:8000";
+    } else {
+      axios.defaults.baseURL = window.location.origin;
+    }
 
+  const loginUser = async (username, password) => {
     const response = await axios.post(
-        "http://localhost:8000/accounts/login/", 
+        "http://0.0.0.0:8000/accounts/login/", 
         JSON.stringify({
             "username": username,
             "password": password
@@ -77,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     //   })
     // });
     const response = await axios.post(
-        "http://localhost:8000/accounts/register/", 
+        "http://0.0.0.0:8000/accounts/register/", 
         JSON.stringify(
             {
                 "username": username,

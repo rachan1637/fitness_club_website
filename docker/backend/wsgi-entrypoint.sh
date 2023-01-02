@@ -5,6 +5,7 @@ do
     echo "Waiting for server volume..."
 done
 
+
 until ./manage.py makemigrations
 do
     echo "Waiting for migrations"

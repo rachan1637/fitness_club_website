@@ -6,6 +6,14 @@ import AuthContext from "../context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 
 const useAxios = () => {
+  if (window.location.origin === "http://localhost:3000") {
+    axios.defaults.baseURL = "http://127.0.0.1:8000";
+  } else {
+    axios.defaults.baseURL = window.location.origin;
+  }
+
+  console.log(axios.defaults.baseURL)
+
   const { authTokens, setUser, setAuthTokens } = useContext(AuthContext);
 
   const axiosInstance = axios.create({
@@ -23,7 +31,7 @@ const useAxios = () => {
     if (!isExpired) return req;
     
     const response = await axios.post(
-      `http://localhost:8000/accounts/login/refresh/`, 
+      `/accounts/login/refresh/`, 
       JSON.stringify({
         "refresh": authTokens.refresh
       }),

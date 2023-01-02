@@ -32,6 +32,7 @@ import ListStudiosPageSearch from "./views/ListStudiosPageSearch";
 import ClassListSearchPage from "./views/ClassListSearchPage";
 import UserProfileCard from "./templates/UserProfileCard";
 import SubscriptionProfileCard from "./templates/SubscriptionProfileCard";
+import useAxios from "./utils/useAxios";
 
 
 
