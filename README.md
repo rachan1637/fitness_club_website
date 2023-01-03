@@ -1,12 +1,14 @@
 # Toronto Fitness Club Website
 
+Website: https://tfit309.com/
+
 This is a group project from CSC309 (Web Design) at University of Toronto. The website is a product for a Toronto Fitness Club. 
 
 Tech Stack: Django, React, Docker
 
 - Backend: Django + RESTful APIs
 - Frontend: React + MUI (Material UI)
-- Deployment: Docker
+- Deployment: Docker + AWS EC2
 
 
 ## Features 
