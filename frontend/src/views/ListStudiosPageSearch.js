@@ -33,6 +33,7 @@ function StudioCard(props) {
     const [imageCount, setImageCount] = useState(0)
     const studio = props.studio
     // console.log(studio.studio_images.length)
+    console.log(studio.studio_images[imageCount]?.images)
   
     return (
         <Card
@@ -66,7 +67,7 @@ function StudioCard(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="large" href={`http://localhost:3000/studio-info/${studio.id}/`}>View</Button>
+          <Button size="large" href={`/studio-info/${studio.id}/`}>View</Button>
         </CardActions>
       </Card>
     )
@@ -148,7 +149,7 @@ return (
 //   //     return < img src={image} alt={image} />
 //   // });
 //   // console.log('propeee',props.studio.studio_images[0].images)
-//   const link = `http://localhost:3000/studio-info/${props.studio.id}/`
+//   const link = `/api/studio-info/${props.studio.id}/`
 
 //   return (
 //     <>
@@ -213,7 +214,7 @@ function ListStudiosPageSearch() {
 
     await api
       .post(
-        "http://localhost:8000/studios/create_location/",
+        "/api/studios/create_location/",
         JSON.stringify({
           location: position,
         }),
@@ -233,7 +234,7 @@ function ListStudiosPageSearch() {
       // Update location if the user already has one
       await api
         .put(
-          "http://localhost:8000/studios/update_location/",
+          "/api/studios/update_location/",
           JSON.stringify({
             location: position,
           }),
@@ -252,7 +253,7 @@ function ListStudiosPageSearch() {
   const getStudios = async (page) => {
 
     await api
-      .get(`http://localhost:8000/studios/list_studios/?page=${page}&size=3`)
+      .get(`/api/studios/list_studios/?page=${page}&size=3`)
       .then((response) => {
         setStudios(response.data.results);
         setPage(page);
@@ -273,7 +274,7 @@ function ListStudiosPageSearch() {
     
   const getAllStudio = async () => {
     await api
-      .get(`http://localhost:8000/studios/list_all_studios/`)
+      .get(`/api/studios/list_all_studios/`)
       .then((response) => {
         setAllStudios(response.data);
       })
@@ -284,7 +285,7 @@ function ListStudiosPageSearch() {
 
   const getAllCourse = async () => {
     await api
-      .get(`http://localhost:8000/studios/list_all_course/`)
+      .get(`/api/studios/list_all_course/`)
       .then((response) => {
         setAllCourse(response.data);
       })
@@ -295,7 +296,7 @@ function ListStudiosPageSearch() {
 
   const getAllAmenity = async () => {
     await api
-      .get(`http://localhost:8000/studios/list_all_amenity/`)
+      .get(`/api/studios/list_all_amenity/`)
       .then((response) => {
         setAllAmenity(response.data);
       })
@@ -306,7 +307,7 @@ function ListStudiosPageSearch() {
 
   const getStudiosSearch = async (page, inputVal) => {
     await api
-      .get(`http://localhost:8000/studios/list_studios_search/?page=${page}&size=3&search=${inputVal}`)
+      .get(`/api/studios/list_studios_search/?page=${page}&size=3&search=${inputVal}`)
       .then((response) => {
         console.log(response.data)
         setStudios(response.data.results);
@@ -320,7 +321,7 @@ function ListStudiosPageSearch() {
 
   const getStudiosFilter = async (page, selectedName, selectedAmenities, selectedClasses, selectedCoaches) => {
     await api
-      .get(`http://localhost:8000/studios/list_studios_search/?page=${page}&size=3&name=${selectedName}&amenities__Amname=${selectedAmenities}&classes__classNames=${selectedClasses}&coaches__coachNames=${selectedCoaches}`)
+      .get(`/api/studios/list_studios_search/?page=${page}&size=3&name=${selectedName}&amenities__Amname=${selectedAmenities}&classes__classNames=${selectedClasses}&coaches__coachNames=${selectedCoaches}`)
       .then((response) => {
         console.log(response)
         setStudios(response.data.results);

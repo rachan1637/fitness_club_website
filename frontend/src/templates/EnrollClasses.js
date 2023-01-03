@@ -112,7 +112,7 @@ export default function EnrolledClasses(props) {
               <TableCell align="right"><Button size="small" variant="outlined" onClick={ async () => {
                 const drop_id = row.id
                 await props.api.post(
-                      `http://localhost:8000/studios/drop_classdate/`,
+                      `/api/studios/drop_classdate/`,
                       JSON.stringify({ DropDate:  drop_id}),
                       {headers: {"Content-Type": "application/json"}}
                   ).then(

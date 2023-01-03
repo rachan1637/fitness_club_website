@@ -122,7 +122,7 @@ function CourseHistoryPage () {
 
     const getClassHistory = async (page) => {
         await api.get(
-            `http://localhost:8000/studios/history/?page=${page}&size=10`,
+            `/api/studios/history/?page=${page}&size=10`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {

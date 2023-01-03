@@ -21,7 +21,7 @@ function ViewProfilePage() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(
-        "http://127.0.0.1:8000/accounts/view_profile"
+        "/api/accounts/view_profile"
       ).then(() => {
         setUserProfile(response.data);
       }).catch((error) => {

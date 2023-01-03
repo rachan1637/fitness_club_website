@@ -21,7 +21,7 @@ const userProfile = {
     last_name: "",
     email: "yhschan1638@gmail.com",
     phone_number: "",
-    avatar: "http://0.0.0.0:8000/media/avatar/default.png",
+    avatar: "/api/media/avatar/default.png",
 }
 
 
@@ -41,7 +41,7 @@ export default function UserProfileCard(props) {
     
     const getUserProfile = async () => {
       await api.get(
-        "http://0.0.0.0:8000/accounts/view_profile/", 
+        "/api/accounts/view_profile/", 
         { headers: { "Content-Type": "application/json" } }
       ).then((response) => {
         console.log(response.data)

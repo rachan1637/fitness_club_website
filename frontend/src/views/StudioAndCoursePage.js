@@ -122,7 +122,7 @@ export function StudioCourses(props) {
                 <TableCell>{getScheduleUntil(row.times.match(/UNTIL=([^T]+)/)[1])}</TableCell>
                 <TableCell><Button size="small" variant="outlined" onClick={ async () => {
                     await api.post(
-                        `http://localhost:8000/studios/enroll_class/`,
+                        `/api/studios/enroll_class/`,
                         JSON.stringify({ "course_code":  row.id}),
                         {headers: {"Content-Type": "application/json"}}
                     ).then(
@@ -188,7 +188,7 @@ export function StudioCourses(props) {
 
 //     const enrollCourse = async () => {
 //         await props.api.post(
-//             `http://localhost:8000/studios/enroll_class/`,
+//             `/api/studios/enroll_class/`,
 //             JSON.stringify({ "course_code":  course_code}),
 //             {headers: {"Content-Type": "application/json"}}
 //         ).then(
@@ -254,7 +254,7 @@ function StudioCard(props) {
                 // 16:9
                 pt: '0%',
                 }}
-                image={"http://localhost:8000" + studio.studio_images[imageCount].images}
+                image={"/api" + studio.studio_images[imageCount].images}
                 alt="random"
                 onClick={() => {
                     // console.log("hi", studio.images[imageCount])
@@ -296,7 +296,7 @@ function StudioAndCoursePage() {
 
     const getStudioInfo = async () => {
         await api.get(
-            `http://localhost:8000/studios/view_studio/${studio_id}/`,
+            `/api/studios/view_studio/${studio_id}/`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {
@@ -312,7 +312,7 @@ function StudioAndCoursePage() {
 
     const getCourseInfo = async (page) => {
         await api.get(
-            `http://localhost:8000/studios/list_classes/studio/${studio_id}/?page=${page}&size=5`,
+            `/api/studios/list_classes/studio/${studio_id}/?page=${page}&size=5`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {

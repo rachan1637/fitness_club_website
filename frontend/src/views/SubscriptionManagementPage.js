@@ -7,7 +7,7 @@ function SubscriptionProfileBlock(props) {
 
     const cancel_subscription = async () => {
         await props.api.put(
-            `http://localhost:8000/subscriptions/cancel_plan/`,
+            `/api/subscriptions/cancel_plan/`,
             JSON.stringify({
                 cancelled: true,
             }),
@@ -76,7 +76,7 @@ function SubscriptionManagementPage() {
 
     const getSubscriptionProfile = async () => {
         await api.get(
-            `http://localhost:8000/subscriptions/view_subscription/`,
+            `/api/subscriptions/view_subscription/`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {

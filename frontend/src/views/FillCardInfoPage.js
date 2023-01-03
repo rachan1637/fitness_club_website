@@ -16,7 +16,7 @@ function FillCardInfoPage() {
     const subscribe_plan = async () => {
         if (neverSubscribe) {
             await api.post(
-                `http://localhost:8000/subscriptions/subscribe/`,
+                `/api/subscriptions/subscribe/`,
                 JSON.stringify(
                     {
                         plan_code: plan_code,
@@ -34,7 +34,7 @@ function FillCardInfoPage() {
         } else {
             if (!reactivate) {
                 await api.put(
-                    `http://localhost:8000/subscriptions/update_card_info/`,
+                    `/api/subscriptions/update_card_info/`,
                     JSON.stringify(
                         {
                             // plan_code: plan_code,
@@ -51,7 +51,7 @@ function FillCardInfoPage() {
                 })
             } else {
                 await api.put(
-                    `http://localhost:8000/subscriptions/reactivate_plan/`,
+                    `/api/subscriptions/reactivate_plan/`,
                     JSON.stringify(
                         {
                             plan_code: plan_code,

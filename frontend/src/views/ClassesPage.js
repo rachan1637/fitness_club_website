@@ -69,7 +69,7 @@ export function StudioClasses(props) {
                 <TableCell>{row.current_enrolment + "/" + row.capacity}</TableCell>
                 <TableCell><Button size="small" variant="outlined" onClick={ async () => {
                     await api.post(
-                        `http://localhost:8000/studios/enroll_classdate/`,
+                        `/api/studios/enroll_classdate/`,
                         JSON.stringify({ enrollDate:  row.id}),
                         {headers: {"Content-Type": "application/json"}}
                     ).then(
@@ -115,7 +115,7 @@ function ClassBlock(props) {
 
     const enrollClass = async () => {
         await props.api.post(
-            `http://localhost:8000/studios/enroll_classdate/`,
+            `/api/studios/enroll_classdate/`,
             JSON.stringify({ enrollDate:  props.class.id}),
             {headers: {"Content-Type": "application/json"}}
         ).then(
@@ -160,7 +160,7 @@ function ClassesPage() {
 
     const getClasses = async (page) => {
         await api.get(
-            `http://localhost:8000/studios/view_classdate/${course_id}/?page=${page}&size=10`,
+            `/api/studios/view_classdate/${course_id}/?page=${page}&size=10`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {

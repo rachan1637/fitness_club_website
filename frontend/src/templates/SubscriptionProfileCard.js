@@ -43,7 +43,7 @@ export default function SubscriptionProfileCard(props) {
 
     const cancel_subscription = async () => {
         await api.put(
-            `http://localhost:8000/subscriptions/cancel_plan/`,
+            `/api/subscriptions/cancel_plan/`,
             JSON.stringify({
                 cancelled: true,
             }),
@@ -57,7 +57,7 @@ export default function SubscriptionProfileCard(props) {
 
     const getSubscriptionProfile = async () => {
       await api.get(
-          `http://0.0.0.0:8000/subscriptions/view_subscription/`,
+          `/api/subscriptions/view_subscription/`,
           {headers: {"Content-Type": "application/json"}}
       ).then(
           response => {

@@ -18,7 +18,7 @@ const UpdateProfilePage = ({match}) => {
     const [file, setFile] = useState(null)
 
     const fetchData = async () => {
-      api.get("http://127.0.0.1:8000/accounts/view_profile/"
+      api.get("/api/accounts/view_profile/"
         ).then((response) => {
           setPost(response.data);
         });
@@ -33,7 +33,7 @@ const UpdateProfilePage = ({match}) => {
     const updatePost = async (form_data) => {
       console.log(form_data);
 
-      await api.put("http://127.0.0.1:8000/accounts/update_profile/", 
+      await api.put("/api/accounts/update_profile/", 
         form_data, 
         // {headers: {"Content-Type": "application/json"}}
         )
@@ -181,7 +181,7 @@ const UpdateProfilePage = ({match}) => {
     // let getNote = async () => {
 
     //   await api.get(
-    //     "http://127.0.0.1:8000/accounts/view_profile/"
+    //     "/api/accounts/view_profile/"
     //   ).then(
     //       response => {
     //           if (response.data.cancelled) {
@@ -197,7 +197,7 @@ const UpdateProfilePage = ({match}) => {
     //           console.log(error.response)
     //       }
     //   )
-    //     let response = await api.get("http://127.0.0.1:8000/accounts/view_profile/")
+    //     let response = await api.get("/api/accounts/view_profile/")
     //     let data = await response.json();
     //     // console.log("data",data)
     //     console.log("note",response.data)
@@ -206,7 +206,7 @@ const UpdateProfilePage = ({match}) => {
     // }
 
     // let updateNote = async () => {
-    //   let response = await api.put("http://127.0.0.1:8000/accounts/update_profile/",
+    //   let response = await api.put("/api/accounts/update_profile/",
     //   JSON.stringify({note}),
     //   {headers: { "Content-Type": "application/json"}}
     //   ).then(

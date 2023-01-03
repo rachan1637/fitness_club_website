@@ -19,7 +19,7 @@ function ProtectedPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("http://127.0.0.1:8000/accounts/view_profile");
+        const response = await api.get("/api/accounts/view_profile");
         // setRes("Success")
         console.log(response)
         setUserProfile(response.data);

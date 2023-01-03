@@ -23,7 +23,7 @@ function PlansBlock(props) {
 
     const updatePlan = async (plan_code) => {
       await api.put(
-          `http://localhost:8000/subscriptions/update_plan/`,
+          `/api/subscriptions/update_plan/`,
           JSON.stringify({plan_code: plan_code}),
           {headers: {"Content-Type": "application/json"}}
       ).then(()=> {
@@ -126,7 +126,7 @@ function PlansBlock(props) {
 
 //     const updatePlan = async () => {
 //         await props.api.put(
-//             `http://localhost:8000/subscriptions/update_plan/`,
+//             `/api/subscriptions/update_plan/`,
 //             JSON.stringify({plan_code: plan_code}),
 //             {headers: {"Content-Type": "application/json"}}
 //         ).then(()=> {
@@ -173,7 +173,7 @@ function PlanSelectionPage() {
 
     const getPlans = async (page) => {
         await api.get(
-            `http://localhost:8000/subscriptions/all_plans/?page=${page}&size=3`,
+            `/api/subscriptions/all_plans/?page=${page}&size=3`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {

@@ -51,14 +51,14 @@ schema_view = swagger_get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include(Accounts_urls)),
+    path('api/accounts/', include(Accounts_urls)),
     # path(
     #     "api/auth/", include("rest_framework.urls", namespace="rest_framework")
     # ),  # ADDITION: include the rest framework urls (e.g.: for session auth in browsable api)
-    path('studios/', include(Studio_urls)),
+    path('api/studios/', include(Studio_urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('subscriptions/', include(Subscriptions_urls)),
+    path('api/subscriptions/', include(Subscriptions_urls)),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name="schema-swagger-ui"),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

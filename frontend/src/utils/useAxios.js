@@ -17,7 +17,7 @@ const useAxios = () => {
   const { authTokens, setUser, setAuthTokens } = useContext(AuthContext);
 
   const axiosInstance = axios.create({
-    // baseURL,
+    baseURL: `${window.location.origin}`,
     headers: { Authorization: `Bearer ${authTokens?.access}` }
   });
 
@@ -31,7 +31,7 @@ const useAxios = () => {
     if (!isExpired) return req;
     
     const response = await axios.post(
-      `/accounts/login/refresh/`, 
+      `/api/accounts/login/refresh/`, 
       JSON.stringify({
         "refresh": authTokens.refresh
       }),

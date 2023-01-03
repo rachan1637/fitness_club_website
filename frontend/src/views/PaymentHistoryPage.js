@@ -91,7 +91,7 @@ function PaymentHistoryPage(){
 
     const getPaymentHistory = async (page) => {
         await api.get(
-            `http://localhost:8000/subscriptions/payment_history/?page=${page}&size=10`
+            `/api/subscriptions/payment_history/?page=${page}&size=10`
             ).then(
             response => {
                 // console.log(response.data)

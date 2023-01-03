@@ -109,7 +109,7 @@ function EnrolledCourses(props) {
               <TableCell>{getScheduleUntil(row.times.match(/UNTIL=([^T]+)/)[1])}</TableCell>
               <TableCell><Button size="small" variant="outlined" onClick={ async () => {
                   await api.post(
-                      `http://localhost:8000/studios/drop_class/`,
+                      `/api/studios/drop_class/`,
                       JSON.stringify({ "course_code":  row.id}),
                       {headers: {"Content-Type": "application/json"}}
                   ).then(
@@ -193,7 +193,7 @@ function EnrolledClasses(props) {
                 <TableCell><Button size="small" variant="outlined" onClick={ async () => {
                   const drop_id = row.id
                   await api.post(
-                        `http://localhost:8000/studios/drop_classdate/`,
+                        `/api/studios/drop_classdate/`,
                         JSON.stringify({ DropDate:  drop_id}),
                         {headers: {"Content-Type": "application/json"}}
                     ).then(
@@ -236,7 +236,7 @@ function EnrolledClasses(props) {
 
 //     const dropLecture = async () => {
 //         await props.api.post(
-//             `http://localhost:8000/studios/drop_classdate/`,
+//             `/api/studios/drop_classdate/`,
 //             JSON.stringify({ DropDate:  drop_id}),
 //             {headers: {"Content-Type": "application/json"}}
 //         ).then(
@@ -255,7 +255,7 @@ function EnrolledClasses(props) {
 
 //     const dropCourse = async () => {
 //         await props.api.post(
-//             `http://localhost:8000/studios/drop_class/`,
+//             `/api/studios/drop_class/`,
 //             JSON.stringify({ course_code:  props.class.classDate.course_id}),
 //             {headers: {"Content-Type": "application/json"}}
 //         ).then(
@@ -304,7 +304,7 @@ function CourseManagementPage() {
 
   const getSubscriptionStatus = async () => {
     await api.get(
-        "http://localhost:8000/subscriptions/view_subscription/"
+        "/api/subscriptions/view_subscription/"
     ).then(
         response => {
             if (response.data.cancelled) {
@@ -326,7 +326,7 @@ function CourseManagementPage() {
 
   const getEnrolledClasses = async (page) => {
     await api.get(
-        `http://localhost:8000/studios/list_enrolled_classdate/?page=${page}&size=10`
+        `/api/studios/list_enrolled_classdate/?page=${page}&size=10`
     ).then(
         response => {
             // console.log(response.data)
@@ -343,7 +343,7 @@ function CourseManagementPage() {
 
   const getEnrolledCourses = async (page) => {
     await api.get(
-      `http://localhost:8000/studios/list_enrolled_class/?page=${page}&size=5`
+      `/api/studios/list_enrolled_class/?page=${page}&size=5`
     ).then(
       response => {
           // console.log(response.data)

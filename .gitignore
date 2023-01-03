@@ -12,3 +12,4 @@ backend/PB/PB/__pycache__/
 # PB/PB/db.sqlite3
 backend/PB/venv
 frontend/node_modules
+tfit309.pem

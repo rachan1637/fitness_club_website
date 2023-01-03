@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   const loginUser = async (username, password) => {
     const response = await axios.post(
-        "http://0.0.0.0:8000/accounts/login/", 
+        `/api/accounts/login/`, 
         JSON.stringify({
             "username": username,
             "password": password
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     //   })
     // });
     const response = await axios.post(
-        "http://0.0.0.0:8000/accounts/register/", 
+        "/api/accounts/register/", 
         JSON.stringify(
             {
                 "username": username,

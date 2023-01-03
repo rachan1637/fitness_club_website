@@ -31,6 +31,8 @@ function StudioCard(props) {
   const [imageCount, setImageCount] = useState(0)
   const studio = props.studio
   // console.log(studio.studio_images.length)
+  console.log(studio.studio_iamges[imageCount]?.images)
+
 
   return (
       <Card
@@ -64,7 +66,7 @@ function StudioCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="large" href={`http://localhost:3000/studio-info/${studio.id}/`}>View</Button>
+        <Button size="large" href={`/studio-info/${studio.id}/`}>View</Button>
       </CardActions>
     </Card>
   )
@@ -159,7 +161,7 @@ return (
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="large" href={`http://localhost:3000/studio-info/${studio.id}/`}>View</Button>
+                  <Button size="large" href={`/api/studio-info/${studio.id}/`}>View</Button>
                 </CardActions>
               </Card> */}
             </Grid>
@@ -180,7 +182,7 @@ return (
 //   //     return <img src={image} alt={image} />
 //   // });
 //   // console.log('propeee',props.studio.studio_images[0].images)
-//   const link = `http://localhost:3000/studio-info/${props.studio.id}/`
+//   const link = `/api/studio-info/${props.studio.id}/`
 
 //   return (
 //     <>
@@ -226,7 +228,7 @@ function ListStudiosPage() {
 
     await api
       .post(
-        "http://localhost:8000/studios/create_location/",
+        "/api/studios/create_location/",
         JSON.stringify({
           location: position,
         }),
@@ -246,7 +248,7 @@ function ListStudiosPage() {
       // Update location if the user already has one
       await api
         .put(
-          "http://localhost:8000/studios/update_location/",
+          "/api/studios/update_location/",
           JSON.stringify({
             location: position,
           }),
@@ -263,7 +265,7 @@ function ListStudiosPage() {
 
   const getStudios = async (page) => {
     await api
-      .get(`http://localhost:8000/studios/list_studios/?page=${page}&size=3`)
+      .get(`/api/studios/list_studios/?page=${page}&size=3`)
       .then((response) => {
         setStudios(response.data.results);
         setPage(page);
