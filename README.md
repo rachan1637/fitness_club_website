@@ -1,5 +1,7 @@
 # Toronto Fitness Club Website
 
+**Note: the link might not work in future. Please clone the repo and run _startup.sh_ and _run.sh_**
+
 Website: https://tfit309.com/
 
 This is a group project from CSC309 (Web Design) at University of Toronto. The website is a product for a Toronto Fitness Club. 
