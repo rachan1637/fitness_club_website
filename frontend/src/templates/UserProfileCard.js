@@ -41,7 +41,7 @@ export default function UserProfileCard(props) {
     
     const getUserProfile = async () => {
       await api.get(
-        "/api/accounts/view_profile/", 
+        "api/accounts/view_profile/", 
         { headers: { "Content-Type": "application/json" } }
       ).then((response) => {
         console.log(response.data)
@@ -64,6 +64,8 @@ export default function UserProfileCard(props) {
       return (<p> Still Loading... </p>)
     }
 
+    console.log(userProfile)
+
   return (
     <Card sx={{ maxWidth: 400, border:1, borderRadius:"10px" }}>
       <CardHeader
@@ -71,7 +73,7 @@ export default function UserProfileCard(props) {
           <Avatar src={userProfile.avatar} sx={{width: 60, height:60}}/>
         }
         titleTypographyProps={{variant:'h5'}}
-        title={userProfile.user.username}
+        title={userProfile.user?.username}
         // subheader="September 14, 2016"
       />
       {/* <CardMedia

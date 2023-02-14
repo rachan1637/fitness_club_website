@@ -242,7 +242,7 @@ export function StudioCourses(props) {
 function StudioCard(props) {
     const studio = props.studio
     const [imageCount, setImageCount] = useState(0)
-    // console.log(studio.studio_images[0].images)
+    console.log(studio.studio_images[0].images)
     return (
         <>
             <Card
@@ -254,12 +254,12 @@ function StudioCard(props) {
                 // 16:9
                 pt: '0%',
                 }}
-                image={"/api" + studio.studio_images[imageCount].images}
+                image={studio.studio_images[imageCount]?.images}
                 alt="random"
                 onClick={() => {
-                    // console.log("hi", studio.images[imageCount])
-                    setImageCount((imageCount+1) % studio.studio_images.length)
-                  }}
+                // console.log("hi", studio.images[imageCount])
+                setImageCount((imageCount+1) % studio.studio_images.length)
+                }}
             />
             <CardContent sx={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -312,7 +312,7 @@ function StudioAndCoursePage() {
 
     const getCourseInfo = async (page) => {
         await api.get(
-            `/api/studios/list_classes/studio/${studio_id}/?page=${page}&size=5`,
+            `api/studios/list_classes/studio/${studio_id}/?page=${page}&size=5`,
             {headers: {"Content-Type": "application/json"}}
         ).then(
             response => {
@@ -347,7 +347,7 @@ function StudioAndCoursePage() {
 
     const lat = Number(studioInfo.geographical_location.split(",")[0])
     const lng = Number(studioInfo.geographical_location.split(",")[1])
-
+    console.log(studioInfo)
     return (
         <>
         <div className="flex flex-wrap gap-10">

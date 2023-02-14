@@ -1,5 +1,5 @@
 # backend setup
-cd PB
+cd backend
 python3 -m pip install virtualenv
 python3 -m virtualenv -p python3 venv
 source PB/venv/bin/activate
@@ -9,9 +9,9 @@ python PB/manage.py migrate
 cd ..
 
 # frontend setup
-cd PF
+cd frontend
 npm install
 
 cd ..
 # Please create a super user before the server runs 
-python PB/PB/manage.py createsuperuser
+python backend/PB/manage.py createsuperuser

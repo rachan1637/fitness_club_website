@@ -1,1 +1,1 @@
-python PB/PB/manage.py runserver & (cd PF && npm start)
+python backend/PB/manage.py runserver & (cd frontend && npm start)

@@ -32,7 +32,7 @@ function StudioCard(props) {
   const studio = props.studio
   // console.log(studio.studio_images.length)
   console.log(studio.studio_iamges[imageCount]?.images)
-
+  console.log(studio.studio_images[0].images)
 
   return (
       <Card
